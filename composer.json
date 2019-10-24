@@ -1,0 +1,29 @@
+{
+    "name": "nexusvc/ccg-sales-api",
+    "description": "PHP Library for CCG SalesAPI",
+    "type": "library",
+    "authors": [
+        {
+            "name": "NexusVC, LLC",
+            "email": "development@nxvc.io"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "nexusvc\\ccg-sales-api\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Nexusvc\\CcgSalesApi\\CcgSalesApiProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
