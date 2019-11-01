@@ -2,13 +2,13 @@
 
 if (! function_exists('ccg_url')) {
     function ccg_url($value = null) {
-        return CcgSalesApi::url($value);
+        return \Nexusvc\CcgSalesApi\CcgSalesApi::url($value);
     }
 }
 
 if (! function_exists('ccg_config')) {
     function ccg_config($key = null, $dot = true) {
-        return CcgSalesApi::config($key, $dot);
+        return \Nexusvc\CcgSalesApi\CcgSalesApi::config($key, $dot);
     }
 }
 

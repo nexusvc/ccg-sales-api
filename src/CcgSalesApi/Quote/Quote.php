@@ -31,10 +31,10 @@ class Quote {
     
     public function fetch($token, $params = []) {
         $client = new Client($token);
-        $params = array_merge($this->attributes, $params);
+        $this->attributes = array_merge($this->attributes, $params);
 
         return $this->setResponse($client->request('POST', $this->url, [
-            'form_params' => $params
+            'form_params' => $this->attributes
         ]));
     }
 

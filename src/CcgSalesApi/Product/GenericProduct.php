@@ -14,28 +14,9 @@ class GenericProduct extends Quote {
 
     protected $uri = 'products';
 
-    protected $params = [
-        // 'npn',
-        // 'state',
-        // 'zipCode',
-        // 'effectiveDate',
-        // 'dateOfBirth',
-        // 'age',
-        // 'gender',
-        // 'coverageType',
-        // 'minPrice',
-        // 'maxPrice'
-    ];
+    protected $params = [];
 
-    protected $required = [
-        // 'npn',
-        // 'state',
-        // 'zipCode',
-        // 'effectiveDate',
-        // 'dateOfBirth',
-        // 'gender',
-        // 'coverageType'
-    ];
+    protected $required = [];
 
     protected function setType() {
         $this->type = (new \ReflectionClass($this))->getShortName();
