@@ -8,7 +8,7 @@ class AddOn extends GenericProduct {
 
     protected $uri;
 
-    protected $params = [
+    protected static $params = [
         'groupID',
         'npn',
         'state',
@@ -16,7 +16,6 @@ class AddOn extends GenericProduct {
     ];
 
     protected $required = [
-        'groupID',
         'npn',
         'state'
     ];

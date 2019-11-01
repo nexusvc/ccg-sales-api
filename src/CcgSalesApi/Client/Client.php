@@ -31,9 +31,13 @@ class Client extends GuzzleClient
     public function buildResponse($response) {
         $content_type = $response->getHeader('Content-Type');
         $body = $response->getBody();
-
-        if(is_array($content_type) && str_contains($content_type[0], 'json')) {
-            return $this->json($body);
+        
+        try {
+            if(is_array($content_type) && str_contains($content_type[0], 'json')) {
+                return $this->json($body);
+            }
+        } catch(\Exception $e) {
+            
         }
 
         return $body;

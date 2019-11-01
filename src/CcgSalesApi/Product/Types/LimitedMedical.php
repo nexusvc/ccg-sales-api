@@ -8,7 +8,7 @@ class LimitedMedical extends GenericProduct {
 
     protected $uri;
 
-    protected $params = [
+    protected static $params = [
         'npn',
         'state',
         'effectiveDate',

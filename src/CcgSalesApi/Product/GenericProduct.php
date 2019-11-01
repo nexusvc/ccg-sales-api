@@ -6,15 +6,17 @@ use Nexusvc\CcgSalesApi\Quote\Quote;
 
 class GenericProduct extends Quote {
 
-    public function __construct() {
+    public function __construct($auth, $params) {
+
         $this->setProduct($this);
         $this->setType();
-        parent::__construct();
+        
+        parent::__construct($auth, $params);
     }
 
     protected $uri = 'products';
 
-    protected $params = [];
+    protected static $params = [];
 
     protected $required = [];
 
@@ -30,7 +32,7 @@ class GenericProduct extends Quote {
             if (!$fileinfo->isDot()) {
                 $class_name = str_replace('.php','',$fileinfo->getFilename());
                 $class = '\\Nexusvc\\CcgSalesApi\\Product\\Types\\' . $class_name;
-                $product = new $class;
+                $product = new $class(self::$auth, self::$params);
                 array_push($products, $product);
             }
         }

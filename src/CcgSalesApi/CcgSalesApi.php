@@ -17,6 +17,13 @@ class CcgSalesApi {
 
     protected $config;
 
+    public $coverageTypes = [
+        'individual' => 1,
+        'couple' => 2,
+        'family' => 3,
+        'dependents' => 4
+    ];
+
     public function __construct()
     {
         static::boot();
@@ -30,8 +37,8 @@ class CcgSalesApi {
         return $this->client = ($this->client instanceof Client\Client) ? $this->client : new Client\Client;
     }
 
-    public function quote() {
-        return $this->quote = ($this->quote instanceof Quote\Quote) ? $this->quote : new Quote\Quote;
+    public function quote(array $params = []) {
+        return $this->quote = ($this->quote instanceof Quote\Quote) ? $this->quote : new Quote\Quote($this->auth(), $params);
     }
 
     public function boot()
