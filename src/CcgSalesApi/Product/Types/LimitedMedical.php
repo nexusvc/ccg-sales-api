@@ -24,4 +24,14 @@ class LimitedMedical extends GenericProduct {
         'state'
     ];
 
+    public function addToOrder(&$order) {
+        $order->addProduct($this);
+        
+        if($this->enrollmentPlans) {
+            $order->addProduct(new \Nexusvc\CcgSalesApi\Product\Types\EnrollmentPlan(self::$auth, self::$params, $this->enrollmentPlans[0]));
+        }
+
+        return $this;
+    }
+
 }

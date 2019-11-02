@@ -12,9 +12,9 @@ class Quote {
     
     use Jsonable;
 
-    public $url;
+    protected $url;
 
-    public $attributes = [];
+    protected $attributes = [];
 
     protected $uri = 'Quote';
 
@@ -29,13 +29,19 @@ class Quote {
     public function __construct(Authentication $auth, array $params = []) {
         self::$auth = $auth;
         self::$params = $params;
-        
+
         $this->setEndPoint();
         $this->setRequiredAttributes();
     }
 
     protected function setResponse($response) {
-        $this->resources = $response;
+        $objects = collect([]);
+        if($type = self::$params['type']) {
+            foreach($response as $product) {
+                $objects->push( (new $type(self::$auth, self::$params, $product))->appendParams(self::$params) );
+            }
+        }
+        $this->resources = $objects;
         return $this;
     }
     
@@ -45,8 +51,6 @@ class Quote {
         
         $params = self::$params;
         $params['npn'] = self::$auth->npn;
-
-
 
         $client = new Client($token);
         $this->attributes = array_merge($this->attributes, $params);
@@ -76,7 +80,7 @@ class Quote {
     }
 
     protected function appendParams(array $params = []) {
-        $this->params = array_merge($this->params, $params);
+        self::$params = array_merge(self::$params, $params);
         return $this;
     }
 

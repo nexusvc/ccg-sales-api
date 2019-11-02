@@ -3,13 +3,20 @@
 namespace Nexusvc\CcgSalesApi\Product;
 
 use Nexusvc\CcgSalesApi\Quote\Quote;
+use Nexusvc\CcgSalesApi\Order\Order;
 
 class GenericProduct extends Quote {
 
-    public function __construct($auth, $params) {
+    public $isOneTimeCharge = false;
+
+    public function __construct($auth, $params, array $props = []) {
 
         $this->setProduct($this);
         $this->setType();
+
+        foreach($props as $key => $value){
+            $this->{$key} = $value;
+        }
         
         parent::__construct($auth, $params);
     }
@@ -36,10 +43,13 @@ class GenericProduct extends Quote {
                 array_push($products, $product);
             }
         }
-        
-        // array_push($products, new static);
 
         return $products;
+    }
+
+    public function addToOrder(Order &$order) {
+        $order->addProduct($this);
+        return $this;
     }
 
 }
