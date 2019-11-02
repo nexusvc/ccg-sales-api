@@ -25,7 +25,24 @@ class Client extends GuzzleClient
     }
 
     public function json($response) {
-        return json_decode($response);
+        $json = json_decode($response);
+
+        return $this->format($json);
+    }
+
+    public function format($json) {
+        $formatted = [];
+
+        foreach ($json as $key => $value) {
+            if(str_contains($key, 'ID')) {
+                $key = explode('ID', $key);
+                $key = $key[0].'_id';
+            }
+            if(is_array($value) || is_object($value)) $value = $this->format($value);
+            $formatted[camel_case($key)] = $value;
+        }
+
+        return $formatted;
     }
 
     public function buildResponse($response) {

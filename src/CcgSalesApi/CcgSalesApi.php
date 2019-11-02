@@ -4,8 +4,15 @@ namespace Nexusvc\CcgSalesApi;
 
 use Tightenco\Collect\Support\Collection;
 use Tightenco\Collect\Support\Arr;
+use Nexusvc\CcgSalesApi\Traits\Jsonable;
 
 class CcgSalesApi {
+
+    use Jsonable;
+
+    protected $env = 'development';
+
+    protected $config;
 
     public $auth = Auth\Authentication::class;
 
@@ -13,20 +20,14 @@ class CcgSalesApi {
 
     public $quote = Quote\Quote::class;
 
-    protected $env = 'development';
+    public $applicant = Applicant\Applicant::class;
 
-    protected $config;
-
-    public $coverageTypes = [
-        'individual' => 1,
-        'couple' => 2,
-        'family' => 3,
-        'dependents' => 4
-    ];
+    public $order = Order\Order::class;
 
     public function __construct()
     {
         static::boot();
+        $this->order = new Order\Order;
     }
 
     public function auth() {
@@ -45,6 +46,7 @@ class CcgSalesApi {
     {
         $this->loadConfigs();
         $this->auth();
+
     }
 
     public static function getInstance() {
@@ -97,25 +99,5 @@ class CcgSalesApi {
         }
 
         return static::${$method};
-    }
-
-    public function toArray()
-    {
-        return json_decode(json_encode($this), true); 
-    }
-
-    public function toJson($options = 0)
-    {
-        return json_encode($this->jsonSerialize(), $options);
-    }
-
-    public function jsonSerialize()
-    {
-        return $this->toArray();
-    }
-
-    public function __toString()
-    {
-        return $this->toJson();
     }
 }

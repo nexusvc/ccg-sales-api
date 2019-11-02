@@ -32,7 +32,8 @@
                 "Nexusvc\\CcgSalesApi\\Providers\\CcgSalesApiProvider"
             ],
             "aliases": {
-                "CcgSalesApi": "Nexusvc\\CcgSalesApi\\CcgSalesApi"
+                "CcgSalesApi": "Nexusvc\\CcgSalesApi\\CcgSalesApi",
+                "Ccg": "Nexusvc\\CcgSalesApi\\CcgSalesApi"
             }
         }
     },

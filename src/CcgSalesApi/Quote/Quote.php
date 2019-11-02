@@ -5,8 +5,12 @@ namespace Nexusvc\CcgSalesApi\Quote;
 use Nexusvc\CcgSalesApi\Auth\Authentication;
 use Nexusvc\CcgSalesApi\Product\GenericProduct;
 use Nexusvc\CcgSalesApi\Client\Client;
+use Nexusvc\CcgSalesApi\Traits\Jsonable;
+
 
 class Quote {
+    
+    use Jsonable;
 
     public $url;
 
@@ -37,7 +41,7 @@ class Quote {
     
     public function fetch() {
         
-        $token = self::$auth->access_token;
+        $token = self::$auth->accessToken;
         
         $params = self::$params;
         $params['npn'] = self::$auth->npn;
@@ -52,17 +56,9 @@ class Quote {
         ]));
     }
 
-
-    public $coverageTypes = [
-        'individual' => 1,
-        'couple' => 2,
-        'family' => 3,
-        'dependents' => 4
-    ];
-
     protected function setRequiredAttributes() {
         foreach ($this->required as $required) {
-            $this->attributes[$required] = 0;
+            $this->attributes[$required] = false;
         }
         return $this;
     }
@@ -108,26 +104,6 @@ class Quote {
     protected function setProduct(GenericProduct $product) {
         $this->product = $product;
         return $this;
-    }
-
-    public function toArray()
-    {
-        return json_decode(json_encode($this), true); 
-    }
-
-    public function toJson($options = 0)
-    {
-        return json_encode($this->jsonSerialize(), $options);
-    }
-
-    public function jsonSerialize()
-    {
-        return $this->toArray();
-    }
-
-    public function __toString()
-    {
-        return $this->toJson();
     }
 
 }

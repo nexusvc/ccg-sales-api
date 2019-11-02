@@ -2,10 +2,9 @@
 
 namespace Nexusvc\CcgSalesApi\Auth;
 
-use Nexusvc\CcgSalesApi\Contracts\Auth\Token as TokenContract;
 use Nexusvc\CcgSalesApi\Client\Client;
 
-class Token extends Authentication implements TokenContract {
+class Token extends Authentication {
 
     protected function setResponse($response) {
         $this->clearCredentials();

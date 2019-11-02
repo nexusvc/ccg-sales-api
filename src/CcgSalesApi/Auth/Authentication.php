@@ -3,10 +3,13 @@
 namespace Nexusvc\CcgSalesApi\Auth;
 
 use Nexusvc\CcgSalesApi\Client\Client;
+use Nexusvc\CcgSalesApi\Traits\Jsonable;
 
 class Authentication {
 
-    protected $grant_type = 'password';
+    use Jsonable;
+
+    protected $grantType = 'password';
 
     protected $username;
 
@@ -48,7 +51,7 @@ class Authentication {
     public function clearCredentials() {
         unset($this->username);
         unset($this->password);
-        unset($this->grant_type);
+        unset($this->grantType);
 
         return $this;
     }
@@ -68,21 +71,21 @@ class Authentication {
         return $this;
     }
 
-    public function setGrantType($grant_type) {
-        if(!in_array(['password'], $this->grant_types)) 
+    public function setGrantType($grantType) {
+        if(!in_array(['password'], $this->grantTypes)) 
             throw new \Exception('Grant type is currently unsupported.');
 
-        $this->grant_type = $grant_type;
+        $this->grantType = $grantType;
         return $this;
     }
 
-    public function setCredentials($username, $password, $npn = null, $grant_type = null) {
+    public function setCredentials($username, $password, $npn = null, $grantType = null) {
         $this->setUsername($username);
         $this->setPassword($password);
 
         if(!is_null($npn)) $this->setNpn($npn);
 
-        if(!is_null($grant_type)) $this->setGrantType($grant_type);
+        if(!is_null($grantType)) $this->setGrantType($grantType);
 
         return $this;
     }
@@ -91,28 +94,8 @@ class Authentication {
         return [
             'username' => $this->username,
             'password' => $this->password,
-            'grant_type' => $this->grant_type
+            'grant_type' => $this->grantType
         ];
-    }
-
-    public function toArray()
-    {
-        return json_decode(json_encode($this), true); 
-    }
-
-    public function toJson($options = 0)
-    {
-        return json_encode($this->jsonSerialize(), $options);
-    }
-
-    public function jsonSerialize()
-    {
-        return $this->toArray();
-    }
-
-    public function __toString()
-    {
-        return $this->toJson();
     }
 
 }

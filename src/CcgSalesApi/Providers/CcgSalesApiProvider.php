@@ -3,6 +3,7 @@
 namespace Nexusvc\CcgSalesApi\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Nexusvc\CcgSalesApi\CcgSalesApi;
 
 class CcgSalesApiProvider extends ServiceProvider
 {
@@ -13,7 +14,6 @@ class CcgSalesApiProvider extends ServiceProvider
      */
     public function boot()
     {
-        
     }
 
     /**
@@ -23,6 +23,6 @@ class CcgSalesApiProvider extends ServiceProvider
      */
     public function register()
     {
-        // $this->app->alias('CcgSalesApi', \Nexusvc\CcgSalesApi\CcgSalesApi::class );
+        $this->app->alias('Ccg', CcgSalesApi::class );
     }   
 }
