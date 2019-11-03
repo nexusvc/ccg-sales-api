@@ -39,7 +39,8 @@ return [
     'verification' => [
         'esign' => [
             'script' => 'Verification/GetEsignScript',
-            'invite' => 'Verification/EsignInvitation'
+            'invite' => 'Verification/EsignInvitation',
+            'verify' => 'Verification/GetESignVerification/caseID'
         ],
         'voice' => [
             'script' => 'Verification/GetVoiceVerificationScript',

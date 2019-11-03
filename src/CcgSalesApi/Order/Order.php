@@ -14,13 +14,15 @@ class Order {
     public $applicants;
     public $products;
     public $paymentMethods;
-    public $verifications;
+    public $verification;
+
+    protected $appends = ['total','deposit','recurring'];
 
     public function __construct() {
         $this->applicants = collect([]);
         $this->products = collect([]);
         $this->paymentMethods = collect([]);
-        $this->verifications = collect([]);
+        $this->verification = collect([]);
     }
 
     public function addApplicant(Applicant $applicant) {
@@ -39,8 +41,41 @@ class Order {
     }
 
     public function addVerification( $verification ) {
-        $this->verifications->push($verification);
+        $this->verification = $verification;
         return $this;
     }
+
+    public function setTotalAttribute() {
+        $total = 0;
+
+        foreach($this->products as $product) {
+            $total += $product->retailAmount;
+        }
+        
+        return $this->total = (double) number_format((double) ($total), 2);
+    }
+
+    public function setRecurringAttribute() {
+        $total = 0;
+
+        foreach($this->products as $product) {
+            if(!$product->isOneTimeCharge)
+                $total += $product->retailAmount;
+        }
+        
+        return $this->recurring = (double) ($total);
+    }
+
+    public function setDepositAttribute() {
+        $total = 0;
+
+        foreach($this->products as $product) {
+            if($product->isOneTimeCharge)
+                $total += $product->retailAmount;
+        }
+        
+        return $this->deposit = (double) ($total);
+    }
+
 
 }

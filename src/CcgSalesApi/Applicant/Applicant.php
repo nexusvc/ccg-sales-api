@@ -22,11 +22,11 @@ class Applicant {
     
     public $relation;
 
-    public $contactMethods;
+    public $contactables;
 
     public function __construct(array $params = []) {
         
-        $this->contactMethods = new Contactable;
+        $this->contactables = new Contactable;
 
         foreach($params as $key => $value) {
             if(property_exists($this, camel_case($key))) {
@@ -37,6 +37,33 @@ class Applicant {
     }
 
     public function addToOrder(Order &$order) {
+        
+        if(count($order->applicants) && count($order->products)) {
+            $coverageType = 0;
+
+            foreach ($order->products as $product) {
+                if(property_exists($product, 'coverageType')) {        
+                    if($product->coverageType) $coverageType = $product->coverageType;
+                }
+            }
+
+            if($coverageType == 1 ) {
+                throw new \Exception('Selected product(s) can not add additional applicant(s)');
+            }
+
+            if($coverageType == 2 && $this->relation != 'spouse' ) {
+                throw new \Exception('Selected product(s) only support a spouse');
+            }
+
+            if($coverageType == 3 && count($order->applicants) < 3 ) {
+                throw new \Exception('Selected product(s) are for a family of applicant(s)');
+            }
+
+            if($coverageType == 4 && $this->relation != 'child' ) {
+                throw new \Exception('Selected product(s) only support additional children');
+            }
+        }
+
         $order->addApplicant($this);
         return $this;
     }

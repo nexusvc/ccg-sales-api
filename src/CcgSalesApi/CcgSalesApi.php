@@ -39,7 +39,7 @@ class CcgSalesApi {
     }
 
     public function quote(array $params = []) {
-        return $this->quote = ($this->quote instanceof Quote\Quote) ? $this->quote : new Quote\Quote($this->auth(), $params);
+        return $this->quote = ($this->quote instanceof Quote\Quote) ? new Quote\Quote($this->auth(), $params) : new Quote\Quote($this->auth(), $params);
     }
 
     public function boot()
