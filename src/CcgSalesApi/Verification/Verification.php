@@ -2,18 +2,23 @@
 
 namespace Nexusvc\CcgSalesApi\Verification;
 
-use Nexusvc\CcgSalesApi\Quote\Quote;
-use Nexusvc\CcgSalesApi\Order\Order;
 use Nexusvc\CcgSalesApi\Client\Client;
+use Nexusvc\CcgSalesApi\Crypt\Crypt;
+use Nexusvc\CcgSalesApi\Order\Order;
+use Nexusvc\CcgSalesApi\Quote\Quote;
 
 class Verification extends Quote {
 
+    protected $class;
+
+    protected $type;
+
+    protected $required = [];
+    
     protected $uri;
 
     protected static $params = [];
-
-    protected $required = [];
-
+    
     public $invited = false;
 
     public function __construct($auth, $params, array $props = []) {
@@ -94,6 +99,37 @@ class Verification extends Quote {
             "routingNumber" => "",
             "accountNumber" => "",
         ];
+
+        $payments = [
+            [
+                'type' => 'cc',
+                'account' => '4833120068413351',
+                'cvv' => 123,
+                'expiration' => [
+                    'month' => 03,
+                    'year' => 24
+                ]
+            ],
+            [
+                'type' => 'ach',
+                'account' => '000123456789',
+                'routing' => '267083141'
+            ]
+        ];
+
+        $crypt = new Crypt(
+            $ccg::config('env.encryption.key'), 
+            $ccg::config('env.encryption.cipher')
+        );
+
+        $verification['paymentMethod'] = $payment1 = $crypt->encrypt($payments[0]);
+        $payment2 = $crypt->encrypt($payments[1]);
+
+        // dd($payment1, $payment2, $crypt->decrypt('eyJpdiI6InRLSEpsNkdpSXVDbWhWcDFYK3NLUUE9PSIsInZhbHVlIjoiR2tudUNFUkJtQnFlK3hjeUpKc3RzTlVQaUtPNXhDSmJhRTVUTWcyZnVcL3FLRUZlNHJFa0JuWDRlc2JQZ0tvNk9lZ0hNSnVqTUNacDZZOEsyaG01cjd1UnBoSXFpc2E2VndqXC8yMUF1MXNtUFwvQkFYbFh4ZnJBVnZNTFAzSkRwRFZabXZsS1plVDNHekhTYkI5bXdIK1pXb2FoUE84U2RcLzREbG84ZTdlNWFnTzZDS25HOTBMdVNHYkJpSnJKNjZsSiIsIm1hYyI6IjZlYTkxZDkyY2I0ZGNlNDUyYWYyMzI1NzA4OWU2N2JmNmJjODRiZTRiYzZlOTI3MWQ4ODFjMjRkNzIzODNmNTYifQ==') );
+        
+        
+
+        // dd($verification);
 
         // $verification['brandName'] = "Health Shield";
         // $verification['planID'] = '5';

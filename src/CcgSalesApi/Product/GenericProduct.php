@@ -2,12 +2,20 @@
 
 namespace Nexusvc\CcgSalesApi\Product;
 
-use Nexusvc\CcgSalesApi\Quote\Quote;
 use Nexusvc\CcgSalesApi\Order\Order;
+use Nexusvc\CcgSalesApi\Quote\Quote;
 
 class GenericProduct extends Quote {
 
-    public $isOneTimeCharge = false;
+    protected $class;
+
+    protected $required = [];
+
+    protected $type;
+
+    protected $uri = 'products';
+
+    protected static $params = [];
 
     public function __construct($auth, $params, array $props = []) {
 
@@ -21,20 +29,11 @@ class GenericProduct extends Quote {
         parent::__construct($auth, $params);
     }
 
-    protected $uri = 'products';
-
-    protected static $params = [];
-
-    protected $required = [];
-
-    protected function setType() {
-        $this->type = (new \ReflectionClass($this))->getShortName();
-        $this->class = static::class;
-    }
-
     public static function listProductTypes() {
+
         $products = [];
         $dir = new \DirectoryIterator(dirname(__FILE__).'/Types');
+        
         foreach ($dir as $fileinfo) {
             if (!$fileinfo->isDot()) {
                 $class_name = str_replace('.php','',$fileinfo->getFilename());
@@ -50,6 +49,11 @@ class GenericProduct extends Quote {
     public function addToOrder(Order &$order) {
         $order->addProduct($this);
         return $this;
+    }
+
+    protected function setType() {
+        $this->type = (new \ReflectionClass($this))->getShortName();
+        $this->class = static::class;
     }
 
 }

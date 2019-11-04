@@ -2,18 +2,19 @@
 
 namespace Nexusvc\CcgSalesApi\Order;
 
-use Nexusvc\CcgSalesApi\Traits\Jsonable;
-
 use Nexusvc\CcgSalesApi\Applicant\Applicant;
+use Nexusvc\CcgSalesApi\Crypt\Crypt;
+use Nexusvc\CcgSalesApi\Payable\Payable;
 use Nexusvc\CcgSalesApi\Product\GenericProduct;
+use Nexusvc\CcgSalesApi\Traits\Jsonable;
 
 class Order {
     
     use Jsonable;
 
     public $applicants;
+    public $payable;
     public $products;
-    public $paymentMethods;
     public $verification;
 
     protected $appends = ['total','deposit','recurring'];
@@ -21,8 +22,6 @@ class Order {
     public function __construct() {
         $this->applicants = collect([]);
         $this->products = collect([]);
-        $this->paymentMethods = collect([]);
-        $this->verification = collect([]);
     }
 
     public function addApplicant(Applicant $applicant) {
@@ -35,8 +34,8 @@ class Order {
         return $this;
     }
 
-    public function addPaymentMethod( $paymentMethod ) {
-        $this->paymentMethods->push($paymentMethod);
+    public function addPayable(Payable $payable ) {
+        $this->payable = $payable;
         return $this;
     }
 
