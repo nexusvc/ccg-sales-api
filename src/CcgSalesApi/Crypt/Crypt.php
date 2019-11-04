@@ -6,6 +6,9 @@ use Illuminate\Encryption\Encrypter;
 
 class Crypt extends Encrypter {
 
+    // Default EncryptionKey
+    protected $key = "base64:c3SzeMQZZHPT+eLQH6BnpDhw/uKH2N5zgM2x2a8qpcA=";
+
     /**
      * Create a new encrypter instance.
      *
