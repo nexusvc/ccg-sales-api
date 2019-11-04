@@ -28,39 +28,4 @@ class Crypt extends Encrypter {
         parent::__construct($key, $cipher);
     }
 
-    public static function config($key = null, $dot = true) {
-        $ccg = static::getInstance();
-        $dot_config = array_dot($ccg->config);
-        if(!$dot) return (is_null($key) ? $ccg->config : (Arr::has($ccg->config, $key) ? $ccg->config[$key] : null));
-        return (is_null($key) ? $dot_config : (Arr::has($dot_config, $key) ? $dot_config[$key] : (Arr::has($ccg->config, $key) ? $ccg->config[$key] : null ) ) );
-    }
-
-    protected function loadConfigs() {
-        $this->config = collect([]);
-        $dir = new \DirectoryIterator(dirname(__FILE__).'/../Config');
-        foreach ($dir as $fileinfo) {
-            if (!$fileinfo->isDot()) {
-                $this->mergeConfigFrom(
-                    __DIR__.'/../Config/'.$fileinfo->getFilename(), 
-                    str_replace('.php','',$fileinfo->getFilename())
-                );
-            }
-        }
-
-        try {
-            $this->key = $this->config['env']['encryption']['key'];
-            $this->cipher = $this->config['env']['encryption']['cipher'];
-        } catch (\Exception $e) {
-
-        }
-        
-        return $this;
-    }
-
-    protected function mergeConfigFrom($path, $key)
-    {
-        $config = $this->config->get($key, []);
-        $this->config->put($key, array_merge(require $path, $config));
-    }
-
 }
