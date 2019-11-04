@@ -15,10 +15,11 @@
     "require": {
         "php": "^7.1.3",
         "illuminate/encryption": "~5.0",
-        "nesbot/carbon": "^2.25"
+        "nesbot/carbon": "^2.25",
+        "guzzlehttp/guzzle": "^6.3"
     },
     "require-dev": {
-        "guzzlehttp/guzzle": "^6.3"
+        
     },
     "autoload": {
         "files": [
