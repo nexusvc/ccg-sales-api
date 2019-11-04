@@ -1,0 +1,51 @@
+{
+    "name": "nexusvc/ccg-sales-api",
+    "description": "PHP Library for CCG SalesAPI",
+    "type": "library",
+    "support": {
+        "issues": "https://github.com/nexusvc/ccg-sales-api/issues",
+        "source": "https://github.com/nexusvc/ccg-sales-api"
+    },
+    "authors": [
+        {
+            "name": "NexusVC, LLC",
+            "email": "development@nxvc.io"
+        }
+    ],
+    "require": {
+        "php": "^7.1.3",
+        "filp/whoops": "2.1.10",
+        "illuminate/encryption": "~6.0",
+        "inacho/php-credit-card-validator": "^1.0",
+        "nesbot/carbon": "^2.25",
+        "slim/slim": "3.*",
+        "zeuxisoo/slim-whoops": "0.6.*"
+    },
+    "require-dev": {
+        "guzzlehttp/guzzle": "^6.3"
+    },
+    "autoload": {
+        "files": [
+            "src/CcgSalesApi/helpers.php"
+        ],
+        "psr-4": {
+            "Nexusvc\\CcgSalesApi\\": "src/CcgSalesApi/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Nexusvc\\CcgSalesApi\\Providers\\CcgSalesApiProvider"
+            ],
+            "aliases": {
+                "CcgSalesApi": "Nexusvc\\CcgSalesApi\\CcgSalesApi",
+                "Ccg": "Nexusvc\\CcgSalesApi\\CcgSalesApi"
+            }
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
