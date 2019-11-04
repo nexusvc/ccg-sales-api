@@ -22,9 +22,6 @@ class Applicant {
     public $relation;
 
     public function __construct(array $params = []) {
-        
-        // $this->contactables = new Contactable;
-
         foreach($params as $key => $value) {
             if(property_exists($this, camel_case($key))) {
                 $key = camel_case($key);

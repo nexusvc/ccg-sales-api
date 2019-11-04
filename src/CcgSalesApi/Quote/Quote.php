@@ -8,7 +8,6 @@ use Nexusvc\CcgSalesApi\Verification\Verification;
 use Nexusvc\CcgSalesApi\Client\Client;
 use Nexusvc\CcgSalesApi\Traits\Jsonable;
 
-
 class Quote {
     
     use Jsonable;

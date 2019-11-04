@@ -17,14 +17,13 @@ class Address extends Contactable {
             }
         }
 
-        $this->type  = self::class;
-
         $this->location = "{$this->street1}";
-        if($this->street2) {
-            $this->location .= " {$this->street2}";
-        }
+        
+        if($this->street2) $this->location .= " {$this->street2}";
 
         $this->location .= " {$this->city}, {$this->state} {$this->zip}";
+
+        parent::__construct();
     }
 
 }

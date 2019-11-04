@@ -101,7 +101,7 @@ class Order {
         }
     }
 
-    protected function detokenize() {
+    public function detokenize() {
         $crypt = new Crypt;
 
         if(!$this->payable->account) throw new \Exception('There is no Payable object attached to this order');

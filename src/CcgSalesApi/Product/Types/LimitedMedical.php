@@ -31,6 +31,8 @@ class LimitedMedical extends GenericProduct {
             $order->addProduct(new \Nexusvc\CcgSalesApi\Product\Types\EnrollmentPlan(self::$auth, self::$params, $this->enrollmentPlans[0]));
         }
 
+        // if(property_exists($this->product, 'agentId')) $order->agentId = $this->agentId; 
+
         return $this;
     }
 

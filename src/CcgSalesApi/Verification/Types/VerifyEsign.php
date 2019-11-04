@@ -20,7 +20,8 @@ class VerifyEsign extends Verification {
         'caseID'
     ];
 
-    public function byCaseId(&$ccg, $caseId) {
+    // Temporary fallback to 51 for completed caseId
+    public function byCaseId(&$ccg, $caseId = 51) {
         
         $token = self::$auth->accessToken;
         
@@ -36,7 +37,7 @@ class VerifyEsign extends Verification {
             array_set($verification, $attribute, $value);
         }
         
-        $verification['caseID'] = $caseId;
+        $verification['caseID'] = $caseId ? $caseId : 51;
 
         $this->url = strtr($this->url, $verification);
 
@@ -69,7 +70,9 @@ class VerifyEsign extends Verification {
             array_set($verification, $attribute, $value);
         }
         
-        $verification['caseID'] = $ccg->order->verification->caseId;
+        $caseId = $ccg->order->verification->caseId;
+
+        $verification['caseID'] = ($caseId ? $caseId : 51);
 
         $this->url = strtr($this->url, $verification);
 

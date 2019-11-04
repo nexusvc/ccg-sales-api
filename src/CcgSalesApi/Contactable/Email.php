@@ -8,7 +8,7 @@ class Email extends Contactable {
     protected $domain;
     protected $symbol = '@';
 
-    public function __construct($location) {
+    public function __construct(string $location) {
         
         $location = strtolower($location);
 
@@ -16,11 +16,11 @@ class Email extends Contactable {
         $location = str_replace('[at]', $this->symbol, $location);
         
         $this->location = strtolower($location);
-        
-        $this->type  = self::class;
 
         $this->username = explode('@', $location)[0];
         $this->domain = explode('@', $location)[1];
+
+        parent::__construct();
     }
 
 }
