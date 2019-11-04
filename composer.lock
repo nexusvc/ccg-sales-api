@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f87752bcf7cd853b08c21bb36504ed3c",
+    "content-hash": "23ed55b988ab8ea2e1ccd40769644a98",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -106,16 +106,16 @@
         },
         {
             "name": "filp/whoops",
-            "version": "2.1.10",
+            "version": "2.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filp/whoops.git",
-                "reference": "ffbbd2c06c64b08fb47974eed5dbce4ca2bb0eec"
+                "reference": "a28d5cef33627c069a2bd8fbb35ebe1a54881d35"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filp/whoops/zipball/ffbbd2c06c64b08fb47974eed5dbce4ca2bb0eec",
-                "reference": "ffbbd2c06c64b08fb47974eed5dbce4ca2bb0eec",
+                "url": "https://api.github.com/repos/filp/whoops/zipball/a28d5cef33627c069a2bd8fbb35ebe1a54881d35",
+                "reference": "a28d5cef33627c069a2bd8fbb35ebe1a54881d35",
                 "shasum": ""
             },
             "require": {
@@ -123,9 +123,9 @@
                 "psr/log": "^1.0.1"
             },
             "require-dev": {
-                "mockery/mockery": "0.9.*",
-                "phpunit/phpunit": "^4.8 || ^5.0",
-                "symfony/var-dumper": "^2.6 || ^3.0"
+                "mockery/mockery": "^0.9 || ^1.0",
+                "phpunit/phpunit": "^4.8.35 || ^5.7",
+                "symfony/var-dumper": "^2.6 || ^3.0 || ^4.0"
             },
             "suggest": {
                 "symfony/var-dumper": "Pretty print complex values better with var-dumper available",
@@ -134,7 +134,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.0-dev"
+                    "dev-master": "2.2-dev"
                 }
             },
             "autoload": {
@@ -160,10 +160,10 @@
                 "exception",
                 "handling",
                 "library",
-                "whoops",
-                "zf2"
+                "throwable",
+                "whoops"
             ],
-            "time": "2017-08-03T18:23:40+00:00"
+            "time": "2019-06-21T09:00:00+00:00"
         },
         {
             "name": "illuminate/contracts",
@@ -316,57 +316,6 @@
             "description": "The Illuminate Support package.",
             "homepage": "https://laravel.com",
             "time": "2019-10-27T15:36:15+00:00"
-        },
-        {
-            "name": "inacho/php-credit-card-validator",
-            "version": "1.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/inacho/php-credit-card-validator.git",
-                "reference": "e71ea730a9059ea75cc6d94e7c42993eacf44dc1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/inacho/php-credit-card-validator/zipball/e71ea730a9059ea75cc6d94e7c42993eacf44dc1",
-                "reference": "e71ea730a9059ea75cc6d94e7c42993eacf44dc1",
-                "shasum": ""
-            },
-            "require": {
-                "lib-pcre": ">=7.3",
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "4.7.*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Inacho\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Ignacio de Tomás",
-                    "email": "nacho@inacho.es"
-                }
-            ],
-            "description": "Validates popular debit and credit cards numbers against regular expressions and Luhn algorithm. Also validates the CVC and the expiration date",
-            "keywords": [
-                "card",
-                "cards",
-                "credit",
-                "creditcard",
-                "creditcards",
-                "cvc",
-                "debit",
-                "laravel",
-                "validator"
-            ],
-            "time": "2015-07-03T19:13:29+00:00"
         },
         {
             "name": "nesbot/carbon",
@@ -993,26 +942,29 @@
         },
         {
             "name": "zeuxisoo/slim-whoops",
-            "version": "0.6.3",
+            "version": "0.6.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zeuxisoo/php-slim-whoops.git",
-                "reference": "217d09108878ae4787941a17a58976d2dde94397"
+                "reference": "377911eb4159e366a1c2a7c42ffaed3c56ed4b8d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zeuxisoo/php-slim-whoops/zipball/217d09108878ae4787941a17a58976d2dde94397",
-                "reference": "217d09108878ae4787941a17a58976d2dde94397",
+                "url": "https://api.github.com/repos/zeuxisoo/php-slim-whoops/zipball/377911eb4159e366a1c2a7c42ffaed3c56ed4b8d",
+                "reference": "377911eb4159e366a1c2a7c42ffaed3c56ed4b8d",
                 "shasum": ""
             },
             "require": {
-                "filp/whoops": "2.1.*",
+                "filp/whoops": "2.3.*",
                 "php": ">=5.5.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "4.8.*",
-                "slim/slim": "3.9.*",
-                "slim/twig-view": "2.3.*"
+                "phpunit/phpunit": "4.8.* || 5.7.*",
+                "slim/slim": "3.11.*",
+                "slim/twig-view": "2.4.*"
+            },
+            "suggest": {
+                "zeuxisoo/php-slimork": "A small skeleton application to quick start projects using slim framework with other packages"
             },
             "type": "library",
             "autoload": {
@@ -1040,7 +992,7 @@
                 "slim",
                 "whoops"
             ],
-            "time": "2018-02-26T05:10:45+00:00"
+            "time": "2018-11-12T02:48:09+00:00"
         }
     ],
     "packages-dev": [
