@@ -2,9 +2,32 @@
 
 namespace Nexusvc\CcgSalesApi\Payable\Types;
 
-use Nexusvc\CcgSalesApi\Payable\Payable;
 use Nexusvc\CcgSalesApi\Crypt\Crypt;
+use Nexusvc\CcgSalesApi\Exceptions\InvalidCreditCard as Exception;
 
-class Card extends Payable {
+class Card extends CreditCard {
 
+    protected $cleanProperties = [];
+    
+    protected $clean = [
+        'account',
+        'cvc',
+        'expiration.month',
+        'expiration.year'
+    ];
+
+    public $cvc;
+
+    public $expiration = [];
+    
+    public function validate() {
+        if(!self::isValidCard($this->account, $this->cvc, $this->expiration)) 
+            throw new Exception('Credit/Debit cards must have a valid 16 digit account number, CVC, and expiration date.');
+        return parent::validate();
+    }
+
+    protected function setType() {
+        parent::setType();
+        $this->payType = 'CC';
+    }
 }

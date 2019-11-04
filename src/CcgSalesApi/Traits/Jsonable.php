@@ -5,6 +5,7 @@ namespace Nexusvc\CcgSalesApi\Traits;
 trait Jsonable {
     
     public function toArray() {
+
         if(property_exists($this, 'appends')) {
             foreach($this->appends as $attribute) {
                 $attribute = studly_case($attribute);
@@ -13,7 +14,9 @@ trait Jsonable {
             }
         }
         
-        return json_decode(json_encode($this), true); 
+        $array = json_decode(json_encode($this), true);
+
+        return $array;
     }
 
     public function toJson($options = 0)

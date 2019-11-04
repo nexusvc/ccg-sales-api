@@ -5,8 +5,10 @@ namespace Nexusvc\CcgSalesApi\Order;
 use Nexusvc\CcgSalesApi\Applicant\Applicant;
 use Nexusvc\CcgSalesApi\Crypt\Crypt;
 use Nexusvc\CcgSalesApi\Payable\Payable;
+use Nexusvc\CcgSalesApi\Payable\Token;
 use Nexusvc\CcgSalesApi\Product\GenericProduct;
 use Nexusvc\CcgSalesApi\Traits\Jsonable;
+use Nexusvc\CcgSalesApi\Validator\SchemaValidator;
 
 class Order {
     
@@ -17,25 +19,41 @@ class Order {
     public $products;
     public $verification;
 
-    protected $appends = ['total','deposit','recurring'];
+    protected $appends = [
+        'total',
+        'deposit',
+        'recurring'
+    ];
+
+    protected $rules = [
+        'required' => [
+            'payable.account',
+            'products.0',
+            'verification.caseId',
+            'applicants.0'
+        ]
+    ];
 
     public function __construct() {
-        $this->applicants = collect([]);
-        $this->products = collect([]);
+        $this->applicants   = collect([]);
+        $this->products     = collect([]);
+        $this->verification = collect([]);
     }
 
-    public function addApplicant(Applicant $applicant) {
+    public function addApplicant( Applicant $applicant ) {
         $this->applicants->push($applicant);
         return $this;
     }
 
-    public function addProduct(GenericProduct $product) {
+    public function addProduct( GenericProduct $product ) {
         $this->products->push($product);
         return $this;
     }
 
-    public function addPayable(Payable $payable ) {
-        $this->payable = $payable;
+    public function addPayable( Payable $payable ) {
+        $this->payable = $payable->get();
+
+        if(property_exists($this->payable, 'token'))  $this->payable = $this->payable->getToken();
         return $this;
     }
 
@@ -74,6 +92,44 @@ class Order {
         }
         
         return $this->deposit = (double) ($total);
+    }
+
+    public function validate() {
+        if(property_exists($this, 'rules')) {
+            $validator = new SchemaValidator($this->rules, $this->toArray());
+            $validator->validate();
+        }
+    }
+
+    protected function detokenize() {
+        $crypt = new Crypt;
+
+        if(!$this->payable->account) throw new \Exception('There is no Payable object attached to this order');
+        if(!$this->payable instanceof Token) return $this->payable->account;
+        
+        $tmp = [];
+        
+        foreach($crypt->decrypt($this->payable->account) as $key => $value) {
+            array_set($tmp, $key, $value);
+        }
+
+        $payment = [
+            'payType' => $tmp['payType'],
+        ];
+
+        if($tmp['payType'] == 'CC') {
+            $payment['ccExpMonth'] = array_get($tmp, 'expiration.month');
+            $payment['ccExpYear'] = array_get($tmp, 'expiration.year');
+            $payment['ccNumber'] = array_get($tmp, 'account');
+            $payment['cvv'] = array_get($tmp, 'cvc');
+        }
+
+        if($tmp['payType'] == 'ACH') {
+            $payment['accountNumber'] = array_get($tmp, 'account');
+            $payment['routingNumber'] = array_get($tmp, 'routing');
+        }
+
+        return $payment;
     }
 
 

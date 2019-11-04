@@ -10,4 +10,21 @@ class Address extends Contactable {
     public $state;
     public $zip;
 
+    public function __construct(array $params = []) {
+        foreach($params as $key => $value) {
+            if(property_exists($this, $key)) {
+                $this->$key = $value;
+            }
+        }
+
+        $this->type  = self::class;
+
+        $this->location = "{$this->street1}";
+        if($this->street2) {
+            $this->location .= " {$this->street2}";
+        }
+
+        $this->location .= " {$this->city}, {$this->state} {$this->zip}";
+    }
+
 }

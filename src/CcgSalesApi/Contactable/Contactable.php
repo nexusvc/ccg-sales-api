@@ -8,4 +8,6 @@ class Contactable {
 
     use ContactableTrait;
 
+    public $location;
+
 }

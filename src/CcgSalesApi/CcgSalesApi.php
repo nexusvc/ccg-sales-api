@@ -18,6 +18,7 @@ class CcgSalesApi {
     public $auth        = Auth\Authentication::class;
     public $client      = Client\Client::class;
     public $order       = Order\Order::class;
+    public $payable     = Payable\Payable::class;
     public $quote       = Quote\Quote::class;
 
     public function __construct() {
@@ -58,6 +59,14 @@ class CcgSalesApi {
         return $this->client = ( $this->client instanceof Client\Client ) ? 
             $this->client : 
             new Client\Client;
+    }
+
+    public function decrypt($value) {
+        return $this->crypt->decrypt($value);
+    }
+
+    public function encrypt($value) {
+        return $this->crypt->encrypt($value);
     }
 
     public function quote(array $params = []) {

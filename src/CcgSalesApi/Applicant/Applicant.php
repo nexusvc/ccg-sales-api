@@ -19,14 +19,11 @@ class Applicant {
     public $lastName;
     public $dob;
     public $gender;
-    
     public $relation;
-
-    public $contactables;
 
     public function __construct(array $params = []) {
         
-        $this->contactables = new Contactable;
+        // $this->contactables = new Contactable;
 
         foreach($params as $key => $value) {
             if(property_exists($this, camel_case($key))) {

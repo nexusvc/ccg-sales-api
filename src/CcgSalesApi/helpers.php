@@ -1,20 +1,47 @@
 <?php
 
-if (! function_exists('ccg_url')) {
+if (!function_exists('ccg_url')) {
     function ccg_url($value = null) {
         return \Nexusvc\CcgSalesApi\CcgSalesApi::url($value);
     }
 }
 
-if (! function_exists('ccg_config')) {
+if (!function_exists('ccg_config')) {
     function ccg_config($key = null, $dot = true) {
         return \Nexusvc\CcgSalesApi\CcgSalesApi::config($key, $dot);
     }
 }
 
-// function get_class_short_name($class) {
-//     return strtolower(snake_case((new \ReflectionClass($class))->getShortName()))
-// }
+if (!function_exists('normalize_phone_to_E164')) {
+    function normalize_phone_to_E164($phone) {
+
+        // get rid of any non (digit, + character)
+        $phone = preg_replace('/[^0-9+]/', '', $phone);
+
+        // validate intl 10
+        if(preg_match('/^\+([2-9][0-9]{9})$/', $phone, $matches)){
+            return "+{$matches[1]}";
+        }
+
+        // validate US DID
+        if(preg_match('/^\+?1?([2-9][0-9]{9})$/', $phone, $matches)){
+            return "+1{$matches[1]}";
+        }
+
+        // validate INTL DID
+        if(preg_match('/^\+?([2-9][0-9]{8,14})$/', $phone, $matches)){
+            return "+{$matches[1]}";
+        }
+
+        // premium US DID
+        if(preg_match('/^\+?1?([2-9]11)$/', $phone, $matches)){
+            return "+1{$matches[1]}";
+        }
+
+        return $phone;
+    }
+}
+
 
 if (!function_exists('append_config')) {
     /**
