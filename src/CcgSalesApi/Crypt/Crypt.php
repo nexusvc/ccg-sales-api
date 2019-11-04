@@ -20,7 +20,6 @@ class Crypt extends Encrypter {
      */
     public function __construct($key = null, $cipher = 'AES-256-CBC')
     {
-        $this->loadConfigs();
         if(is_null($key)) $key = $this->key;
         if(strpos($key, ':') !== false && explode(':', $key)[0] === 'base64') {
             $key = base64_decode(explode(':', $key)[1]);
