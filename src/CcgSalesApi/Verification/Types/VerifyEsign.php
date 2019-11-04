@@ -2,11 +2,9 @@
 
 namespace Nexusvc\CcgSalesApi\Verification\Types;
 
-use Nexusvc\CcgSalesApi\Verification\Verification;
-use Nexusvc\CcgSalesApi\Order\Order;
 use Nexusvc\CcgSalesApi\Client\Client;
-
-use Tightenco\Collect\Support\Collection;
+use Nexusvc\CcgSalesApi\Order\Order;
+use Nexusvc\CcgSalesApi\Verification\Verification;
 
 class VerifyEsign extends Verification {
 

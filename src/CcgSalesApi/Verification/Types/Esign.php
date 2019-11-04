@@ -2,8 +2,8 @@
 
 namespace Nexusvc\CcgSalesApi\Verification\Types;
 
-use Nexusvc\CcgSalesApi\Verification\Verification;
 use Nexusvc\CcgSalesApi\Order\Order;
+use Nexusvc\CcgSalesApi\Verification\Verification;
 
 class Esign extends Verification {
 

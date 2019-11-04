@@ -2,8 +2,8 @@
 
 namespace Nexusvc\CcgSalesApi\Payable\Types;
 
-use Nexusvc\CcgSalesApi\Payable\Payable;
 use Nexusvc\CcgSalesApi\Crypt\Crypt;
+use Nexusvc\CcgSalesApi\Payable\Payable;
 
 class Card extends Payable {
 

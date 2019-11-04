@@ -9,6 +9,7 @@ use Nexusvc\CcgSalesApi\Payable\Token;
 use Nexusvc\CcgSalesApi\Product\GenericProduct;
 use Nexusvc\CcgSalesApi\Traits\Jsonable;
 use Nexusvc\CcgSalesApi\Validator\SchemaValidator;
+use Nexusvc\CcgSalesApi\Exceptions\InvalidPayable;
 
 class Order {
     
@@ -101,10 +102,16 @@ class Order {
         }
     }
 
+    /**
+     *
+     * @todo: Temporary Public Decrypt
+     * used for schema formatter
+     *
+     */
     public function detokenize() {
         $crypt = new Crypt;
 
-        if(!$this->payable->account) throw new \Exception('There is no Payable object attached to this order');
+        if(!$this->payable->account) throw new InvalidPayable('There is no Payable object attached to this order.');
         if(!$this->payable instanceof Token) return $this->payable->account;
         
         $tmp = [];

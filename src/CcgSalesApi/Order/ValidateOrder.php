@@ -2,9 +2,8 @@
 
 namespace Nexusvc\CcgSalesApi\Order;
 
-use Nexusvc\CcgSalesApi\Traits\Jsonable;
-
 use Nexusvc\CcgSalesApi\Crypt\Crypt;
+use Nexusvc\CcgSalesApi\Traits\Jsonable;
 
 class ValidateOrder {
 

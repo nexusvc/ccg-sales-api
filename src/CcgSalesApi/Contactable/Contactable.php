@@ -26,6 +26,4 @@ class Contactable {
         return $this->type;
     }
 
-    // add remote validators
-
 }

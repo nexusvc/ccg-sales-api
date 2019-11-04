@@ -3,8 +3,8 @@
 namespace Nexusvc\CcgSalesApi\Payable;
 
 use Nexusvc\CcgSalesApi\Crypt\Crypt;
-use Nexusvc\CcgSalesApi\Traits\Jsonable;
 use Nexusvc\CcgSalesApi\Exceptions\InvalidPayable;
+use Nexusvc\CcgSalesApi\Traits\Jsonable;
 
 class Payable {
 

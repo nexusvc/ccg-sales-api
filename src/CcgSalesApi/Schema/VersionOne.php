@@ -2,6 +2,8 @@
 
 namespace Nexusvc\CcgSalesApi\Schema;
 
+use Carbon\Carbon;
+
 class VersionOne extends Schema {
 
     protected $schemaVersion = 1.0;
@@ -45,7 +47,7 @@ class VersionOne extends Schema {
     }
 
     protected function formatDateOfBirth() {
-        return array_set($this->formatted, 'dateOfBirth', \Carbon\Carbon::parse($this->formatted['dateOfBirth'])->toW3cString());
+        return array_set($this->formatted, 'dateOfBirth', Carbon::parse($this->formatted['dateOfBirth'])->toW3cString());
     }
 
     protected function setEffectiveDate() {
@@ -56,10 +58,15 @@ class VersionOne extends Schema {
         }
 
         if(!array_key_exists('effectiveDate', $this->formatted)) {
-            $now = \Carbon\Carbon::now();
-            $until15 = $now->diffInDays(\Carbon\Carbon::now()->firstOfMonth()->addDays(14));
-            if($until15 > 0 && $until15 < 14) return array_set($this->formatted, 'effectiveDate', \Carbon\Carbon::now()->firstOfMonth()->addDays(14)->toW3cString());
-            return array_set($this->formatted, 'effectiveDate', \Carbon\Carbon::now()->firstOfMonth()->addMonth()->toW3cString());
+            $now = Carbon::now();
+            
+            $until15 = $now->diffInDays(Carbon::now()->firstOfMonth()->addDays(14));
+            
+            if($until15 > 0 && $until15 < 14) {
+                return array_set($this->formatted, 'effectiveDate', Carbon::now()->firstOfMonth()->addDays(14)->toW3cString());
+            }
+
+            return array_set($this->formatted, 'effectiveDate', Carbon::now()->firstOfMonth()->addMonth()->toW3cString());
         }
     }
 

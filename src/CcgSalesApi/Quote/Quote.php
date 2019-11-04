@@ -3,10 +3,10 @@
 namespace Nexusvc\CcgSalesApi\Quote;
 
 use Nexusvc\CcgSalesApi\Auth\Authentication;
-use Nexusvc\CcgSalesApi\Product\GenericProduct;
-use Nexusvc\CcgSalesApi\Verification\Verification;
 use Nexusvc\CcgSalesApi\Client\Client;
+use Nexusvc\CcgSalesApi\Product\GenericProduct;
 use Nexusvc\CcgSalesApi\Traits\Jsonable;
+use Nexusvc\CcgSalesApi\Verification\Verification;
 
 class Quote {
     

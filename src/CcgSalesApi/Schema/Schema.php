@@ -9,6 +9,7 @@ class Schema {
     use Jsonable;
 
     protected $instance;
+    
     protected $payload;
 
     protected $formatted = [];
