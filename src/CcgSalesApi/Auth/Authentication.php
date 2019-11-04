@@ -4,6 +4,8 @@ namespace Nexusvc\CcgSalesApi\Auth;
 
 use Nexusvc\CcgSalesApi\Client\Client;
 use Nexusvc\CcgSalesApi\Traits\Jsonable;
+use Nexusvc\CcgSalesApi\Exceptions\InvalidGrantType;
+use Nexusvc\CcgSalesApi\Exceptions\InvalidCredentials;
 
 class Authentication {
 
@@ -35,7 +37,7 @@ class Authentication {
         $this->setCredentials($username, $password, $npn);
 
         if(!$this->username || !$this->password) 
-            throw new \Exception('Can not login because no credentials have been set.');
+            throw new InvalidCredentials('Can not login because no credentials have been set.');
         
         if($token = $this->token()->getBearerToken()) {
             foreach($token as $key => $value) {
@@ -73,7 +75,7 @@ class Authentication {
 
     public function setGrantType($grantType) {
         if(!in_array(['password'], $this->grantTypes)) 
-            throw new \Exception('Grant type is currently unsupported.');
+            throw new InvalidGrantType('Grant type is currently unsupported.');
 
         $this->grantType = $grantType;
         return $this;

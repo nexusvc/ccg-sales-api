@@ -2,11 +2,12 @@
 
 namespace Nexusvc\CcgSalesApi\Applicant;
 
-use Nexusvc\CcgSalesApi\Quote\Quote;
-use Nexusvc\CcgSalesApi\Order\Order;
-use Nexusvc\CcgSalesApi\Traits\Jsonable;
-use Nexusvc\CcgSalesApi\Traits\Contactable as ContactableTrait;
 use Nexusvc\CcgSalesApi\Contactable\Contactable;
+use Nexusvc\CcgSalesApi\Exceptions\InvalidApplicantCoverageType as Exception;
+use Nexusvc\CcgSalesApi\Order\Order;
+use Nexusvc\CcgSalesApi\Quote\Quote;
+use Nexusvc\CcgSalesApi\Traits\Contactable as ContactableTrait;
+use Nexusvc\CcgSalesApi\Traits\Jsonable;
 
 class Applicant {
 
@@ -42,19 +43,19 @@ class Applicant {
             }
 
             if($coverageType == 1 ) {
-                throw new \Exception('Selected product(s) can not add additional applicant(s)');
+                throw new Exception('Selected product(s) can not add additional applicant(s)');
             }
 
             if($coverageType == 2 && $this->relation != 'spouse' ) {
-                throw new \Exception('Selected product(s) only support a spouse');
+                throw new Exception('Selected product(s) only support a spouse');
             }
 
             if($coverageType == 3 && count($order->applicants) < 3 ) {
-                throw new \Exception('Selected product(s) are for a family of applicant(s)');
+                throw new Exception('Selected product(s) are for a family of applicant(s)');
             }
 
             if($coverageType == 4 && $this->relation != 'child' ) {
-                throw new \Exception('Selected product(s) only support additional children');
+                throw new Exception('Selected product(s) only support additional children');
             }
         }
 
