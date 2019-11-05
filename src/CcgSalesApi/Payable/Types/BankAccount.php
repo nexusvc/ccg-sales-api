@@ -5,7 +5,7 @@ namespace Nexusvc\CcgSalesApi\Payable\Types;
 use Nexusvc\CcgSalesApi\Crypt\Crypt;
 use Nexusvc\CcgSalesApi\Payable\Payable;
 
-class Card extends Payable {
+class BankAccount extends Payable {
 
     protected $cleanProperties = [];
 
