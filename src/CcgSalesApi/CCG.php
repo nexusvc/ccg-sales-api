@@ -24,6 +24,12 @@ class CCG {
 
     public $payable     = Payable\Payable::class;
 
+    public $phone       = Contactable\Phone::class;
+
+    public $email       = Contactable\Email::class;
+
+    public $address     = Contactable\Address::class;
+
     public $quote       = Quote\Quote::class;
 
     public function __construct() {
