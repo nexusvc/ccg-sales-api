@@ -399,7 +399,7 @@ Example output array as JSON:
 ```
 
 ### Schema Validation & Formatting
-Built into the library is a schema validator and schema formatter. This is usually handled behind the schenes but can be access if necessary. You would use these to validate required structure(s) and/or output the `order` in a `current` or `deprecated` format for CCG endpoints. Currently a real life example would be choosing `version1` schema when `POST` to the esign invite. It will recreate the `order` object.
+Built into the library is a schema validator and schema formatter. This is usually handled behind the scenes but can be access if necessary. You would use these to validate required structure(s) and/or output the `order` in a `current` or `deprecated` format for CCG endpoints. Currently a real life example would be choosing `version1` schema when `POST` to the esign invite. It will recreate the `order` object.
 
 ```php
 // Pass the $ccg->order
