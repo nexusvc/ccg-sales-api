@@ -78,7 +78,7 @@ return $ccg->quote($params)->products();
 ```
 
 ### Create Payable Token - Payment Method
-Payable is a payment method that can either be a debit/credit card and/or a bank account. The library will determine the type based on the params passed when instantiating a new payable. It will also validate against common formats. Once the payable it attached to the order object it will automatically be encrypted and will always return a tokenized format.
+Payable is a payment method that can either be a debit/credit card and/or a bank account. The library will determine the type based on the params passed when instantiating a new payable. It will also validate against common formats. Once a payable is attached to the `Order` object it will automatically be encrypted and will always return a tokenized format.
 
 ```php
 // Include the Library
@@ -110,7 +110,7 @@ $ccg->order->addPayable($payable);
 ```
 
 ### Selecting Products
-Products can be attached to the order object similar to a payable. You can filter products by passing params as shown in section `List Products in Category` but you may also filter those returned items using a collection and then using the `addToOrder($ccg->order)` method will push that product into the order object. You may also use `addProduct($product)` method on the order object.
+Products can be attached to the order object similar to a payable. You can filter products by passing params as shown in section List Products in Category but you may also filter those returned items using a collection and then using the `addToOrder($ccg->order)` method on the product will push that product into the order object passed by reference. You may also use `addProduct($product)` method on the order object to directly push a product.
 
 ```php
 // Include the Library
