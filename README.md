@@ -209,6 +209,9 @@ $ccg->order->addApplicant($applicant);
 Adding an esign verification to the order
 
 ```php
+// Include the Library
+use Nexusvc\CcgSalesApi\CCG;
+
 $ccg = new CCG;
 
 // Authenticate
@@ -232,6 +235,9 @@ $ccg->order->addVerification($esign);
 Once you are ready to request an esign invite you may do so using the verification type `esign` and the `invite($ccg)` method.
 
 ```php
+// Include the Library
+use Nexusvc\CcgSalesApi\CCG;
+
 $ccg = new CCG;
 
 // Authenticate
@@ -259,6 +265,9 @@ $esign->invite($ccg);
 You may check a status of an `esign` verification by using the `verify-esign` type and the `byCaseId($ccg)` method.
 
 ```php
+// Include the Library
+use Nexusvc\CcgSalesApi\CCG;
+
 $ccg = new CCG;
 
 // Authenticate
@@ -286,6 +295,26 @@ $esign->invite($ccg);
 $verify = $ccg->quote()->verifications('verify-esign');
 
 return $verify->byCaseId($ccg, $esign->caseId);
+```
+
+### Charge Order - Enrollment
+Once your order is built with `applicants`,`products`,`payable`, & `verification` objects you may complete the enrollment by calling the `charge()` method on the order. This method will validate the order schema, restructure the order object to CCG compatiable `POST` params.
+
+```php
+// Include the Library
+use Nexusvc\CcgSalesApi\CCG;
+
+$ccg = new CCG;
+
+// Authenticate
+// See Authenticating
+
+// Add Product to Order
+// Add Applicant(s) to Order
+// Add Payable to Order
+// Add Verification to Order
+
+return $ccg->order->charge();
 ```
 
 ### Order
