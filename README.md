@@ -45,3 +45,95 @@ $ccg->auth()->login(
 
 return $ccg->auth();
 ```
+
+### List Product Categories
+```php
+// Include the Library
+use Nexusvc\CcgSalesApi\CCG;
+
+$ccg = new CCG;
+
+// Authenticate
+// See Authenticating
+
+return $ccg->quote()->categories();
+```
+
+### List Products in Category
+```php
+// Include the Library
+use Nexusvc\CcgSalesApi\CCG;
+
+$ccg = new CCG;
+
+// Authenticate
+// See Authenticating
+
+// Set Product Params
+$params = [
+    'type' => $CategoryType, // Set the Type returned from categories
+];
+
+return $ccg->quote($params)->products();
+```
+
+### Create Payable Token - Payment Method
+Payable is a payment method that can either be a debit/credit card and/or a bank account. The library will determine the type based on the params passed when instantiating a new payable. It will also validate against common formats. Once the payable it attached to the order object it will automatically be encrypted and will always return a tokenized format.
+
+```php
+// Include the Library
+use Nexusvc\CcgSalesApi\CCG;
+
+$ccg = new CCG;
+
+// Authenticate
+// See Authenticating
+
+// Credit or Debit
+$payable = new $ccg->payable([
+    'account' => 'XXXXXXXXXXXXXXXX',
+    'cvc'     => 'XXX',
+    'expiration' => [
+        'month' => 'XX',
+        'year'  => 'XXXX'
+    ],
+]);
+
+// BankAccount
+$payable = new $ccg->payable([
+    'account' => 'XXXXXXXXXXXX',
+    'routing' => 'XXXXXXXXXXXX'
+]);
+
+// Attach Payable to Order
+$ccg->order->addPayable($payable);
+```
+
+### Selecting Products
+Products can be attached to the order object similar to a payable. You can filter products by passing params as shown in section `List Products in Category` but you may also filter those returned items using a collection and then using the `->addToOrder($product)` method will push that product into the order object.
+
+```php
+// Include the Library
+use Nexusvc\CcgSalesApi\CCG;
+
+$ccg = new CCG;
+
+// Authenticate
+// See Authenticating
+
+$params = [
+    'state'        => 'FL', 
+    'type'         => 'LimitedMedical',
+    'coverageType' => 1
+];
+
+// Example filter by groupId
+$product = $ccg->quote($params)->products()->filter(function($item) {
+    return $item->groupId === 12362;
+})->first();
+
+// Attach Product to Order
+$product->addToOrder($ccg->order);
+```
+
+
