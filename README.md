@@ -110,7 +110,7 @@ $ccg->order->addPayable($payable);
 ```
 
 ### Selecting Products
-Products can be attached to the order object similar to a payable. You can filter products by passing params as shown in section `List Products in Category` but you may also filter those returned items using a collection and then using the `addToOrder($ccg->order)` method will push that product into the order object.
+Products can be attached to the order object similar to a payable. You can filter products by passing params as shown in section `List Products in Category` but you may also filter those returned items using a collection and then using the `addToOrder($ccg->order)` method will push that product into the order object. You may also use `addProduct($product)` method on the order object.
 
 ```php
 // Include the Library
@@ -135,6 +135,9 @@ $product = $ccg->quote($params)->products()->filter(function($item) {
 // Attach Product to Order
 // You must reference the $ccg-order
 $product->addToOrder($ccg->order);
+
+// Alternative: Attach Product to Order
+$ccg->order->addProduct($product);
 ```
 
 
