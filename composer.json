@@ -1,7 +1,9 @@
 {
     "name": "nexusvc/ccg-sales-api",
     "description": "PHP Library for CCG SalesAPI",
+    "keywords": ["library", "ccg", "nexusvc"],
     "type": "library",
+    "license": "MIT",
     "support": {
         "issues": "https://github.com/nexusvc/ccg-sales-api/issues",
         "source": "https://github.com/nexusvc/ccg-sales-api"
@@ -10,6 +12,10 @@
         {
             "name": "NexusVC, LLC",
             "email": "development@nxvc.io"
+        },
+        {
+            "name": "John Paul Medina",
+            "email": "jp@nxvc.io"
         }
     ],
     "require": {
