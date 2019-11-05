@@ -14,7 +14,9 @@ class ChargeOrder {
     }
 
     public static function charge(Order $order) {
-        dd('charge', $order);
+        $charge = new self($order);
+
+        dd($charge);
     }
 
 }
