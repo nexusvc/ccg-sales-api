@@ -13,4 +13,8 @@ class ChargeOrder {
         $this->order = $order;
     }
 
+    public static function charge(Order $order) {
+        dd('charge', $order);
+    }
+
 }

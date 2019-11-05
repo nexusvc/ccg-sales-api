@@ -63,6 +63,10 @@ class Order {
         return $this;
     }
 
+    public function charge() {
+        return ChargeOrder::charge($this);
+    }
+
     public function setTotalAttribute() {
         $total = 0;
 
