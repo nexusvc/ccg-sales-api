@@ -284,6 +284,7 @@ $esign->invite($ccg);
 // The above will return a caseID
 // Using that caseId
 $verify = $ccg->quote()->verifications('verify-esign');
+
 return $verify->byCaseId($ccg, $esign->caseId);
 ```
 
