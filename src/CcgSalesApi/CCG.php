@@ -2,13 +2,13 @@
 
 namespace Nexusvc\CcgSalesApi;
 
-use Nexusvc\CcgSalesApi\Traits\Configable;
+use Nexusvc\CcgSalesApi\Traits\Configurable;
 use Nexusvc\CcgSalesApi\Traits\Jsonable;
 
-class CcgSalesApi {
+class CCG {
 
     use Jsonable;
-    use Configable;
+    use Configurable;
 
     protected $env;
 
@@ -27,9 +27,8 @@ class CcgSalesApi {
     public $quote       = Quote\Quote::class;
 
     public function __construct() {
-                
+
         $this->loadConfigs();
-        $this->setEnvironment();
         
         $this->auth();
         

@@ -2,7 +2,7 @@
 
 namespace Nexusvc\CcgSalesApi\Traits;
 
-trait Configable {
+trait Configurable {
 
     protected $config;
     
@@ -45,6 +45,8 @@ trait Configable {
             }
         }
 
+        $this->setEnvironment();
+
         return $this;
     }
 
@@ -54,7 +56,7 @@ trait Configable {
     }
 
     protected function setEnvironment() {
-        $this->env = array_get($this->config, 'env.environment');
+        $this->env = array_get($this->config, 'endpoints.env');
         return $this;
     }
 
