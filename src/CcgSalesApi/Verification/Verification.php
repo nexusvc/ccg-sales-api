@@ -2,6 +2,7 @@
 
 namespace Nexusvc\CcgSalesApi\Verification;
 
+use Nexusvc\CcgSalesApi\CCG;
 use Nexusvc\CcgSalesApi\Client\Client;
 use Nexusvc\CcgSalesApi\Crypt\Crypt;
 use Nexusvc\CcgSalesApi\Order\Order;
@@ -24,7 +25,7 @@ class Verification extends Quote {
     
     protected $invited = false;
 
-    public function __construct($auth, $params, array $props = []) {
+    public function __construct(CCG &$ccg, $params, array $props = []) {
 
         $this->setType();
 
@@ -32,7 +33,7 @@ class Verification extends Quote {
             $this->{$key} = $value;
         }
         
-        parent::__construct($auth, $params);
+        parent::__construct($ccg, $params);
     }
 
     protected function setResponse($response) {
@@ -89,7 +90,7 @@ class Verification extends Quote {
             if (!$fileinfo->isDot()) {
                 $class_name = str_replace('.php','',$fileinfo->getFilename());
                 $class = '\\Nexusvc\\CcgSalesApi\\Verification\\Types\\' . $class_name;
-                $verification = new $class(self::$auth, self::$params);
+                $verification = new $class(self::$ccg, self::$params);
                 array_push($verifications, $verification);
             }
         }

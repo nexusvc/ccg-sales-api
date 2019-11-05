@@ -4,6 +4,7 @@ namespace Nexusvc\CcgSalesApi\Product;
 
 use Nexusvc\CcgSalesApi\Order\Order;
 use Nexusvc\CcgSalesApi\Quote\Quote;
+use Nexusvc\CcgSalesApi\CCG;
 
 class GenericProduct extends Quote {
 
@@ -17,7 +18,7 @@ class GenericProduct extends Quote {
 
     protected static $params = [];
 
-    public function __construct(&$ccg, $params, array $props = []) {
+    public function __construct(CCG &$ccg, $params, array $props = []) {
 
         $this->setProduct($this);
         $this->setType();
