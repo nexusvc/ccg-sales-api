@@ -79,8 +79,8 @@ class CCG {
 
     public function quote(array $params = []) {
         return $this->quote = ( $this->quote instanceof Quote\Quote ) ? 
-            new Quote\Quote($this->auth(), $params ) : 
-            new Quote\Quote($this->auth(), $params );
+            new Quote\Quote($this, $params ): 
+            new Quote\Quote($this, $params );
     }
 
     public static function getInstance() {

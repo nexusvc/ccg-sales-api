@@ -6,12 +6,15 @@ use Nexusvc\CcgSalesApi\Client\Client;
 use Nexusvc\CcgSalesApi\Crypt\Crypt;
 use Nexusvc\CcgSalesApi\Order\Order;
 use Nexusvc\CcgSalesApi\Quote\Quote;
+use Nexusvc\CcgSalesApi\Traits\Jsonable;
 
 class Verification extends Quote {
 
+    use Jsonable;
+
     protected $class;
 
-    protected $type;
+    public $type;
 
     protected $required = [];
     
@@ -33,8 +36,7 @@ class Verification extends Quote {
     }
 
     protected function setResponse($response) {
-
-        return $response;
+        return $response->getContents();
     }
 
     public function invite(&$ccg) {

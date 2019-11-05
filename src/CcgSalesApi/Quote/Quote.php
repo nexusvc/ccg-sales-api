@@ -3,6 +3,7 @@
 namespace Nexusvc\CcgSalesApi\Quote;
 
 use Nexusvc\CcgSalesApi\Auth\Authentication;
+use Nexusvc\CcgSalesApi\CCG;
 use Nexusvc\CcgSalesApi\Client\Client;
 use Nexusvc\CcgSalesApi\Product\GenericProduct;
 use Nexusvc\CcgSalesApi\Traits\Jsonable;
@@ -11,6 +12,8 @@ use Nexusvc\CcgSalesApi\Verification\Verification;
 class Quote {
     
     use Jsonable;
+
+    protected static $ccg;
 
     protected $url;
 
@@ -26,8 +29,9 @@ class Quote {
 
     protected $required = [];
 
-    public function __construct(Authentication $auth, array $params = []) {
-        self::$auth = $auth;
+    public function __construct(CCG &$ccg, array $params = []) {
+        self::$ccg  = $ccg;
+        self::$auth = $ccg->auth;
         self::$params = $params;
 
         $this->setEndPoint();
@@ -38,7 +42,7 @@ class Quote {
         $objects = collect([]);
         if($type = self::$params['type']) {
             foreach($response as $product) {
-                $objects->push( (new $type(self::$auth, self::$params, $product))->appendParams(self::$params) );
+                $objects->push( (new $type(self::$ccg, self::$params, $product))->appendParams(self::$params) );
             }
         }
         $this->resources = $objects;
@@ -93,7 +97,7 @@ class Quote {
     public static function verifications($type = null) {
         if(is_null($type)) return Verification::listVerificationTypes();
 
-        return Verification::byType($type);
+        return Verification::byType(self::$ccg, $type);
     }
 
     public static function setProductTypeClass() {
@@ -105,7 +109,7 @@ class Quote {
         }
 
         $type = "\\Nexusvc\\CcgSalesApi\\Product\\Types\\{$type}";
-        self::$params['type'] = new $type(self::$auth, self::$params);
+        self::$params['type'] = new $type(self::$ccg, self::$params);
     }
 
     public static function setVerificationTypeClass() {
@@ -117,7 +121,7 @@ class Quote {
         }
 
         $type = "\\Nexusvc\\CcgSalesApi\\Verification\\Types\\{$type}";
-        self::$params['type'] = new $type(self::$auth, self::$params);
+        self::$params['type'] = new $type(self::$ccg, self::$params);
     }
 
     public static function categories() {
