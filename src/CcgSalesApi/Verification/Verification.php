@@ -76,7 +76,7 @@ class Verification extends Quote {
         $this->class = static::class;
     }
 
-    public static function byType($type) {
+    public static function byType(CCG &ccg, $type) {
         $types = collect(static::listVerificationTypes());
         return $verification = $types->filter(function($verification) use ($type) {
             return $verification->type == studly_case($type);
