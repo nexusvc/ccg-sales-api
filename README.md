@@ -28,7 +28,7 @@ composer require nexusvc/ccg-sales-api
 ### Authenticating
 ```php
 // Include the Library
-use Nexusvc\CcgSalesApi\CcgSalesApi as CCG;
+use Nexusvc\CcgSalesApi\CCG;
 
 $username = 'FIRSTNAME.LASTNAME'; // Sales Agent Username from CCG
 $password = 'XXXXXXXXXXXXXXXXXX'; // Sales Agent Password from CCG
