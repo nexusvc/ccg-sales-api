@@ -59,6 +59,18 @@ class Quote {
         $client = new Client($token);
 
         $this->attributes = array_merge($this->attributes, $params);
+
+        // @todo: remove this temporary hard code for asking for voice script
+        if($this->uri == 'verification.voice.script') {
+            $this->attributes['brandName']      = "Health Shield";
+            $this->attributes['planID']         = 5;
+            $this->attributes['payType']        = "cc";
+            $this->attributes['state']          = "FL";
+            $this->attributes['coverageType']   = 1;
+            $this->attributes['addOnPlanIDs']   = '727';
+            // $this->attributes['npn']            = "";
+        }
+
         // if($this->attributes['type']->type == "AddOn" ) dd($this->attributes, $params);
         return $this->setResponse($client->request('POST', $this->url, [
             'form_params' => $this->attributes
