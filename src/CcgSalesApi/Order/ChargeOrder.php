@@ -3,6 +3,7 @@
 namespace Nexusvc\CcgSalesApi\Order;
 
 use Nexusvc\CcgSalesApi\Crypt\Crypt;
+use Nexusvc\CcgSalesApi\Schema\Schema;
 use Nexusvc\CcgSalesApi\Traits\Jsonable;
 
 class ChargeOrder {
@@ -15,6 +16,9 @@ class ChargeOrder {
 
     public static function charge(Order $order) {
         $charge = new self($order);
+
+        $schema = new Schema($charge);
+        return $schema->load('soap-order')->format();
 
         dd($charge);
     }
