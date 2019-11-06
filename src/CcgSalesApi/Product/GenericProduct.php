@@ -4,6 +4,7 @@ namespace Nexusvc\CcgSalesApi\Product;
 
 use Nexusvc\CcgSalesApi\Order\Order;
 use Nexusvc\CcgSalesApi\Quote\Quote;
+use Nexusvc\CcgSalesApi\CCG;
 
 class GenericProduct extends Quote {
 
@@ -17,7 +18,7 @@ class GenericProduct extends Quote {
 
     protected static $params = [];
 
-    public function __construct($auth, $params, array $props = []) {
+    public function __construct(CCG &$ccg, $params, array $props = []) {
 
         $this->setProduct($this);
         $this->setType();
@@ -26,7 +27,7 @@ class GenericProduct extends Quote {
             $this->{$key} = $value;
         }
         
-        parent::__construct($auth, $params);
+        parent::__construct($ccg, $params);
     }
 
     public static function listProductTypes() {
@@ -38,7 +39,7 @@ class GenericProduct extends Quote {
             if (!$fileinfo->isDot()) {
                 $class_name = str_replace('.php','',$fileinfo->getFilename());
                 $class = '\\Nexusvc\\CcgSalesApi\\Product\\Types\\' . $class_name;
-                $product = new $class(self::$auth, self::$params);
+                $product = new $class(self::$ccg, self::$params);
                 array_push($products, $product);
             }
         }
@@ -46,8 +47,8 @@ class GenericProduct extends Quote {
         return $products;
     }
 
-    public function addToOrder(Order &$order) {
-        $order->addProduct($this);
+    public function addToOrder() {
+        parent::$ccg->order->addProduct($this);
         return $this;
     }
 

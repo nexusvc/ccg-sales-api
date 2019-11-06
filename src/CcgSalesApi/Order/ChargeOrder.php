@@ -8,6 +8,8 @@ use Nexusvc\CcgSalesApi\Traits\Jsonable;
 
 class ChargeOrder {
 
+    use Jsonable;
+
     protected $order;
 
     public function __construct(Order $order) {
@@ -18,7 +20,9 @@ class ChargeOrder {
         $charge = new self($order);
 
         $schema = new Schema($charge);
-        return $schema->load('soap-order')->format();
+        $format = $schema->load('soap-order')->format();
+
+        dd($format);
 
         dd($charge);
     }

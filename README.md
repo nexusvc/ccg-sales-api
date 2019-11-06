@@ -104,7 +104,7 @@ $ccg = new CCG;
 // See Authenticating
 
 // Credit or Debit
-$payable = new $ccg->payable([
+$payable = $ccg->payable([
     'account' => 'XXXXXXXXXXXXXXXX',
     'cvc'     => 'XXX',
     'expiration' => [
@@ -114,17 +114,20 @@ $payable = new $ccg->payable([
 ]);
 
 // BankAccount
-$payable = new $ccg->payable([
+$payable = $ccg->payable([
     'account' => 'XXXXXXXXXXXX',
     'routing' => 'XXXXXXXXXXXX'
 ]);
 
 // Attach Payable to Order
+$payable->addToOrder();
+
+// Alternative: Attach Payable to Order
 $ccg->order->addPayable($payable);
 ```
 
 ### Selecting Products
-Products can be attached to the order object similar to a payable. You can filter products by passing params as shown in section List Products in Category but you may also filter those returned items using a collection and then using the `addToOrder($ccg->order)` method on the product will push that product into the order object passed by reference. You may also use `addProduct($product)` method on the order object to directly push a product.
+Products can be attached to the order object similar to a payable. You can filter products by passing params as shown in section List Products in Category but you may also filter those returned items using a collection and then using the `addToOrder()` method on the product will push that product into the order object. You may also use `addProduct($product)` method on the order object to directly push a product.
 
 ```php
 // Include the Library
@@ -147,15 +150,14 @@ $product = $ccg->quote($params)->products()->filter(function($item) {
 })->first();
 
 // Attach Product to Order
-// You must reference the $ccg-order
-$product->addToOrder($ccg->order);
+$product->addToOrder();
 
 // Alternative: Attach Product to Order
 $ccg->order->addProduct($product);
 ```
 
 ### Creating an Applicant
-When building the order you must attach 1 or more applicants. First, create a new applicant and push that applicant to the order similar to pushing a product.  You may use the `addToOrder($ccg->order)` method on the applicant directly or the `addApplicant($applicant)` method on the order object. You may also attach contactable objects to an applicant using the `addContactable($contact)` method on the applicant. Currently supported contact methods are `phone`,`email`,`address`.
+When building the order you must attach 1 or more applicants. First, create a new applicant and push that applicant to the order similar to pushing a product.  You may use the `addToOrder()` method on the applicant directly or the `addApplicant($applicant)` method on the order object. You may also attach contactable objects to an applicant using the `addContactable($contact)` method on the applicant. Currently supported contact methods are `phone`,`email`,`address`.
 
 Contactable object(s) will validate against common formats and USPS Address System.
 
@@ -169,7 +171,8 @@ $ccg = new CCG;
 // See Authenticating
 
 // Create applicant
-$applicant = new $ccg->applicant([
+// This method always returns a new Applicant()
+$applicant = $ccg->applicant([
     'firstName' => 'John', 
     'lastName'  => 'Doe',
     'dob'       => 'YYYY-MM-DD',
@@ -178,9 +181,9 @@ $applicant = new $ccg->applicant([
 ]);
 
 // Phone
-$phone = new $ccg->phone('XXXXXXXXXX');
+$phone = $ccg->phone('XXXXXXXXXX');
 // Email
-$email = new $ccg->email('XXXXXXXXXX');
+$email = $ccg->email('XXXXXXXXXX');
 
 // Address
 $addressParams = [
@@ -191,22 +194,22 @@ $addressParams = [
     'zip'     => 'XXXXX'
 ];
 
-$address = new $ccg->address($addressParams);
+$address = $ccg->address($addressParams);
 
 // You may daisy chain addContactable method
 $applicant->addContactable($phone)
           ->addContactable($email)
           ->addContactable($address);
 
-// Finally addApplicant($applicant) to Order
-$applicant->addToOrder($ccg->order);
+// Add Applicant to Order
+$applicant->addToOrder();
 
-// Alternative: Adding Applicant
+// Alternative: Add Applicant to Order
 $ccg->order->addApplicant($applicant);
 ```
 
-### Esign Verification
-Adding an esign verification to the order
+### Voice Verification & Attaching Audio
+Fetching the voice verification script, parsing for variables within script, and updating script variables to generate complete voice verification.
 
 ```php
 // Include the Library
@@ -221,18 +224,57 @@ $ccg = new CCG;
 // Add Applicant(s) to Order
 // Add Payable to Order
 
-// Request Esign
-$esign = $ccg->quote()->verifications('esign');
+// Request Voice Verification Script
+$verification = $ccg->quote()->verifications('voice')->fetch();
 
-// Adding esign to order
-$esign->addToOrder($ccg->order);
+// Getting available script variables
+$variables = $verification->getVariables();
 
-// Alternative: Adding esign to Order
-$ccg->order->addVerification($esign);
+// Update the value of each variable
+// Doing so will parse and replace the voice
+// script content w/ new values
+
+// Setting Values
+$verification->setVariables($variables);
+
+// Request Formatted Script
+$verification->format();
+
+// Accessing Formatted Script
+$verification->format()->script;
+
+// Alternative: Accessing Formatted Script
+// must have previously called ->format() method
+$verification->script;
+
+// Display Script to Agent
+
+// Record audio & save
+
+
+// You may pass a URL and/or audio file
+// Formats accepted are: mp3, wav, url
+
+// Local File Path
+$recording = '/path/to/audio/file';
+
+// Alternative: Remote File
+$recording = 'https://www.dropbox.com/s/euygas65j1y7/john_doe_ver.mp3?dl=1';
+
+// Adding recorded voice verification
+$verification->addRecording($recording);
+
+// Adding Verification to Order
+// Recording must be attached
+$verification->addToOrder();
+
+// Alternative: Adding Verification to Order
+// Recording must be attached
+$ccg->order->addVerification($verification);
 ```
 
-### Esign Verification Invite
-Once you are ready to request an esign invite you may do so using the verification type `esign` and the `invite($ccg)` method.
+### Esign Verification Invite (Optional: $callbackUrl)
+Once you are ready to request an esign invite you may do so using the verification type `esign` and the `invite($callbackUrl)` method. The `$callbackUrl` param is optional but will allow CCG Server to instantly `POST` back to referenced url upon successful esign completion. This is the perfered method for push notify of completion.
 
 ```php
 // Include the Library
@@ -247,22 +289,22 @@ $ccg = new CCG;
 // Add Applicant(s) to Order
 // Add Payable to Order
 
+// Optional: Setting a $callbackUrl
+// Passing a callbackUrl will fire automatically to the url upon
+// successful esign by customer. This will eliminate the need for
+// a status check and allow you to be notified immediately.
+$callbackUrl = 'https://some.callback.url.com/';
+
 // Request Esign
 $esign = $ccg->quote()->verifications('esign');
 
-// Adding esign to order
-$esign->addToOrder($ccg->order);
-
-// Alternative: Adding esign to Order
-$ccg->order->addVerification($esign);
-
 // Sending Invitation
-// Currently you must pass the main ccg object as reference
-$esign->invite($ccg);
+// Calling invite will push the verification to the order
+$esign->invite($callbackUrl);
 ```
 
-### Esign Verification Status
-You may check a status of an `esign` verification by using the `verify-esign` type and the `byCaseId($ccg)` method.
+### Esign Verification Status (Optional: $callbackUrl)
+You may check a status of an `esign` verification by using a `$callbackUrl` option when requesting the invite or by using the `status()` method. The `$callbackUrl` param is optional but will allow CCG Server to instantly `POST` back to referenced url upon successful esign completion. TThis is the perfered method for push notify of completion.
 
 ```php
 // Include the Library
@@ -277,24 +319,24 @@ $ccg = new CCG;
 // Add Applicant(s) to Order
 // Add Payable to Order
 
+// Optional: Setting a $callbackUrl
+// Passing a callbackUrl will fire automatically to the url upon
+// successful esign by customer. This will eliminate the need for
+// a status check and allow you to be notified immediately.
+$callbackUrl = 'https://some.callback.url.com/';
+
 // Request Esign
 $esign = $ccg->quote()->verifications('esign');
 
-// Adding esign to order
-$esign->addToOrder($ccg->order);
-
-// Alternative: Adding esign to Order
-$ccg->order->addVerification($esign);
-
 // Sending Invitation
-// Currently you must pass the main ccg object as reference
-$esign->invite($ccg);
+// Calling invite will push the verification to the order
+$esign->invite($callbackUrl);
 
-// The above will return a caseID
-// Using that caseId
-$verify = $ccg->quote()->verifications('verify-esign');
+// Wait for customer to complete esign if you are using the status method
+// use a queue and/or manual checking if not using a $callbackUrl.
 
-return $verify->byCaseId($ccg, $esign->caseId);
+// Manually checking esign status
+$esign->status();
 ```
 
 ### Charge Order - Enrollment
@@ -318,7 +360,7 @@ return $ccg->order->charge();
 ```
 
 ### Order
-The order object on the main class can be accessed via `$ccg->order`. The order object will contain the `applicants`,`products`,`verifications`,`payable` objects. You may need to make reference to the order object as shown above with methods like `addToOrder($ccg->order)` on specific objects. You may also output the entire order via the `toArray()` method. Here is an example of an order returned as an array.
+The order object on the main class can be accessed via `$ccg->order`. The order object will contain the `applicants`,`products`,`verifications`,`payable` objects. You may need to make reference to the order object as shown above with methods like `addToOrder()` on specific objects. You may also output the entire order via the `toArray()` method. Here is an example of an order returned as an array.
 
 ```php
 // Include the Library

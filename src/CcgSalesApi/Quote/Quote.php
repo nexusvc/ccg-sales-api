@@ -3,6 +3,7 @@
 namespace Nexusvc\CcgSalesApi\Quote;
 
 use Nexusvc\CcgSalesApi\Auth\Authentication;
+use Nexusvc\CcgSalesApi\CCG;
 use Nexusvc\CcgSalesApi\Client\Client;
 use Nexusvc\CcgSalesApi\Product\GenericProduct;
 use Nexusvc\CcgSalesApi\Traits\Jsonable;
@@ -11,6 +12,8 @@ use Nexusvc\CcgSalesApi\Verification\Verification;
 class Quote {
     
     use Jsonable;
+
+    protected static $ccg;
 
     protected $url;
 
@@ -26,8 +29,9 @@ class Quote {
 
     protected $required = [];
 
-    public function __construct(Authentication $auth, array $params = []) {
-        self::$auth = $auth;
+    public function __construct(CCG &$ccg, array $params = []) {
+        self::$ccg  = $ccg;
+        self::$auth = $ccg->auth;
         self::$params = $params;
 
         $this->setEndPoint();
@@ -38,7 +42,7 @@ class Quote {
         $objects = collect([]);
         if($type = self::$params['type']) {
             foreach($response as $product) {
-                $objects->push( (new $type(self::$auth, self::$params, $product))->appendParams(self::$params) );
+                $objects->push( (new $type(self::$ccg, self::$params, $product))->appendParams(self::$params) );
             }
         }
         $this->resources = $objects;
@@ -55,6 +59,18 @@ class Quote {
         $client = new Client($token);
 
         $this->attributes = array_merge($this->attributes, $params);
+
+        // @todo: remove this temporary hard code for asking for voice script
+        if($this->uri == 'verification.voice.script') {
+            $this->attributes['brandName']      = "Health Shield";
+            $this->attributes['planID']         = 5;
+            $this->attributes['payType']        = "cc";
+            $this->attributes['state']          = "FL";
+            $this->attributes['coverageType']   = 1;
+            $this->attributes['addOnPlanIDs']   = '727';
+            // $this->attributes['npn']            = "";
+        }
+
         // if($this->attributes['type']->type == "AddOn" ) dd($this->attributes, $params);
         return $this->setResponse($client->request('POST', $this->url, [
             'form_params' => $this->attributes
@@ -105,7 +121,7 @@ class Quote {
         }
 
         $type = "\\Nexusvc\\CcgSalesApi\\Product\\Types\\{$type}";
-        self::$params['type'] = new $type(self::$auth, self::$params);
+        self::$params['type'] = new $type(self::$ccg, self::$params);
     }
 
     public static function setVerificationTypeClass() {
@@ -117,7 +133,7 @@ class Quote {
         }
 
         $type = "\\Nexusvc\\CcgSalesApi\\Verification\\Types\\{$type}";
-        self::$params['type'] = new $type(self::$auth, self::$params);
+        self::$params['type'] = new $type(self::$ccg, self::$params);
     }
 
     public static function categories() {

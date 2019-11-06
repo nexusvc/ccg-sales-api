@@ -2,16 +2,20 @@
 
 namespace Nexusvc\CcgSalesApi\Verification;
 
+use Nexusvc\CcgSalesApi\CCG;
 use Nexusvc\CcgSalesApi\Client\Client;
 use Nexusvc\CcgSalesApi\Crypt\Crypt;
 use Nexusvc\CcgSalesApi\Order\Order;
 use Nexusvc\CcgSalesApi\Quote\Quote;
+use Nexusvc\CcgSalesApi\Traits\Jsonable;
 
 class Verification extends Quote {
 
+    use Jsonable;
+
     protected $class;
 
-    protected $type;
+    public $type;
 
     protected $required = [];
     
@@ -21,7 +25,7 @@ class Verification extends Quote {
     
     protected $invited = false;
 
-    public function __construct($auth, $params, array $props = []) {
+    public function __construct(CCG &$ccg, $params, array $props = []) {
 
         $this->setType();
 
@@ -29,43 +33,11 @@ class Verification extends Quote {
             $this->{$key} = $value;
         }
         
-        parent::__construct($auth, $params);
+        parent::__construct($ccg, $params);
     }
 
     protected function setResponse($response) {
-
         return $response;
-    }
-
-    public function invite(&$ccg) {
-        $token = self::$auth->accessToken;
-        
-        $params = self::$params;
-
-        $client = new Client($token);
-
-        $this->attributes = array_merge($this->attributes, $params);
-
-        $verification = [];
-
-        foreach($this->attributes as $attribute => $value) {
-            array_set($verification, $attribute, $value);
-        }
-
-        $schema = new \Nexusvc\CcgSalesApi\Schema\Schema($ccg->order);
-        $verification = $schema->load('version-one')->format();
-
-        $response = $this->setResponse($client->request('POST', $this->url, [
-            'form_params' => $verification
-        ]));
-        
-        $this->invited = true;
-
-        foreach($response as $key => $value) {
-            $ccg->order->verification->$key = $value;
-        }
-
-        return $ccg;
     }
 
     protected function setType() {
@@ -87,7 +59,7 @@ class Verification extends Quote {
             if (!$fileinfo->isDot()) {
                 $class_name = str_replace('.php','',$fileinfo->getFilename());
                 $class = '\\Nexusvc\\CcgSalesApi\\Verification\\Types\\' . $class_name;
-                $verification = new $class(self::$auth, self::$params);
+                $verification = new $class(self::$ccg, self::$params);
                 array_push($verifications, $verification);
             }
         }
@@ -102,8 +74,8 @@ class Verification extends Quote {
         return $this->url = ccg_url($uri);
     }
 
-    public function addToOrder(Order &$order) {
-        $order->addVerification($this);
+    public function addToOrder() {
+        parent::$ccg->order->addVerification($this);
         return $this;
     }
 
