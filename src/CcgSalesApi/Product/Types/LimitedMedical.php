@@ -24,11 +24,11 @@ class LimitedMedical extends GenericProduct {
         'state'
     ];
 
-    public function addToOrder(&$order) {
-        $order->addProduct($this);
+    public function addToOrder() {
+        $this->ccg->order->addProduct($this);
         
         if($this->enrollmentPlans) {
-            $order->addProduct(new \Nexusvc\CcgSalesApi\Product\Types\EnrollmentPlan(self::$ccg, self::$params, $this->enrollmentPlans[0]));
+            $this->ccg->order->addProduct(new \Nexusvc\CcgSalesApi\Product\Types\EnrollmentPlan($this->ccg, self::$params, $this->enrollmentPlans[0]));
         }
 
         // if(property_exists($this->product, 'agentId')) $order->agentId = $this->agentId; 

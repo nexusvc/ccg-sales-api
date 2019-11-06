@@ -47,8 +47,8 @@ class GenericProduct extends Quote {
         return $products;
     }
 
-    public function addToOrder(Order &$order) {
-        $order->addProduct($this);
+    public function addToOrder() {
+        $this->ccg->order->addProduct($this);
         return $this;
     }
 
