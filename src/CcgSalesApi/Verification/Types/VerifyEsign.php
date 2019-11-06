@@ -18,10 +18,7 @@ class VerifyEsign extends Verification {
         'tokenID'
     ];
 
-    // Temporary fallback to 51 for completed caseId
     public function byToken($tokenId = null) {
-
-        // dd('here');
         
         $token = self::$auth->accessToken;
         
@@ -38,8 +35,8 @@ class VerifyEsign extends Verification {
         }
 
         $verification['tokenID'] = !is_null($tokenId) ? $tokenId : parent::$ccg->order->verification->tokenID;
+        
         $this->url = strtr($this->url, $verification);
-        unset($verification[0]);
 
         $response = $this->setResponse($client->request('GET', $this->url, [
             'form_params' => $verification

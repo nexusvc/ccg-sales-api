@@ -32,6 +32,18 @@ class Voice extends Verification {
         'coverageType'
     ];
 
+    public function fetch() {
+        
+        $schema = new \Nexusvc\CcgSalesApi\Schema\Schema(parent::$ccg->order);
+
+        // VoiceScript Schema
+        foreach($schema->load('voice-script')->format() as $key => $value) {
+            array_set($this->attributes, $key, $value);
+        }
+
+        return parent::fetch();
+    }
+
     protected function setResponse($response) {
         return $this->getVariablesAndBody($response->getContents());
     }
@@ -50,9 +62,6 @@ class Voice extends Verification {
 
         // Lets Grab the variables from script
         $content['variables'] = $this->getVariablesInContent($this->script, '##', '##');
-
-        // TEMP - Include for Verification Agent Replacement
-        // $content['variables'][] = '&lt;Your Name&gt;';
 
         foreach ($content['variables'] as $variable) {
             // Set a temporary false value
@@ -91,7 +100,6 @@ class Voice extends Verification {
         array_set($formattedVariables, camel_case('verificationAgent'), false);
 
         // @todo: Temporary include recurring, deposit, and total
-
         array_set($formattedVariables, 'monthlyAmount',  number_format((float)parent::$ccg->order->recurring, 2, '.', ''));
         array_set($formattedVariables, 'enrollmentFeeAmount',  number_format((float)parent::$ccg->order->deposit, 2, '.', ''));
         array_set($formattedVariables, 'firstPaymentAmount',  number_format((float)parent::$ccg->order->total, 2, '.', ''));
@@ -131,24 +139,6 @@ class Voice extends Verification {
         return $variables;
     }
 
-    protected function parseAndReplace($html) {
-        $replace = [
-            '&lt;Your Name&gt;' => 'John Paul Medina',
-            '##Date##' => Carbon::now()->format('l jS \\of F Y h:i:s A'),
-            '##AgentName##' => 'Special Agent',
-            '##Email##' => 'jp@leadtrust.io',
-            '##Phone##' => '+13058049506',
-            '##EffectiveDate##' => Carbon::now()->format('l jS \\of F Y h:i:s A'),
-            '##FirstPaymentAmount##' => '469.95',
-            '##EnrollmentFeeAmount##' => '99.95',
-            '##MonthlyAmount##' => '269.95',
-            '##BillDay##' => '15th',
-            '##PaymentInfo##' => 'Credit Card'
-        ];
-
-        return strtr($html, $replace);
-    }
-
     protected function isLocal($path) {
         return strpos($path, 'http') !== false;
     }
@@ -158,8 +148,6 @@ class Voice extends Verification {
     }
 
     public function setVariables(array $array = []) {
-
-        // Set Variable Values
         foreach($array as $key => $value) {
             if(array_key_exists($key, $this->variables)) {
                 array_set($this->variables, $key, $value);
@@ -176,7 +164,6 @@ class Voice extends Verification {
     }
 
     public function addRecording($path) {
-        // dd($this->isLocal($path));
         $this->recording = $path;
         return $this;
     }

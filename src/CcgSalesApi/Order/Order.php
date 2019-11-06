@@ -64,7 +64,7 @@ class Order {
     }
 
     public function charge() {
-        return ChargeOrder::charge($this);
+        return (new ChargeOrder($this))->charge();
     }
 
     public function setTotalAttribute() {

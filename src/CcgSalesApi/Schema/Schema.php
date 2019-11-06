@@ -61,4 +61,15 @@ class Schema {
         return array_dot((new static($this->formatted))->setFormatted($this->formatted)->toArray());
     }
 
+    protected function formatKeys() {
+        $tmp = [];
+        $array = $this->getDotArray();
+        foreach($array as $key => $value) {
+            if(array_key_exists($key, $this->keys)) $key = $this->keys[$key];
+            array_set($tmp, $key, $value);
+        }
+
+        $this->formatted = $tmp;
+    }
+
 }

@@ -62,12 +62,7 @@ class Quote {
 
         // @todo: remove this temporary hard code for asking for voice script
         if($this->uri == 'verification.voice.script') {
-            $this->attributes['brandName']      = "Health Shield";
-            $this->attributes['planID']         = 5;
-            $this->attributes['payType']        = "cc";
-            $this->attributes['state']          = "FL";
-            $this->attributes['coverageType']   = 1;
-            $this->attributes['addOnPlanIDs']   = '727';
+            // dd($this->attributes);
             // $this->attributes['npn']            = "";
         }
 

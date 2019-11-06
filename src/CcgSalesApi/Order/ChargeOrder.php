@@ -16,15 +16,17 @@ class ChargeOrder {
         $this->order = $order;
     }
 
-    public static function charge(Order $order) {
-        $charge = new self($order);
-
-        $schema = new Schema($charge);
-        $format = $schema->load('soap-order')->format();
-
-        dd($format);
-
-        dd($charge);
+    public function charge() {
+        $schema = new Schema($this->order);
+        return $schema->load('enrollment')->format();
     }
+
+    // public static function charge(Order $order) {
+
+    //     $charge = new self($order);
+
+    //     $schema = new Schema($charge);
+    //     return $schema->load('enrollment')->format();
+    // }
 
 }
