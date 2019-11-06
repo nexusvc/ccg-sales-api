@@ -2,6 +2,7 @@
 
 namespace Nexusvc\CcgSalesApi\Verification\Types;
 
+use Nexusvc\CcgSalesApi\Client\Client;
 use Nexusvc\CcgSalesApi\Order\Order;
 use Nexusvc\CcgSalesApi\Verification\Verification;
 
@@ -69,5 +70,51 @@ class Esign extends Verification {
         'paymentInfo',
         'paymentInfo.payType'
     ];
+
+    public function setToken($token) {
+        $this->token = $token;
+        return $this;
+    }
+
+    public function status() {
+        $verify = new VerifyEsign(parent::$ccg, $this->toArray());
+        return $verify->byToken($this->token)->toArray();
+    }
+
+    public function invite($callbackUrl = null) {
+        
+        $token = self::$auth->accessToken;
+        
+        $params = self::$params;
+
+        $client = new Client($token);
+
+        $this->attributes = array_merge($this->attributes, $params);
+
+        $verification = [];
+
+        foreach($this->attributes as $attribute => $value) {
+            array_set($verification, $attribute, $value);
+        }
+
+        $schema = new \Nexusvc\CcgSalesApi\Schema\Schema(parent::$ccg->order);
+        $verification = $schema->load('version-one')->format();
+
+        if(!is_null($callbackUrl)) $this->esignCallbackUrl = $verification['esignCallbackUrl'] = $callbackUrl;
+
+        $response = $this->setResponse($client->request('POST', $this->url, [
+            'form_params' => $verification
+        ]));
+        
+        $this->invited = true;
+
+        foreach($response as $key => $value) {
+            $this->$key = $value;
+        }
+
+        parent::$ccg->order->addVerification($this);
+
+        return $this;
+    }
 
 }

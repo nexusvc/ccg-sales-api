@@ -109,7 +109,7 @@ class Quote {
     public static function verifications($type = null) {
         if(is_null($type)) return Verification::listVerificationTypes();
 
-        return Verification::byType(self::$ccg, $type);
+        return Verification::byType($type);
     }
 
     public static function setProductTypeClass() {

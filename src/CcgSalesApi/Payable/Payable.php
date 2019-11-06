@@ -2,6 +2,7 @@
 
 namespace Nexusvc\CcgSalesApi\Payable;
 
+use Nexusvc\CcgSalesApi\CCG;
 use Nexusvc\CcgSalesApi\Crypt\Crypt;
 use Nexusvc\CcgSalesApi\Exceptions\InvalidPayable;
 use Nexusvc\CcgSalesApi\Traits\Jsonable;
@@ -14,6 +15,8 @@ class Payable {
         'account'
     ];
 
+    protected $ccg;
+
     protected $cleanProperties = [];
 
     protected $crypt;
@@ -24,7 +27,9 @@ class Payable {
 
     public $account;
 
-    public function __construct($props = []) {
+    public function __construct(CCG &$ccg, $props = []) {
+
+        $this->ccg = $ccg;
 
         $this->crypt = new Crypt;
         
@@ -44,7 +49,7 @@ class Payable {
 
     public function get() {
         $class = $this->type;
-        $instance = new $class($this);
+        $instance = new $class($this->ccg, $this);
 
         $instance->validate();
 
@@ -94,7 +99,7 @@ class Payable {
 
     protected function tokenize($props = []) {
         $tokenize = array_dot($this->toArray());
-        return $this->token = new Token($this->crypt->encrypt($tokenize));
+        return $this->token = new Token($this->ccg, $this->crypt->encrypt($tokenize));
     }
 
     public function validate() {
@@ -103,6 +108,11 @@ class Payable {
 
     public function getPayType() {
         return $this->payType;
+    }
+
+    public function addToOrder() {
+        $this->ccg->order->addPayable($this);
+        return $this;
     }
 
 }

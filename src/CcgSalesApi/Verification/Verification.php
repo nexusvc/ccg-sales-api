@@ -37,38 +37,7 @@ class Verification extends Quote {
     }
 
     protected function setResponse($response) {
-        return $response->getContents();
-    }
-
-    public function invite(&$ccg) {
-        $token = self::$auth->accessToken;
-        
-        $params = self::$params;
-
-        $client = new Client($token);
-
-        $this->attributes = array_merge($this->attributes, $params);
-
-        $verification = [];
-
-        foreach($this->attributes as $attribute => $value) {
-            array_set($verification, $attribute, $value);
-        }
-
-        $schema = new \Nexusvc\CcgSalesApi\Schema\Schema($ccg->order);
-        $verification = $schema->load('version-one')->format();
-
-        $response = $this->setResponse($client->request('POST', $this->url, [
-            'form_params' => $verification
-        ]));
-        
-        $this->invited = true;
-
-        foreach($response as $key => $value) {
-            $ccg->order->verification->$key = $value;
-        }
-
-        return $ccg;
+        return $response;
     }
 
     protected function setType() {
@@ -76,7 +45,7 @@ class Verification extends Quote {
         $this->class = static::class;
     }
 
-    public static function byType(CCG &$ccg, $type) {
+    public static function byType($type) {
         $types = collect(static::listVerificationTypes());
         return $verification = $types->filter(function($verification) use ($type) {
             return $verification->type == studly_case($type);
@@ -105,8 +74,8 @@ class Verification extends Quote {
         return $this->url = ccg_url($uri);
     }
 
-    public function addToOrder(Order &$order) {
-        $order->addVerification($this);
+    public function addToOrder() {
+        parent::$ccg->order->addVerification($this);
         return $this;
     }
 

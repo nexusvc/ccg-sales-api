@@ -14,21 +14,11 @@ class CCG {
 
     protected $crypt    = Crypt\Crypt::class;
 
-    public $applicant   = Applicant\Applicant::class;
-
     public $auth        = Auth\Authentication::class;
 
     public $client      = Client\Client::class;
 
     public $order       = Order\Order::class;
-
-    public $payable     = Payable\Payable::class;
-
-    public $phone       = Contactable\Phone::class;
-
-    public $email       = Contactable\Email::class;
-
-    public $address     = Contactable\Address::class;
 
     public $quote       = Quote\Quote::class;
 
@@ -75,6 +65,26 @@ class CCG {
 
     public function encrypt($value) {
         return $this->crypt->encrypt($value);
+    }
+
+    public function applicant(array $params = []) {
+        return new Applicant\Applicant($this, $params);
+    }
+
+    public function payable(array $params = []) {
+        return new Payable\Payable($this, $params);
+    }
+
+    public function phone(string $phone) {
+        return new Contactable\Phone($phone);
+    }
+
+    public function email(string $email) {
+        return new Contactable\Email($email);
+    }
+
+    public function address(array $address) {
+        return new Contactable\Address($address);
     }
 
     public function quote(array $params = []) {

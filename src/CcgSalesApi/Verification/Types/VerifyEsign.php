@@ -11,15 +11,17 @@ class VerifyEsign extends Verification {
     protected $uri = "verification.esign.verify";
 
     protected static $params = [
-        'caseID'
+        'tokenID'
     ];
 
     protected $required = [
-        'caseID'
+        'tokenID'
     ];
 
     // Temporary fallback to 51 for completed caseId
-    public function byCaseId(&$ccg, $caseId = 51) {
+    public function byToken($tokenId = null) {
+
+        // dd('here');
         
         $token = self::$auth->accessToken;
         
@@ -34,55 +36,20 @@ class VerifyEsign extends Verification {
         foreach($this->attributes as $attribute => $value) {
             array_set($verification, $attribute, $value);
         }
-        
-        $verification['caseID'] = $caseId ? $caseId : 51;
 
+        $verification['tokenID'] = !is_null($tokenId) ? $tokenId : parent::$ccg->order->verification->tokenID;
         $this->url = strtr($this->url, $verification);
+        unset($verification[0]);
 
         $response = $this->setResponse($client->request('GET', $this->url, [
             'form_params' => $verification
         ]));
         
-        $ccg->order->verification = $ccg->order->verification->toArray();
-        
         foreach($response as $key => $value) {
-            array_set($ccg->order->verification, $key, $value);
+            parent::$ccg->order->verification->$key = $value;
         }
         
-        return $ccg;
-    }
-
-    public function invite(&$ccg) {
-
-        $token = self::$auth->accessToken;
-        
-        $params = self::$params;
-
-        $client = new Client($token);
-
-        $this->attributes = array_merge($this->attributes, $params);
-
-        $verification = [];
-
-        foreach($this->attributes as $attribute => $value) {
-            array_set($verification, $attribute, $value);
-        }
-        
-        $caseId = $ccg->order->verification->caseId;
-
-        $verification['caseID'] = ($caseId ? $caseId : 51);
-
-        $this->url = strtr($this->url, $verification);
-
-        $response = $this->setResponse($client->request('GET', $this->url, [
-            'form_params' => $verification
-        ]));
-
-        foreach($response as $key => $value) {
-            $ccg->order->verification->$key = $value;
-        }
-        
-        return $ccg;
+        return parent::$ccg->order->verification;
     }
 
 }
