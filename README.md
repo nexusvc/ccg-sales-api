@@ -455,14 +455,17 @@ Example output array as JSON:
     }
   ],
   "verification": {
-    "caseId": XXXX,
-    "esignIPAddress": "XXX.XXX.XXX.XXX",
+    "type": "Esign",
+    "esignCallbackUrl": "https://signal.leadtrust.io/callback/esignature",
+    "token": "NVpxVDdeOTdlMjhwb2FidVRjVWEwMmova3pWNWFqaGk=",
+    "otp": "XXXXXX",
+    "responseType": 0,
+    "responseMessage": null,
+    "esignIPAddress": null,
     "esignRecipient": "+1XXXXXXXXXX",
-    "esignUserDevice": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1",
-    "firstName": "JOHN",
-    "lastName": "DOE",
-    "verificationStatus": "Completed",
-    "eSignAcceptedDate": "2019-11-03T01:20:03.64-05:00"
+    "esignUserDevice": null,
+    "verificationStatus": "Pending",
+    "eSignAcceptedDate": "0001-01-01T00:00:00-05:00"
   },
   "total": 446.8,
   "deposit": 99.95,
