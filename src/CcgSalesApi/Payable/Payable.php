@@ -99,7 +99,22 @@ class Payable {
 
     protected function tokenize($props = []) {
         $tokenize = array_dot($this->toArray());
-        return $this->token = new Token($this->ccg, $this->crypt->encrypt($tokenize));
+
+        try {
+            $details = $this->validCreditCard($this->account);    
+        } catch(\Exception $e) {
+            $details = [];
+        }
+
+        return $this->token = new Token($this->ccg, $this->crypt->encrypt($tokenize), $details);
+    }
+
+    protected function setLast4($number) {
+        $this->last4 = substr($number, -4);
+    }
+
+    protected function setBrand($brand) {
+        $this->brand = studly_case($brand);
     }
 
     public function validate() {
@@ -108,6 +123,12 @@ class Payable {
 
     public function getPayType() {
         return $this->payType;
+    }
+
+    public function forVerification() {
+        $brand = $this->brand;
+        $last4 = $this->last4;
+        return "{$brand} ending in {$last4}";
     }
 
     public function addToOrder() {

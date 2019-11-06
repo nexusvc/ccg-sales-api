@@ -9,6 +9,8 @@ class BankAccount extends Payable {
 
     protected $cleanProperties = [];
 
+    public $brand = 'ACH Account';
+
     protected $clean = [
         'account',
         'routing'

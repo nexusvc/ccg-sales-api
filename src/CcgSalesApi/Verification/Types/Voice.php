@@ -90,7 +90,14 @@ class Voice extends Verification {
         // Temporary Create Verification Agent
         array_set($formattedVariables, camel_case('verificationAgent'), false);
 
+        // @todo: Temporary include recurring, deposit, and total
+
+        array_set($formattedVariables, 'monthlyAmount',  number_format((float)parent::$ccg->order->recurring, 2, '.', ''));
+        array_set($formattedVariables, 'enrollmentFeeAmount',  number_format((float)parent::$ccg->order->deposit, 2, '.', ''));
+        array_set($formattedVariables, 'firstPaymentAmount',  number_format((float)parent::$ccg->order->total, 2, '.', ''));
+
         $this->variables = $formattedVariables;
+
         return $this;
     }
 
@@ -142,6 +149,10 @@ class Voice extends Verification {
         return strtr($html, $replace);
     }
 
+    protected function isLocal($path) {
+        return strpos($path, 'http') !== false;
+    }
+
     public function getVariables() {
         return $this->variables;
     }
@@ -161,6 +172,12 @@ class Voice extends Verification {
     public function format() {
         $variables = $this->getPreparedVariables();
         $this->script = strtr($this->script, $variables);
+        return $this;
+    }
+
+    public function addRecording($path) {
+        // dd($this->isLocal($path));
+        $this->recording = $path;
         return $this;
     }
 
