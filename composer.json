@@ -23,7 +23,8 @@
         "goetas-webservices/xsd-reader": "^0.3.6",
         "guzzlehttp/guzzle": "^6.3",
         "illuminate/encryption": "~5.0",
-        "nesbot/carbon": "^2.25"
+        "nesbot/carbon": "^2.25",
+        "zendframework/zend-soap": "^2.8"
     },
     "require-dev": {
         

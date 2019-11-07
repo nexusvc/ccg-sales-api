@@ -129,7 +129,7 @@ class VersionOne extends Schema {
             if($applicant['relation'] == 'primary') {
                 foreach($applicant['contactable'] as $key => $value) {
                     if($key == 'phone') {
-                        if(!in_array($key, $this->excludes)) array_set($this->formatted, 'telephone', strip_country_prefix($value['phone']));
+                        if(!in_array($key, $this->excludes)) array_set($this->formatted, 'telephone', $value['phone']);
                     }
                 }
             }
@@ -141,7 +141,7 @@ class VersionOne extends Schema {
             if($applicant['relation'] == 'primary') {
                 foreach($applicant['contactable'] as $key => $value) {
                     if($key == 'phone') {
-                        if(!in_array($key, $this->excludes)) array_set($this->formatted, 'esignRecipient', strip_country_prefix($value['phone']));
+                        if(!in_array($key, $this->excludes)) array_set($this->formatted, 'esignRecipient', $value['phone']);
                     }
                 }
             }

@@ -66,6 +66,10 @@ class Quote {
             // $this->attributes['npn']            = "";
         }
 
+        if($this->uri == 'quote.limited_medical') {
+            // $this->attributes['npn'] = "9431497";
+        }
+
         // if($this->attributes['type']->type == "AddOn" ) dd($this->attributes, $params);
         return $this->setResponse($client->request('POST', $this->url, [
             'form_params' => $this->attributes
