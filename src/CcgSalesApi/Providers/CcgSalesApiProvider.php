@@ -23,6 +23,18 @@ class CcgSalesApiProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->alias('Ccg', CCG::class );
-    }   
+        $this->app['ccg'] = $this->app->share(function($app) {
+            return new CCG();
+        });
+    } 
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return array('ccg');
+    }
 }
