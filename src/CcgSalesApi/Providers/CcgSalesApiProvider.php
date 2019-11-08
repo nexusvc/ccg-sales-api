@@ -23,8 +23,8 @@ class CcgSalesApiProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app['ccg'] = $this->app->share(function($app) {
-            return new CCG();
+        $this->app->singleton('CCG', function($app) {
+            return new CCG;
         });
     } 
 
