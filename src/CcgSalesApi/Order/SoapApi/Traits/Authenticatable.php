@@ -4,8 +4,8 @@ namespace Nexusvc\CcgSalesApi\Order\SoapApi\Traits;
 
 trait Authenticatable {
 
-    public $userName  = 'WDoXypSdiasZ05ifujkz';
+    public $userName  = 'george.acle.61';
 
-    public $password = false;
+    public $password  = 'WDoXypSdiasZ05ifujkz';
     
 }
