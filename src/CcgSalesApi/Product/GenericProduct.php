@@ -12,7 +12,7 @@ class GenericProduct extends Quote {
 
     protected $required = [];
 
-    protected $type;
+    public $type;
 
     protected $uri = 'products';
 

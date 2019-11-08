@@ -76,6 +76,12 @@ class Quote {
         ]));
     }
 
+    public static function recommendedProducts($products, $state) {
+
+        return $products->first();
+
+    }
+
     protected function setRequiredAttributes() {
         foreach ($this->required as $required) {
             $this->attributes[$required] = false;
