@@ -61,6 +61,14 @@ class Quote {
 
         $this->attributes = $this->reformatAttributes($this->attributes);
 
+        if(array_key_exists('planId', $this->attributes) && array_key_exists('planID', $this->attributes)) {
+            $this->attributes['planID'] = $this->attributes['planId'];
+        }
+
+        if(array_key_exists('groupId', $this->attributes) && array_key_exists('groupID', $this->attributes)) {
+            $this->attributes['groupID'] = $this->attributes['groupId'];
+        }
+
         return $this->setResponse($client->request('POST', $this->url, [
             'form_params' => $this->attributes
         ]));
