@@ -51,32 +51,29 @@ class Quote {
     
     public function fetch() {
         
-        $token         = self::$auth->accessToken;
-        $params        = self::$params;
+        $token = self::$auth->accessToken;
+        
+        $params = self::$params;
         $params['npn'] = self::$auth->npn;
 
         $client = new Client($token);
 
         $this->attributes = array_merge($this->attributes, $params);
 
-        $this->attributes = $this->reformatAttributes($this->attributes);
+        // @todo: remove this temporary hard code for asking for voice script
+        if($this->uri == 'verification.voice.script') {
+            // dd($this->attributes);
+            // $this->attributes['npn']            = "";
+        }
 
+        if($this->uri == 'quote.limited_medical') {
+            // $this->attributes['npn'] = "9431497";
+        }
+
+        // if($this->attributes['type']->type == "AddOn" ) dd($this->attributes, $params);
         return $this->setResponse($client->request('POST', $this->url, [
             'form_params' => $this->attributes
         ]));
-    }
-
-    protected function reformatAttributes($attributes) {
-        $formatted = [];
-
-        foreach($attributes as $key => $value) {
-            if(ends_with($key, 'Id')) {
-                $key = str_replace('Id', 'ID', $key);
-            }
-
-            $formatted[$key] = $value;
-        }
-        return $formatted;
     }
 
     public static function recommendedProducts($products, $state) {
