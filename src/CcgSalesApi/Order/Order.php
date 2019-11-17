@@ -85,7 +85,7 @@ class Order {
                 $total += $product->retailAmount;
         }
         
-        return $this->recurring = (double) ($total);
+        return $this->recurring = (double) number_format((double) ($total), 2);
     }
 
     public function setDepositAttribute() {
@@ -96,7 +96,7 @@ class Order {
                 $total += $product->retailAmount;
         }
         
-        return $this->deposit = (double) ($total);
+        return $this->deposit = (double) number_format((double) ($total), 2);
     }
 
     public function validate() {

@@ -57,9 +57,4 @@ class GenericProduct extends Quote {
         $this->class = static::class;
     }
 
-    public function benefits() {
-        $benefits = new Types\ProductBenefits(parent::$ccg, $this->toArray());
-        return $benefits->fetch()->toArray();
-    }
-
 }

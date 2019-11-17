@@ -6,6 +6,12 @@ use Nexusvc\CcgSalesApi\Auth\Authentication;
 use Nexusvc\CcgSalesApi\CCG;
 use Nexusvc\CcgSalesApi\Client\Client;
 use Nexusvc\CcgSalesApi\Product\GenericProduct;
+use Nexusvc\CcgSalesApi\Product\Types\LimitedMedical;
+use Nexusvc\CcgSalesApi\Product\Types\AddOn;
+use Nexusvc\CcgSalesApi\Product\Types\Rate;
+use Nexusvc\CcgSalesApi\Product\Types\ShortTermMedical;
+use Nexusvc\CcgSalesApi\Product\Types\EnrollmentPlan;
+use Nexusvc\CcgSalesApi\Product\Types\ProductBenefits;
 use Nexusvc\CcgSalesApi\Traits\Jsonable;
 use Nexusvc\CcgSalesApi\Verification\Verification;
 
@@ -50,7 +56,7 @@ class Quote {
     }
     
     public function fetch() {
-        
+        //
         $token         = self::$auth->accessToken;
         $params        = self::$params;
         $params['npn'] = self::$auth->npn;
@@ -163,6 +169,12 @@ class Quote {
 
     protected function setVerification(Verification $verification) {
         $this->verification = $verification;
+        return $this;
+    }
+
+    public function benefits() {
+        $benefits = new ProductBenefits(self::$ccg, $this->toArray());
+        $this->benefits = $benefits->fetch();
         return $this;
     }
 

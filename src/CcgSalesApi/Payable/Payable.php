@@ -126,8 +126,10 @@ class Payable {
     }
 
     public function forVerification() {
+
         $brand = $this->brand;
         $last4 = $this->last4;
+        
         return "{$brand} ending in {$last4}";
     }
 
