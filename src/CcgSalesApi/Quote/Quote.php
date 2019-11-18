@@ -54,6 +54,15 @@ class Quote {
         $this->resources = $objects;
         return $this;
     }
+
+    public function createProduct($product) {
+        $type = "\\Nexusvc\\CcgSalesApi\\Product\\Types\\{$product['type']}";
+        
+        $product = collect($product)->camelCaseKeys();
+        $product = $product->toArray();
+
+        return (new $type(self::$ccg, self::$params, $product))->appendParams($product);
+    }
     
     public function fetch() {
         //
@@ -74,6 +83,8 @@ class Quote {
         if(array_key_exists('groupId', $this->attributes) && array_key_exists('groupID', $this->attributes)) {
             $this->attributes['groupID'] = $this->attributes['groupId'];
         }
+
+        if(array_key_exists('state', $this->attributes)) $this->attributes['state'] = formatState($this->attributes['state']);
 
         return $this->setResponse($client->request('POST', $this->url, [
             'form_params' => $this->attributes

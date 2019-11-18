@@ -1,0 +1,105 @@
+{
+    "soap:Envelope": {
+        "@xmlns:soap": "http://www.w3.org/2003/05/soap-envelope", 
+        "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance", 
+        "@xmlns:xsd": "http://www.w3.org/2001/XMLSchema", 
+        "soap:Body": {
+            "BillingHistorySelectResponse": {
+                "@xmlns": "http://enrollment.mymemberinfo.com/", 
+                "BillingHistorySelectResult": {
+                    "Receipt": {
+                        "ReceiptId": {
+                            "@xmlns": "http://enrollment.mymemberinfo.com/Enroll.xsd", 
+                            "#text": "0"
+                        }, 
+                        "ReceiptDate": {
+                            "@xmlns": "http://enrollment.mymemberinfo.com/Enroll.xsd", 
+                            "#text": "2019-11-01"
+                        }, 
+                        "BillDate": {
+                            "@xmlns": "http://enrollment.mymemberinfo.com/Enroll.xsd", 
+                            "#text": "2019-11-15"
+                        }, 
+                        "Amount": {
+                            "@xmlns": "http://enrollment.mymemberinfo.com/Enroll.xsd", 
+                            "#text": "431.85"
+                        }, 
+                        "Credit": {
+                            "@xmlns": "http://enrollment.mymemberinfo.com/Enroll.xsd", 
+                            "#text": "false"
+                        }, 
+                        "ResultDetail": {
+                            "@xmlns": "http://enrollment.mymemberinfo.com/Enroll.xsd", 
+                            "#text": "APPROVED"
+                        }, 
+                        "PackageBill": [
+                            {
+                                "@xmlns": "http://enrollment.mymemberinfo.com/Enroll.xsd", 
+                                "PackageId": "0", 
+                                "PlanId": "1", 
+                                "PlanName": "Lifetime Association Fee", 
+                                "BillDate": "2019-11-15", 
+                                "Amount": "99.95", 
+                                "Credit": "false"
+                            }, 
+                            {
+                                "@xmlns": "http://enrollment.mymemberinfo.com/Enroll.xsd", 
+                                "PackageId": "0", 
+                                "PlanId": "5", 
+                                "PlanName": "Choice", 
+                                "BillDate": "2019-11-15", 
+                                "Amount": "191.95", 
+                                "Credit": "false"
+                            }, 
+                            {
+                                "@xmlns": "http://enrollment.mymemberinfo.com/Enroll.xsd", 
+                                "PackageId": "0", 
+                                "PlanId": "14", 
+                                "PlanName": "HB Marketing Fee", 
+                                "BillDate": "2019-11-15", 
+                                "Amount": "0", 
+                                "Credit": "false"
+                            }, 
+                            {
+                                "@xmlns": "http://enrollment.mymemberinfo.com/Enroll.xsd", 
+                                "PackageId": "0", 
+                                "PlanId": "39", 
+                                "PlanName": "Marketing Fee CH CHP", 
+                                "BillDate": "2019-11-15", 
+                                "Amount": "78", 
+                                "Credit": "false"
+                            }, 
+                            {
+                                "@xmlns": "http://enrollment.mymemberinfo.com/Enroll.xsd", 
+                                "PackageId": "0", 
+                                "PlanId": "40", 
+                                "PlanName": "Management Fee II", 
+                                "BillDate": "2019-11-15", 
+                                "Amount": "0", 
+                                "Credit": "false"
+                            }, 
+                            {
+                                "@xmlns": "http://enrollment.mymemberinfo.com/Enroll.xsd", 
+                                "PackageId": "0", 
+                                "PlanId": "752", 
+                                "PlanName": "Plus 100 Legacy 200 for Choice Choice Plus", 
+                                "BillDate": "2019-11-15", 
+                                "Amount": "57.95", 
+                                "Credit": "false"
+                            }, 
+                            {
+                                "@xmlns": "http://enrollment.mymemberinfo.com/Enroll.xsd", 
+                                "PackageId": "0", 
+                                "PlanId": "756", 
+                                "PlanName": "Marketing Fee 100 Legacy", 
+                                "BillDate": "2019-11-15", 
+                                "Amount": "4", 
+                                "Credit": "false"
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    }
+}

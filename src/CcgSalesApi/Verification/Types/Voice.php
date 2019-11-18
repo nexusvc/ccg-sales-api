@@ -97,7 +97,7 @@ class Voice extends Verification {
         }
 
         // Temporary Create Verification Agent
-        array_set($formattedVariables, camel_case('verificationAgent'), false);
+        // array_set($formattedVariables, camel_case('verificationAgent'), false);
 
         // @todo: Temporary include recurring, deposit, and total
         array_set($formattedVariables, 'monthlyAmount',  number_format((float)parent::$ccg->order->recurring, 2, '.', ''));

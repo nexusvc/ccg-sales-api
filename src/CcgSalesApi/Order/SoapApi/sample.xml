@@ -1,0 +1,86 @@
+<Enrollment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://enrollment.mymemberinfo.com/Enroll.xsd">
+  <Member>
+    <GroupId>12354</GroupId>
+    <FirstName>Jack</FirstName>
+    <LastName>Bauerfamily</LastName>
+    <AgentId>100006444</AgentId>
+    <DateOfBirth>1982-02-05</DateOfBirth>
+    <StartDate>2018-10-02</StartDate>
+    <Telephone1>5165769264</Telephone1>
+    <TerminateDate xsi:nil="true" />
+    <EffectiveDate>2018-10-03</EffectiveDate>
+    <Gender>M</Gender>
+    <EnrollmentStatus>NotEnrolled</EnrollmentStatus>
+    <Email>lwallace@ccgfamily.com</Email>
+    <CoverageType>Family</CoverageType>
+    <MaritalStatus>Unspecified</MaritalStatus>
+    <Address1>Test Street</Address1>
+    <Address2>Address Line 2</Address2>
+    <City>Oz</City>
+    <State>KS</State>
+    <Zip>23456</Zip>
+    <prevIns>0</prevIns>
+    <VerificationMethod>2</VerificationMethod>
+    <ESignIPadress>10.0.100.26</ESignIPadress>
+    <ESignDateTimeStamp>2018-10-02T14:17:15.0837638-04:00</ESignDateTimeStamp>
+    <ESignSMSRecipient>5165769264</ESignSMSRecipient>
+    <ESignUserDevice>Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36</ESignUserDevice>
+    <ExternalUniqueID>0</ExternalUniqueID>
+  </Member>
+  <Account>
+    <AccountType>CreditCard</AccountType>
+    <AccountFirstName>Jack</AccountFirstName>
+    <AccountLastName>Bauerfamily</AccountLastName>
+    <IsPayrollDeduct>false</IsPayrollDeduct>
+    <Address1>Test Street</Address1>
+    <Address2>Address Line 2</Address2>
+    <City>Oz</City>
+    <State>KS</State>
+    <Zip>23456</Zip>
+    <CreditCardNumber>o0fuFmYMjXY=</CreditCardNumber>
+    <Ccv></Ccv>
+    <CreditCardExpirationMonth>Xbpq4I7Zgo4=</CreditCardExpirationMonth>
+    <CreditCardExpirationYear>I7Dw53RcAK0=</CreditCardExpirationYear>
+  </Account>
+  <Package>
+    <PlanId>89</PlanId>
+    <CoverageType>Family</CoverageType>
+    <IsOneTimeCharge>false</IsOneTimeCharge>
+  </Package>
+  <Package>
+    <PlanId>1</PlanId>
+    <CoverageType>Family</CoverageType>
+    <IsOneTimeCharge>true</IsOneTimeCharge>
+  </Package>
+  <Package>
+    <PlanId>501</PlanId>
+    <CoverageType>Family</CoverageType>
+    <IsOneTimeCharge>false</IsOneTimeCharge>
+  </Package>
+  <Dependent>
+    <DependentId>0</DependentId>
+    <FirstName>Jaclyn</FirstName>
+    <LastName>Bauerfamily</LastName>
+    <DateOfBirth>1982-01-07T00:00:00</DateOfBirth>
+    <DependentType>Spouse</DependentType>
+    <Gender>F</Gender>
+    <IsStudent>false</IsStudent>
+    <EffectiveDate>0001-01-01</EffectiveDate>
+  </Dependent>
+  <Dependent>
+    <DependentId>699006372</DependentId>
+    <FirstName>Jackson</FirstName>
+    <LastName>Bauerfamily</LastName>
+    <DateOfBirth>2012-04-09T00:00:00</DateOfBirth>
+    <DependentType>Child</DependentType>
+    <Gender>M</Gender>
+    <IsStudent>false</IsStudent>
+    <EffectiveDate>0001-01-01</EffectiveDate>
+  </Dependent>
+  <Charge>
+    <BillDate>2018-10-03</BillDate>
+    <ReceiptDate>2018-10-02</ReceiptDate>
+    <TRXTYPE>S</TRXTYPE>
+  </Charge>
+  <DiscountCouponCode xsi:nil="true" />
+</Enrollment>
