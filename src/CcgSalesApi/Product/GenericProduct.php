@@ -27,6 +27,7 @@ class GenericProduct extends Quote {
             $this->{$key} = $value;
         }
         
+        $this->npn = $ccg->auth->npn;
         parent::__construct($ccg, $params);
     }
 

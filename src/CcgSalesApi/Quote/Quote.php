@@ -86,6 +86,8 @@ class Quote {
 
         if(array_key_exists('state', $this->attributes)) $this->attributes['state'] = formatState($this->attributes['state']);
 
+        // if(str_contains($this->url, 'GetVoiceVerificationScript'))  dd(response()->json($this->attributes));
+
         return $this->setResponse($client->request('POST', $this->url, [
             'form_params' => $this->attributes
         ]));
