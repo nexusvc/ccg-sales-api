@@ -6,6 +6,12 @@ use Nexusvc\CcgSalesApi\Auth\Authentication;
 use Nexusvc\CcgSalesApi\CCG;
 use Nexusvc\CcgSalesApi\Client\Client;
 use Nexusvc\CcgSalesApi\Product\GenericProduct;
+use Nexusvc\CcgSalesApi\Product\Types\LimitedMedical;
+use Nexusvc\CcgSalesApi\Product\Types\AddOn;
+use Nexusvc\CcgSalesApi\Product\Types\Rate;
+use Nexusvc\CcgSalesApi\Product\Types\ShortTermMedical;
+use Nexusvc\CcgSalesApi\Product\Types\EnrollmentPlan;
+use Nexusvc\CcgSalesApi\Product\Types\ProductBenefits;
 use Nexusvc\CcgSalesApi\Traits\Jsonable;
 use Nexusvc\CcgSalesApi\Verification\Verification;
 
@@ -48,9 +54,18 @@ class Quote {
         $this->resources = $objects;
         return $this;
     }
+
+    public function createProduct($product) {
+        $type = "\\Nexusvc\\CcgSalesApi\\Product\\Types\\{$product['type']}";
+        
+        $product = collect($product)->camelCaseKeys();
+        $product = $product->toArray();
+
+        return (new $type(self::$ccg, self::$params, $product))->appendParams($product);
+    }
     
     public function fetch() {
-        
+        //
         $token         = self::$auth->accessToken;
         $params        = self::$params;
         $params['npn'] = self::$auth->npn;
@@ -68,6 +83,10 @@ class Quote {
         if(array_key_exists('groupId', $this->attributes) && array_key_exists('groupID', $this->attributes)) {
             $this->attributes['groupID'] = $this->attributes['groupId'];
         }
+
+        if(array_key_exists('state', $this->attributes)) $this->attributes['state'] = formatState($this->attributes['state']);
+
+        // if(str_contains($this->url, 'GetVoiceVerificationScript'))  dd(response()->json($this->attributes));
 
         return $this->setResponse($client->request('POST', $this->url, [
             'form_params' => $this->attributes
@@ -163,6 +182,12 @@ class Quote {
 
     protected function setVerification(Verification $verification) {
         $this->verification = $verification;
+        return $this;
+    }
+
+    public function benefits() {
+        $benefits = new ProductBenefits(self::$ccg, $this->toArray());
+        $this->benefits = $benefits->fetch();
         return $this;
     }
 

@@ -102,6 +102,8 @@ class Esign extends Verification {
 
         if(!is_null($callbackUrl)) $this->esignCallbackUrl = $verification['esignCallbackUrl'] = $callbackUrl;
 
+        if(array_key_exists('state', $verification)) $verification['state'] = formatState($verification['state']);
+
         $response = $this->setResponse($client->request('POST', $this->url, [
             'form_params' => $verification
         ]));

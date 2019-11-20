@@ -26,4 +26,8 @@ class Contactable {
         return $this->type;
     }
 
+    public function __toString() {
+        return $this->getLocation();
+    }
+
 }

@@ -59,9 +59,8 @@ class VoiceScript extends Schema {
 
     protected function setAddOnPlanIds() {
         $planIds = [];
-
         foreach($this->payload['products'] as $product) {
-            if(array_key_exists('addOnType', $product)) {
+            if(array_key_exists('addOnType', $product) && $product['addOnType']) {
                 $planIds[] = $product['planId'];
             }
         }

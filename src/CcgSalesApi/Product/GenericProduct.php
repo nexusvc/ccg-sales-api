@@ -27,6 +27,7 @@ class GenericProduct extends Quote {
             $this->{$key} = $value;
         }
         
+        $this->npn = $ccg->auth->npn;
         parent::__construct($ccg, $params);
     }
 
@@ -55,11 +56,6 @@ class GenericProduct extends Quote {
     protected function setType() {
         $this->type = (new \ReflectionClass($this))->getShortName();
         $this->class = static::class;
-    }
-
-    public function benefits() {
-        $benefits = new Types\ProductBenefits(parent::$ccg, $this->toArray());
-        return $benefits->fetch()->toArray();
     }
 
 }
