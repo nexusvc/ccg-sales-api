@@ -10,6 +10,8 @@ class Esign extends Verification {
 
     protected $uri = "verification.esign.invite";
 
+    protected $phone = false;
+
     protected static $params = [
         'caseID',
         'groupID',
@@ -81,6 +83,12 @@ class Esign extends Verification {
         return $verify->byToken($this->token)->toArray();
     }
 
+    public function usingPhoneNumber($phone = null) {
+        if($phone) $this->phone = $phone;
+
+        return $this;
+    }
+
     public function invite($callbackUrl = null) {
         
         $token = self::$auth->accessToken;
@@ -104,6 +112,8 @@ class Esign extends Verification {
 
         if(array_key_exists('state', $verification)) $verification['state'] = formatState($verification['state']);
 
+        if($this->phone) $verification['esignRecipient'] = $this->phone;
+
         $response = $this->setResponse($client->request('POST', $this->url, [
             'form_params' => $verification
         ]));
@@ -120,3 +130,5 @@ class Esign extends Verification {
     }
 
 }
+
+
