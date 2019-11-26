@@ -235,7 +235,7 @@ class Enrollment extends Schema {
                $tmp['FirstName'] = $applicant['firstName'];
                $tmp['LastName'] = $applicant['lastName'];
                $tmp['DateOfBirth'] = \Carbon::parse($applicant['dob'])->format('Y-m-d');
-               $tmp['DependentType'] = $applicant['relation'];
+               $tmp['DependentType'] = ucfirst($applicant['relation']);
                $tmp['Gender'] = $this->setGender($applicant['gender']);
 
                $this->formatted['Dependent']->push($tmp);
