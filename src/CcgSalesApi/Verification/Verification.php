@@ -45,6 +45,15 @@ class Verification extends Quote {
         $this->class = static::class;
     }
 
+    public function createVerification($verification) {
+        $type = "\\Nexusvc\\CcgSalesApi\\Verification\\Types\\{$verification['type']}";
+        
+        $verification = collect($verification)->camelCaseKeys();
+        $verification = $verification->toArray();
+
+        return (new $type(self::$ccg, self::$params, $verification));
+    }
+
     public static function byType($type) {
         $types = collect(static::listVerificationTypes());
         return $verification = $types->filter(function($verification) use ($type) {
