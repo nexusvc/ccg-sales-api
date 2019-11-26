@@ -2,8 +2,6 @@
 
 namespace Nexusvc\CcgSalesApi\Order\SoapApi;
 
-require_once __DIR__ . '/../../../../vendor/autoload.php';
-
 use Zend\Soap\Client;
 use Nexusvc\CcgSalesApi\Order\SoapApi\Types\Account;
 use Nexusvc\CcgSalesApi\Order\SoapApi\Types\AccountType;
