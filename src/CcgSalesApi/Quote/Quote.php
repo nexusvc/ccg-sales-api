@@ -55,6 +55,15 @@ class Quote {
         return $this;
     }
 
+    public function createVerification($verification) {
+        $type = "\\Nexusvc\\CcgSalesApi\\Verification\\Types\\{$verification['type']}";
+        
+        $verification = collect($verification)->camelCaseKeys();
+        $verification = $verification->toArray();
+
+        return (new $type(self::$ccg, self::$params, $verification))->appendParams($verification);
+    }
+
     public function createProduct($product) {
         $type = "\\Nexusvc\\CcgSalesApi\\Product\\Types\\{$product['type']}";
         
