@@ -130,21 +130,35 @@ class ChargeOrder {
     }
 
 
-    public function charge() {
+    public function charge($debug = false) {
         $enrollment = false;
 
         $enroll = new EnrollmentService();
         $schema = new Schema($this->order);
         $schema = $schema->load('enrollment')->format();
+
         $xml = $this->getXmlString($schema);
 
         try {
             $enrollment = $enroll->enroll( $xml );
+            $response = [
+                'status' => 'success',
+                'member_id' => $enrollment['EnrollmentInsertSimpleResponse']
+            ];
+
+            if($debug) $response['request'] = $xml;
+
         } catch (\Exception $e) {
-            \Log::debug($e->getMessage(), ['xml' => $xml]);
+            $response = [
+                'status' => 'failed',
+                'member_id' => false,
+                'message' => $e->getMessage()
+            ];
+
+            if($debug) $response['request'] = $xml;
         }
 
-        return ['enrollment' => $enrollment];
+        return $response;
     }
 
 }
