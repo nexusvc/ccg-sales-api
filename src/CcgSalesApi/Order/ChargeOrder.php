@@ -117,7 +117,7 @@ class ChargeOrder {
         
         if(count($data['Dependent'])) {
             foreach ($data['Dependent'] as $key => $dependent) {
-                $xml .= "<Dependent><DependentId>{$key}</DependentId><FirstName>{$dependent['FirstName']}</FirstName><LastName>{$dependent['LastName']}</LastName><DateOfBirth>{$dependent['DateOfBirth']}</DateOfBirth><DependentType>{$dependent['DependentType']}</DependentType><Gender>{$dependent['Gender']}</Gender><IsStudent>false</IsStudent><EffectiveDate>{$data['Member']['EffectiveDate']}</EffectiveDate></Dependent>";
+                $xml .= "<Dependent><DependentId>0</DependentId><FirstName>{$dependent['FirstName']}</FirstName><LastName>{$dependent['LastName']}</LastName><DateOfBirth>{$dependent['DateOfBirth']}</DateOfBirth><DependentType>{$dependent['DependentType']}</DependentType><Gender>{$dependent['Gender']}</Gender><IsStudent>false</IsStudent><EffectiveDate>{$data['Member']['EffectiveDate']}</EffectiveDate></Dependent>";
             }
         }
         
@@ -132,8 +132,6 @@ class ChargeOrder {
         $schema = new Schema($this->order);
         $schema = $schema->load('enrollment')->format();
         $xml = $this->getXmlString($schema);
-
-        dd($xml);
         return $enroll->enroll( $xml );
     }
 
