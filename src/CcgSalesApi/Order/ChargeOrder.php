@@ -203,7 +203,7 @@ class ChargeOrder {
 
     public function charge() {
         $enroll = new EnrollmentService();
-        return $enroll->getBillingHistory('CTC3014992', 12360);
+        return $enroll->enroll($this->order);
         // $billingSelect = new BillingHistorySelect(['memberId' => 'CTC3014992', 'groupId' => '12360']);
 
         // $response = ($this->client->BillingHistorySelect($billingSelect));
