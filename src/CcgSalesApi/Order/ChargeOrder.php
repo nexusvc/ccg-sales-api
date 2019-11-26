@@ -141,7 +141,7 @@ class ChargeOrder {
         try {
             $enrollment = $enroll->enroll( $xml );
         } catch (\Exception $e) {
-            \Log::debug($xml);
+            \Log::debug($e->getMessage(), ['xml' => $xml]);
         }
 
         return ['enrollment' => $enrollment];
