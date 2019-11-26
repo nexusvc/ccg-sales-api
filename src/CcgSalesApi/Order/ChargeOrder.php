@@ -2,12 +2,9 @@
 
 namespace Nexusvc\CcgSalesApi\Order;
 
-// require_once __DIR__ . '/../../../../../autoload.php';
-
 use Nexusvc\CcgSalesApi\Crypt\Crypt;
 use Nexusvc\CcgSalesApi\Schema\Schema;
 use Nexusvc\CcgSalesApi\Traits\Jsonable;
-
 use Zend\Soap\Client;
 use Nexusvc\CcgSalesApi\Order\SoapApi\EnrollmentService;
 use Nexusvc\CcgSalesApi\Order\SoapApi\Types\UpdatedErnollmentSelect;
@@ -128,11 +125,20 @@ class ChargeOrder {
 
 
     public function charge() {
+        $enrollment = false;
+
         $enroll = new EnrollmentService();
         $schema = new Schema($this->order);
         $schema = $schema->load('enrollment')->format();
         $xml = $this->getXmlString($schema);
-        return $enroll->enroll( $xml );
+
+        try {
+            $enrollment = $enroll->enroll( $xml );
+        } catch (\Exception $e) {
+            \Log::debug($xml);
+        }
+
+        return ['enrollment' => $enrollment];
     }
 
 }
