@@ -229,7 +229,7 @@ class Enrollment extends Schema {
        array_set($this->formatted, 'Dependent', collect([]));
 
        foreach($this->payload['applicants'] as $applicant) {
-           if($applicant['relation'] != 'primary' || $applicant['relation'] != 'self') {
+           if($applicant['relation'] != 'primary' && $applicant['relation'] != 'self') {
                $tmp = [];
 
                $tmp['FirstName'] = $applicant['firstName'];
