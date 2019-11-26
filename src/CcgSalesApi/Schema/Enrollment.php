@@ -38,75 +38,75 @@ class Enrollment extends Schema {
     }
 
     public function format() {
-        
-        // $this->reader = new SchemaReader();
-        // $this->schema = $reader->readFile("https://enrollment.mymemberinfo.com/Enroll.xsd");
-
-        // dd($this->schema);
-        
         $this->setMember();
-
         $this->setAccount();
         $this->setPackages();
         $this->setDependents();
         $this->setCharge();
+        $this->setPaymentInfo();
         $this->setDiscountCouponCode();
 
         $array = (new static($this->formatted))->setFormatted($this->formatted)->toArray();
         $array['Package'] = [];
         foreach($this->payload['products'] as $product) {
-            // $package = $xml->addChild('Package');
             $product = $this->getPackage($product);
-            // foreach($product as $key => $value) {
-                array_push($array['Package'], $product);
-            // }
+            $array['Package'][] = $product;
         }
-
-        // $array = $this->soapify($array);
-        
-        
-        //set up the service client using WSDL
-        // $uri    = "https://enrollmentbeta.mymemberinfo.com/EnrollmentService.asmx?WSDL";
-        // $client = new \SoapClient($uri);
         
         foreach($array as $key => $value) {
             $this->$key = $value;
         }
 
         return $this->toArray();
+    }
 
-        // // dd($array);
-        // // $response = $client->__soapCall("EnrollmentInsert", $array);
-        // dd($client->__getTypes());
+    protected function setEffectiveDate() {
+        foreach($this->payload['products'] as $product) {
+            if(array_key_exists('effectiveDate', $product) && array_key_exists('quoteType', $product) && $product['quoteType'] == 'LM') {
+                return $product['effectiveDate'];
+            }
+        }
+    }
 
-        // $result = $client->EnrollmentInsert(new \SoapParam($array, 'Enrollment'));
-        // dd($result);
-
-        // $params = new \SoapVar($xml->asXML(), XSD_ANYXML);
-        // $result = $client->Echo($params);
+    protected function setPaymentInfo() {
+        $pay = [];
+        $payable = $this->instance->detokenize();
+        if($payable['payType'] == 'CC') {
+            $pay['CreditCardNumber'] = $payable['ccNumber'];
+            $pay['Ccv'] = $payable['cvv'];
+            $pay['CreditCardExpirationMonth'] = $payable['ccExpMonth'];
+            $pay['CreditCardExpirationYear'] = $payable['ccExpYear'];
+            $pay['AccountType'] = 'CreditCard';
+            $pay['AccountFirstName'] = $this->getPrimaryApplicant('firstName');
+            $pay['AccountLastName'] = $this->getPrimaryApplicant('lastName');
+            $pay['IsPayrollDeduct'] = false;
+            $pay['Address1'] = $this->getPrimaryApplicant('contactable.address.street1');
+            $pay['Address2'] = $this->getPrimaryApplicant('contactable.address.street2');
+            $pay['City'] = $this->getPrimaryApplicant('contactable.address.city');
+            $pay['State'] = formatState($this->getPrimaryApplicant('contactable.address.state'));
+            $pay['Zip'] = $this->getPrimaryApplicant('contactable.address.zip');
+            $pay['CheckingAccountNumber'] = false;
+            $pay['CheckingRoutingNumber'] = false;
+        }
         
-        // dd($client, $params);
-        
-
-        return \Response::make($xml->asXML(), '200')->header('Content-Type', 'text/xml');
-        
-
-        return $xml->asXML();
-
+        array_set($this->formatted, 'Account', $pay);
     }
 
     protected function setMember() {
-        // dd(array_dot($this->payload));
+
+        $phone = strip_country_prefix(preg_replace("/[^0-9]/", "", $this->getPrimaryApplicant('contactable.phone.phone')));
+        $esignRecipient = strip_country_prefix(preg_replace("/[^0-9]/", "", array_get($this->payload, 'verification.esignRecipient')));
+
         array_set($this->formatted, 'Member', [
             'GroupId' => $this->getGroupId(),
             'FirstName' => $this->getPrimaryApplicant('firstName'),
             'LastName' =>  $this->getPrimaryApplicant('lastName'),
             'AgentId' => $this->getAgentId(),
-            'DateOfBirth' =>  $this->getPrimaryApplicant('dob'),
-            'StartDate' => false,
-            'Telephone1' => $this->getPrimaryApplicant('contactable.phone.phone'),
+            'DateOfBirth' =>  \Carbon::parse($this->getPrimaryApplicant('dob'))->format('Y-m-d'),
+            'StartDate' => \Carbon::parse(array_get($this->payload, 'products.0.chargeOn'))->format('Y-m-d'),
+            'Telephone1' => $phone,
             'TerminateDate' => null,
-            'EffectiveDate' => false,
+            'EffectiveDate' => \Carbon::parse(array_get($this->payload, 'products.0.effectiveOn'))->format('Y-m-d'),
             'Gender' =>  $this->setGender($this->getPrimaryApplicant('gender')),
             'EnrollmentStatus' => 'NotEnrolled',
             'Email' => $this->getPrimaryApplicant('contactable.email.email'),
@@ -115,13 +115,13 @@ class Enrollment extends Schema {
             'Address1' => $this->getPrimaryApplicant('contactable.address.street1'),
             'Address2' => $this->getPrimaryApplicant('contactable.address.street2'),
             'City' => $this->getPrimaryApplicant('contactable.address.city'),
-            'State' => $this->getPrimaryApplicant('contactable.address.state'),
+            'State' => formatState($this->getPrimaryApplicant('contactable.address.state')),
             'Zip' => $this->getPrimaryApplicant('contactable.address.zip'),
             'prevIns' => 0,
             'VerificationMethod' => $this->setVerificationMethod(),
             'ESignIPaddress' => array_get($this->payload, 'verification.esignIPAddress'),
-            'ESignDateTimeStamp' => array_get($this->payload, 'verification.eSignAcceptedDate'),
-            'ESignSMSRecipient' =>  array_get($this->payload, 'verification.esignRecipient'),
+            'ESignDateTimeStamp' => array_get($this->payload, 'verification.esignAcceptedDate'),
+            'ESignSMSRecipient' =>  $esignRecipient,
             'ESignUserDevice' =>  array_get($this->payload, 'verification.esignUserDevice'),
             'ExternalUniqueID' => array_get($this->payload, 'applicants.0.id'),
         ]);
@@ -224,7 +224,23 @@ class Enrollment extends Schema {
 
     protected function setDependents() {
         
-        // array_set($this->formatted, 'Dependent', []);
+       if(count($this->payload['applicants']) === 1) return;
+               
+       array_set($this->formatted, 'Dependent', collect([]));
+
+       foreach($this->payload['applicants'] as $applicant) {
+           if($applicant['relation'] != 'primary' || $applicant['relation'] != 'self') {
+               $tmp = [];
+
+               $tmp['FirstName'] = $applicant['firstName'];
+               $tmp['LastName'] = $applicant['lastName'];
+               $tmp['DateOfBirth'] = \Carbon::parse($applicant['dob'])->format('Y-m-d');
+               $tmp['DependentType'] = $applicant['relation'];
+               $tmp['Gender'] = $this->setGender($applicant['gender']);
+
+               $this->formatted['Dependent']->push($tmp);
+           }
+       }
     }
 
     protected function setCharge() {

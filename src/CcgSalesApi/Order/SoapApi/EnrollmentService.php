@@ -127,8 +127,10 @@ class EnrollmentService {
         return json_encode($this->toArray(), true);
     }
 
-    public function enroll($params) {
-        return $this->response(($this->client->EnrollmentInsertSimple(new EnrollmentInsertSimple($params))));
+    public function enroll($xmlString) {
+        $EnrollmentInsert = new EnrollmentInsertSimple($xmlString);
+        $enroll = $this->client->EnrollmentInsertSimple($EnrollmentInsert);
+        return $this->response($enroll);
     }
 
     public function getBillingHistory(string $memberId, int $groupId) {

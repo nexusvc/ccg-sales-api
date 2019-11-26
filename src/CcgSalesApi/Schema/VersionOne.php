@@ -11,13 +11,24 @@ class VersionOne extends Schema {
     protected $excludes = ['contactable','type','id','address','relation'];
 
     protected $keys = [
-        'caseId' => 'caseID',
+        'caseId'  => 'caseID',
         'groupId' => 'groupID',
-        'dob' => 'dateOfBirth',
-        'phone' => 'telephone',
+        'dob'     => 'dateOfBirth',
+        'phone'   => 'telephone',
         'street1' => 'address1',
         'street2' => 'address2',
-        'agentId' => 'agentID'
+        'agentId' => 'agentID',
+        'dependents.0.dob' => 'dependents.0.dateOfBirth',
+        'dependents.1.dob' => 'dependents.1.dateOfBirth',
+        'dependents.2.dob' => 'dependents.2.dateOfBirth',
+        'dependents.3.dob' => 'dependents.3.dateOfBirth',
+        'dependents.4.dob' => 'dependents.4.dateOfBirth',
+        'dependents.5.dob' => 'dependents.5.dateOfBirth',
+        'dependents.6.dob' => 'dependents.6.dateOfBirth',
+        'dependents.7.dob' => 'dependents.7.dateOfBirth',
+        'dependents.8.dob' => 'dependents.8.dateOfBirth',
+        'dependents.9.dob' => 'dependents.9.dateOfBirth',
+        'dependents.10.dob' => 'dependents.10.dateOfBirth'
     ];
 
     public function format() {
@@ -99,9 +110,11 @@ class VersionOne extends Schema {
         foreach($this->payload['applicants'] as $applicant) {
             if($applicant['relation'] != 'primary') {
                 $tmp = [];
+
                 foreach($applicant as $key => $value) {
                     if(!in_array($key, $this->excludes)) array_set($tmp, $key, $value);
                 }
+
                 if($applicant['relation'] == 'spouse') $tmp['dependentType'] = 0;
                 if($applicant['relation'] == 'child') $tmp['dependentType'] = 1;
 

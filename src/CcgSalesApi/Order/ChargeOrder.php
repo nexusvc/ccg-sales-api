@@ -2,7 +2,7 @@
 
 namespace Nexusvc\CcgSalesApi\Order;
 
-require_once __DIR__ . '/../../../../../../vendor/autoload.php';
+// require_once __DIR__ . '/../../../../../autoload.php';
 
 use Nexusvc\CcgSalesApi\Crypt\Crypt;
 use Nexusvc\CcgSalesApi\Schema\Schema;
@@ -95,129 +95,46 @@ class ChargeOrder {
 
     use Jsonable;
 
-    protected $classmap;
-
-    protected $client;
-
-    protected $config;
-
     protected $order;
 
-    protected $wsdl;
-
     public function __construct(Order $order) {
-        
         $this->order = $order;
-
-        $this->classmap = [
-            // 'Account' => Account::class,
-            // 'AccountType' => AccountType::class,
-            // 'AgeBandedPlanContract' => AgeBandedPlanContract::class,
-            // 'AgeBandedPlanQuoteContract' => AgeBandedPlanQuoteContract::class,
-            // 'ArrayOfAgeBandedPlanQuoteContract' => ArrayOfAgeBandedPlanQuoteContract::class,
-            // 'ArrayOfEnrollment' => ArrayOfEnrollment::class,
-            // 'ArrayOfFulfillmentLog' => ArrayOfFulfillmentLog::class,
-            // 'ArrayOfMember' => ArrayOfMember::class,
-            // 'ArrayOfReceipt' => ArrayOfReceipt::class,
-            // 'ArrayOfServiceLog' => ArrayOfServiceLog::class,
-            // 'ArrayOfSTMKnockoutQuestions' => ArrayOfSTMKnockoutQuestions::class,
-            // 'ArrayOfSTMPersonContract' => ArrayOfSTMPersonContract::class,
-            // 'ArrayOfSTMQuoteContract' => ArrayOfSTMQuoteContract::class,
-            // 'Beneficiary' => Beneficiary::class,
-            // 'BeneficiaryType' => BeneficiaryType::class,
-            // 'BillingHistorySelect' => BillingHistorySelect::class,
-            // 'BillingHistorySelectResponse' => BillingHistorySelectResponse::class,
-            // 'CheckingAccountType' => CheckingAccountType::class,
-            // 'CoverageType' => CoverageType::class,
-            // 'CoverageTypeNew' => CoverageTypeNew::class,
-            // 'CreditCardAccountType' => CreditCardAccountType::class,
-            // 'Dependent' => Dependent::class,
-            // 'DependentType' => DependentType::class,
-            // 'DowngradePlan' => DowngradePlan::class,
-            // 'DowngradePlanResponse' => DowngradePlanResponse::class,
-            // 'DuplicateEmailExists' => DuplicateEmailExists::class,
-            // 'DuplicateEmailExistsResponse' => DuplicateEmailExistsResponse::class,
-            // 'DuplicateMemberExists' => DuplicateMemberExists::class,
-            // 'DuplicateMemberExistsResponse' => DuplicateMemberExistsResponse::class,
-            // 'EnrollAgeBandedPlans' => EnrollAgeBandedPlans::class,
-            // 'EnrollAgeBandedPlansResponse' => EnrollAgeBandedPlansResponse::class,
-            // 'Enrollment' => Enrollment::class,
-            // 'EnrollmentInsert' => EnrollmentInsert::class,
-            // 'EnrollmentInsertResponse' => EnrollmentInsertResponse::class,
-            // 'EnrollmentInsertSimple' => EnrollmentInsertSimple::class,
-            // 'EnrollmentInsertSimpleResponse' => EnrollmentInsertSimpleResponse::class,
-            // 'EnrollmentSelect' => EnrollmentSelect::class,
-            // 'EnrollmentSelectResponse' => EnrollmentSelectResponse::class,
-            // 'EnrollmentStatus' => EnrollmentStatus::class,
-            // 'EnrollSTM' => EnrollSTM::class,
-            // 'EnrollSTMResponse' => EnrollSTMResponse::class,
-            // 'EnrollSTMSimple' => EnrollSTMSimple::class,
-            // 'EnrollSTMSimpleResponse' => EnrollSTMSimpleResponse::class,
-            // 'FulfillmentLog' => FulfillmentLog::class,
-            // 'FulfillmentLogSelect' => FulfillmentLogSelect::class,
-            // 'FulfillmentLogSelectResponse' => FulfillmentLogSelectResponse::class,
-            // 'FulfillmentType' => FulfillmentType::class,
-            // 'Gender' => Gender::class,
-            // 'GetAgeBandedPlanQuotes' => GetAgeBandedPlanQuotes::class,
-            // 'GetAgeBandedPlanQuotesResponse' => GetAgeBandedPlanQuotesResponse::class,
-            // 'GetSTMQuotes' => GetSTMQuotes::class,
-            // 'GetSTMQuotesResponse' => GetSTMQuotesResponse::class,
-            // 'guid' => Guid::class,
-            // 'MaritalStatus' => MaritalStatus::class,
-            // 'Member' => Member::class,
-            // 'MemberCancelled' => MemberCancelled::class,
-            // 'MemberCancelledResponse' => MemberCancelledResponse::class,
-            // 'MemberSavedFromCancelling' => MemberSavedFromCancelling::class,
-            // 'MemberSavedFromCancellingResponse' => MemberSavedFromCancellingResponse::class,
-            // 'MemberSelectByGroup' => MemberSelectByGroup::class,
-            // 'MemberSelectByGroupResponse' => MemberSelectByGroupResponse::class,
-            // 'MemberSelectByName' => MemberSelectByName::class,
-            // 'MemberSelectByNameResponse' => MemberSelectByNameResponse::class,
-            // 'Package' => Package::class,
-            // 'PackageBill' => PackageBill::class,
-            // 'Receipt' => Receipt::class,
-            // 'ReferToAOR' => ReferToAOR::class,
-            // 'ReferToAORResponse' => ReferToAORResponse::class,
-            // 'ServiceLog' => ServiceLog::class,
-            // 'ServiceLogSelect' => ServiceLogSelect::class,
-            // 'ServiceLogSelectResponse' => ServiceLogSelectResponse::class,
-            // 'STMKnockoutQuestions' => STMKnockoutQuestions::class,
-            // 'STMPersonContract' => STMPersonContract::class,
-            // 'STMPlanContract' => STMPlanContract::class,
-            // 'STMQuoteContract' => STMQuoteContract::class,
-            // 'TRXTYPE' => TrxType::class,
-            // 'UpdatedEnrollmentSelectResponse' => UpdatedEnrollmentSelectResponse::class,
-            // 'UpdatedErnollmentSelect' => UpdatedErnollmentSelect::class,
-            // 'UpgradePlan' => UpgradePlan::class,
-            // 'UpgradePlanResponse' => UpgradePlanResponse::class,
-        ];
-
-        $this->config   = [
-            'classmap' => $this->classmap
-        ];
-
-        $this->wsdl     = 'https://enrollment.mymemberinfo.com/EnrollmentService.asmx?WSDL';
-        
-        $this->client   = new Client($this->wsdl, $this->config);
     }
+
+    private function getXmlString($data) {
+        $xml = "<?xml version='1.0'?><Enrollment xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns='http://enrollment.mymemberinfo.com/Enroll.xsd'><Member><GroupId>{$data['Member']['GroupId']}</GroupId><FirstName>{$data['Member']['FirstName']}</FirstName><LastName>{$data['Member']['LastName']}</LastName><AgentId>{$data['Member']['AgentId']}</AgentId><DateOfBirth>{$data['Member']['DateOfBirth']}</DateOfBirth><StartDate>{$data['Member']['StartDate']}</StartDate><Telephone1>{$data['Member']['Telephone1']}</Telephone1><EffectiveDate>{$data['Member']['EffectiveDate']}</EffectiveDate><Gender>{$data['Member']['Gender']}</Gender><EnrollmentStatus>NotEnrolled</EnrollmentStatus><Email>{$data['Member']['Email']}</Email><CoverageType>{$data['Member']['CoverageType']}</CoverageType><MaritalStatus>Unspecified</MaritalStatus><Address1>{$data['Member']['Address1']}</Address1><Address2>{$data['Member']['Address2']}</Address2><City>{$data['Member']['City']}</City><State>{$data['Member']['State']}</State><Zip>{$data['Member']['Zip']}</Zip><prevIns>0</prevIns>";
+
+        if($data['Member']['VerificationMethod']==2) {
+            $xml .= "<VerificationMethod>{$data['Member']['VerificationMethod']}</VerificationMethod><ESignIPaddress>{$data['Member']['ESignIPaddress']}</ESignIPaddress><ESignDateTimeStamp>{$data['Member']['ESignDateTimeStamp']}</ESignDateTimeStamp><ESignSMSRecipient>{$data['Member']['ESignSMSRecipient']}</ESignSMSRecipient><ESignUserDevice>{$data['Member']['ESignUserDevice']}</ESignUserDevice><ExternalUniqueID></ExternalUniqueID>";
+        }
+        
+        $xml .= "</Member><Account>";
+        $xml .= "<AccountType>{$data['Account']['AccountType']}</AccountType><AccountFirstName>{$data['Account']['AccountFirstName']}</AccountFirstName><AccountLastName>{$data['Account']['AccountLastName']}</AccountLastName><IsPayrollDeduct>false</IsPayrollDeduct><Address1>{$data['Account']['Address1']}</Address1><Address2>{$data['Account']['Address2']}</Address2><City>{$data['Account']['City']}</City><State>{$data['Account']['State']}</State><Zip>{$data['Account']['Zip']}</Zip><CreditCardNumber>{$data['Account']['CreditCardNumber']}</CreditCardNumber><Ccv>{$data['Account']['Ccv']}</Ccv><CreditCardExpirationMonth>{$data['Account']['CreditCardExpirationMonth']}</CreditCardExpirationMonth><CreditCardExpirationYear>{$data['Account']['CreditCardExpirationYear']}</CreditCardExpirationYear></Account>";
+
+        foreach ($data['Package'] as $key => $package) {
+            $xml .= "<Package><PlanId>{$package['PlanId']}</PlanId><CoverageType>{$package['CoverageType']}</CoverageType><IsOneTimeCharge>{$package['IsOneTimeCharge']}</IsOneTimeCharge></Package>";
+        }
+        
+        if(count($data['Dependent'])) {
+            foreach ($data['Dependent'] as $key => $dependent) {
+                $xml .= "<Dependent><DependentId>{$key}</DependentId><FirstName>{$dependent['FirstName']}</FirstName><LastName>{$dependent['LastName']}</LastName><DateOfBirth>{$dependent['DateOfBirth']}</DateOfBirth><DependentType>{$dependent['DependentType']}</DependentType><Gender>{$dependent['Gender']}</Gender><IsStudent>false</IsStudent><EffectiveDate>{$data['Member']['EffectiveDate']}</EffectiveDate></Dependent>";
+            }
+        }
+        
+        $xml .= "<Charge><BillDate>{$data['Member']['StartDate']}</BillDate><ReceiptDate>{$data['Member']['StartDate']}</ReceiptDate><TRXTYPE>S</TRXTYPE></Charge></Enrollment>";
+
+        return $xml;
+    }
+
 
     public function charge() {
         $enroll = new EnrollmentService();
-        return $enroll->enroll($this->order);
-        // $billingSelect = new BillingHistorySelect(['memberId' => 'CTC3014992', 'groupId' => '12360']);
+        $schema = new Schema($this->order);
+        $schema = $schema->load('enrollment')->format();
+        $xml = $this->getXmlString($schema);
 
-        // $response = ($this->client->BillingHistorySelect($billingSelect));
-        // return (array) $response;
-        // dd($this->client->getTypes());
-        
+        dd($xml);
+        return $enroll->enroll( $xml );
     }
-
-    // public static function charge(Order $order) {
-
-    //     $charge = new self($order);
-
-    //     $schema = new Schema($charge);
-    //     return $schema->load('enrollment')->format();
-    // }
 
 }

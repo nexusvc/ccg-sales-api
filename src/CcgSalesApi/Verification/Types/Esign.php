@@ -113,7 +113,7 @@ class Esign extends Verification {
         if(array_key_exists('state', $verification)) $verification['state'] = formatState($verification['state']);
 
         if($this->phone) $verification['esignRecipient'] = $this->phone;
-
+        
         $response = $this->setResponse($client->request('POST', $this->url, [
             'form_params' => $verification
         ]));
