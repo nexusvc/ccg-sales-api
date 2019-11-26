@@ -106,7 +106,7 @@ class ChargeOrder {
         }
 
         if(array_key_exists('ExternalUniqueID', $data['Member'])) {
-            $xml .= "<ExternalUniqueID>$data['Member']['ExternalUniqueID']</ExternalUniqueID>";
+            $xml .= "<ExternalUniqueID>{$data['Member']['ExternalUniqueID']}</ExternalUniqueID>";
         } else {
             $xml .= "<ExternalUniqueID>0</ExternalUniqueID>";
         }
