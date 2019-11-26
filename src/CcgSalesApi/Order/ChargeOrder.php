@@ -2,7 +2,7 @@
 
 namespace Nexusvc\CcgSalesApi\Order;
 
-require_once __DIR__ . '/../../../vendor/autoload.php';
+require_once __DIR__ . '/../../../../../../vendor/autoload.php';
 
 use Nexusvc\CcgSalesApi\Crypt\Crypt;
 use Nexusvc\CcgSalesApi\Schema\Schema;
