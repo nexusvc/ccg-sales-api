@@ -102,7 +102,13 @@ class ChargeOrder {
         $xml = "<?xml version='1.0'?><Enrollment xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns='http://enrollment.mymemberinfo.com/Enroll.xsd'><Member><GroupId>{$data['Member']['GroupId']}</GroupId><FirstName>{$data['Member']['FirstName']}</FirstName><LastName>{$data['Member']['LastName']}</LastName><AgentId>{$data['Member']['AgentId']}</AgentId><DateOfBirth>{$data['Member']['DateOfBirth']}</DateOfBirth><StartDate>{$data['Member']['StartDate']}</StartDate><Telephone1>{$data['Member']['Telephone1']}</Telephone1><EffectiveDate>{$data['Member']['EffectiveDate']}</EffectiveDate><Gender>{$data['Member']['Gender']}</Gender><EnrollmentStatus>NotEnrolled</EnrollmentStatus><Email>{$data['Member']['Email']}</Email><CoverageType>{$data['Member']['CoverageType']}</CoverageType><MaritalStatus>Unspecified</MaritalStatus><Address1>{$data['Member']['Address1']}</Address1><Address2>{$data['Member']['Address2']}</Address2><City>{$data['Member']['City']}</City><State>{$data['Member']['State']}</State><Zip>{$data['Member']['Zip']}</Zip><prevIns>0</prevIns>";
 
         if($data['Member']['VerificationMethod']==2) {
-            $xml .= "<VerificationMethod>{$data['Member']['VerificationMethod']}</VerificationMethod><ESignIPaddress>{$data['Member']['ESignIPaddress']}</ESignIPaddress><ESignDateTimeStamp>{$data['Member']['ESignDateTimeStamp']}</ESignDateTimeStamp><ESignSMSRecipient>{$data['Member']['ESignSMSRecipient']}</ESignSMSRecipient><ESignUserDevice>{$data['Member']['ESignUserDevice']}</ESignUserDevice><ExternalUniqueID></ExternalUniqueID>";
+            $xml .= "<VerificationMethod>{$data['Member']['VerificationMethod']}</VerificationMethod><ESignIPaddress>{$data['Member']['ESignIPaddress']}</ESignIPaddress><ESignDateTimeStamp>{$data['Member']['ESignDateTimeStamp']}</ESignDateTimeStamp><ESignSMSRecipient>{$data['Member']['ESignSMSRecipient']}</ESignSMSRecipient><ESignUserDevice>{$data['Member']['ESignUserDevice']}</ESignUserDevice>";
+        }
+
+        if(array_key_exists('ExternalUniqueID', $data['Member'])) {
+            $xml .= "<ExternalUniqueID>$data['Member']['ExternalUniqueID']</ExternalUniqueID>";
+        } else {
+            $xml .= "<ExternalUniqueID>0</ExternalUniqueID>";
         }
         
         $xml .= "</Member><Account>";
