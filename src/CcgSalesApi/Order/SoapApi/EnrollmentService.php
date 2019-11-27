@@ -89,7 +89,7 @@ class EnrollmentService {
     protected $classmap = [];
     protected $config;
     protected $client;
-    protected $wsdl = 'https://enrollmentbeta.mymemberinfo.com/EnrollmentService.asmx?WSDL';
+    protected $wsdl = 'https://enrollment.mymemberinfo.com/EnrollmentService.asmx?WSDL';
 
     public function __construct($params = []) {
 
