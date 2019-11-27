@@ -143,7 +143,7 @@ class ChargeOrder {
             $enrollment = $enroll->enroll( $xml );
             $response = [
                 'status' => 'success',
-                'member_id' => $enrollment['enrollmentInsertSimpleResponse']
+                'member_id' => $enrollment['enrollmentInsertSimpleResult']
             ];
 
             if($debug) $response['request'] = $xml;
