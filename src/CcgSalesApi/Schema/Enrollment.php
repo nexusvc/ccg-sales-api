@@ -64,6 +64,8 @@ class Enrollment extends Schema {
         foreach($this->payload['products'] as $product) {
             if(array_key_exists('effectiveDate', $product) && array_key_exists('quoteType', $product) && $product['quoteType'] == 'LM') {
                 return $product['effectiveDate'];
+            } else if(array_key_exists('effectiveOn', $product) && array_key_exists('quoteType', $product) && $product['quoteType'] == 'LM') {
+                return $product['effectiveOn'];
             }
         }
     }

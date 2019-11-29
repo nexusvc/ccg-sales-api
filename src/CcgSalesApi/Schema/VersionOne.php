@@ -64,7 +64,7 @@ class VersionOne extends Schema {
     protected function setEffectiveDate() {
         foreach($this->payload['products'] as $product) {
             if(array_key_exists('effectiveDate', $product) && array_key_exists('quoteType', $product) && $product['quoteType'] == 'LM') {
-                array_set($this->formatted, 'effectiveDate', $product['effectiveDate']);
+                array_set($this->formatted, 'effectiveDate', $product['effectiveOn']);
             }
         }
 
