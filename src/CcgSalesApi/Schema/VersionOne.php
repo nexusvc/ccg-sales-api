@@ -64,7 +64,9 @@ class VersionOne extends Schema {
     protected function setEffectiveDate() {
         foreach($this->payload['products'] as $product) {
             if(array_key_exists('effectiveDate', $product) && array_key_exists('quoteType', $product) && $product['quoteType'] == 'LM') {
-                array_set($this->formatted, 'effectiveDate', $product['effectiveOn']);
+                array_set($this->formatted, 'effectiveDate', Carbon::parse($product['effectiveDate'])->toW3cString());
+            } else if(array_key_exists('effectiveOn', $product) && array_key_exists('quoteType', $product) && $product['quoteType'] == 'LM') {
+                array_set($this->formatted, 'effectiveDate',  Carbon::parse($product['effectiveOn'])->toW3cString());
             }
         }
 
