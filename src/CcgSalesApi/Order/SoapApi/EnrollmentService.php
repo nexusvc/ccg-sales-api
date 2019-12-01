@@ -126,8 +126,7 @@ class EnrollmentService {
     }
 
     public function enroll($xmlString) {
-        $EnrollmentInsert = new EnrollmentInsertSimple($xmlString);
-        $enroll = $this->client->EnrollmentInsertSimple($EnrollmentInsert);
+        $enroll = $this->client->EnrollmentInsertSimple(new EnrollmentInsertSimple($xmlString));
         return $this->response($enroll);
     }
 
