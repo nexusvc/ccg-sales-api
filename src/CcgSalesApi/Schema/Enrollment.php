@@ -99,7 +99,7 @@ class Enrollment extends Schema {
         $phone = strip_country_prefix(preg_replace("/[^0-9]/", "", $this->getPrimaryApplicant('contactable.phone.phone')));
         $esignRecipient = strip_country_prefix(preg_replace("/[^0-9]/", "", array_get($this->payload, 'verification.esignRecipient')));
 
-        array_set($this->formatted, 'Member', [
+        $member = [
             'GroupId' => $this->getGroupId(),
             'FirstName' => $this->getPrimaryApplicant('firstName'),
             'LastName' =>  $this->getPrimaryApplicant('lastName'),
@@ -120,16 +120,28 @@ class Enrollment extends Schema {
             'State' => formatState($this->getPrimaryApplicant('contactable.address.state')),
             'Zip' => $this->getPrimaryApplicant('contactable.address.zip'),
             'prevIns' => 0,
-            'VerificationMethod' => $this->setVerificationMethod(),
-            'ESignIPaddress' => array_get($this->payload, 'verification.esignIPAddress'),
-            'ESignDateTimeStamp' => array_get($this->payload, 'verification.esignAcceptedDate'),
-            'ESignSMSRecipient' =>  $esignRecipient,
-            'ESignUserDevice' =>  array_get($this->payload, 'verification.esignUserDevice'),
-            'ExternalUniqueID' => array_get($this->payload, 'applicants.0.id'),
-        ]);
+            'VerificationMethod' => $this->setVerificationMethod()
+        ];
+
+        if($member['VerificationMethod'] == 2) {
+            $member['ESignIPaddress'] = array_get($this->payload, 'verification.esignIPAddress');
+            $member['ESignDateTimeStamp'] = array_get($this->payload, 'verification.esignAcceptedDate');
+            $member['ESignSMSRecipient'] =  $esignRecipient;
+            $member['ESignUserDevice'] =  array_get($this->payload, 'verification.esignUserDevice');
+            $member['ExternalUniqueID'] = array_get($this->payload, 'applicants.0.id');
+        }
+
+        array_set($this->formatted, 'Member', $member);
     }
 
     protected function setVerificationMethod() {
+
+        try {
+            $type = $this->instance->verification->type;
+        } catch(\Exception $e) {
+            $type = 'Voice';
+        }
+
         switch($this->instance->verification->type) {
             case 'Esign':
                 return 2;
