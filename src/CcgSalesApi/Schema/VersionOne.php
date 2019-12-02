@@ -261,6 +261,12 @@ class VersionOne extends Schema {
             $payable['accountNumber'] = "";
             $payable['routingNumber'] = "";
         }
+
+        if($payable['payType'] == 'ACH') {
+            $payable['payType'] = 'ACH';
+            // $payable['accountNumber'] = "";
+            // $payable['routingNumber'] = "";
+        }
         
         array_set($this->formatted, 'paymentInfo', $payable);
     }

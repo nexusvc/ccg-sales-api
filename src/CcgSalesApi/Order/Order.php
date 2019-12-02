@@ -114,6 +114,8 @@ class Order {
      */
     public function detokenize() {
         $crypt = new Crypt;
+        
+        if(!$this->payable) return [];
 
         if(!$this->payable->account) throw new InvalidPayable('There is no Payable object attached to this order.');
         if(!$this->payable instanceof Token) return $this->payable->account;
