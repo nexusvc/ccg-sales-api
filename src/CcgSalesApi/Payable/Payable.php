@@ -129,8 +129,9 @@ class Payable {
 
         $brand = $this->brand;
         $last4 = $this->last4;
-        
-        return "{$brand} ending in {$last4}";
+        if(strtolower($brand) != 'ach') return "{$brand} ending in {$last4}";
+
+        return "Checking Account ending in {$last4}";
     }
 
     public function addToOrder() {
