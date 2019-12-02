@@ -112,7 +112,15 @@ class ChargeOrder {
         }
         
         $xml .= "</Member><Account>";
-        $xml .= "<AccountType>{$data['Account']['AccountType']}</AccountType><AccountFirstName>{$data['Account']['AccountFirstName']}</AccountFirstName><AccountLastName>{$data['Account']['AccountLastName']}</AccountLastName><IsPayrollDeduct>false</IsPayrollDeduct><Address1>{$data['Account']['Address1']}</Address1><Address2>{$data['Account']['Address2']}</Address2><City>{$data['Account']['City']}</City><State>{$data['Account']['State']}</State><Zip>{$data['Account']['Zip']}</Zip><CreditCardNumber>{$data['Account']['CreditCardNumber']}</CreditCardNumber><Ccv>{$data['Account']['Ccv']}</Ccv><CreditCardExpirationMonth>{$data['Account']['CreditCardExpirationMonth']}</CreditCardExpirationMonth><CreditCardExpirationYear>{$data['Account']['CreditCardExpirationYear']}</CreditCardExpirationYear><IsTokenised>false</IsTokenised><VaultKey></VaultKey></Account>";
+        $xml .= "<AccountType>{$data['Account']['AccountType']}</AccountType><AccountFirstName>{$data['Account']['AccountFirstName']}</AccountFirstName><AccountLastName>{$data['Account']['AccountLastName']}</AccountLastName><IsPayrollDeduct>false</IsPayrollDeduct><Address1>{$data['Account']['Address1']}</Address1><Address2>{$data['Account']['Address2']}</Address2><City>{$data['Account']['City']}</City><State>{$data['Account']['State']}</State><Zip>{$data['Account']['Zip']}</Zip>";
+
+        if($data['Account']['AccountType'] == 'CreditCard') {
+            $xml .="<CreditCardNumber>{$data['Account']['CreditCardNumber']}</CreditCardNumber><Ccv>{$data['Account']['Ccv']}</Ccv><CreditCardExpirationMonth>{$data['Account']['CreditCardExpirationMonth']}</CreditCardExpirationMonth><CreditCardExpirationYear>{$data['Account']['CreditCardExpirationYear']}</CreditCardExpirationYear><IsTokenised>false</IsTokenised><VaultKey></VaultKey></Account>";
+        }
+
+        if($data['Account']['AccountType'] == 'Ach') {
+            $xml .="<CheckingRoutingNumber>{$data['Account']['CheckingRoutingNumber']}</CheckingRoutingNumber><CheckingAccountNumber>{$data['Account']['CheckingAccountNumber']}</CheckingAccountNumber><IsTokenised>false</IsTokenised><VaultKey></VaultKey></Account>";
+        }
 
         foreach ($data['Package'] as $key => $package) {
             $xml .= "<Package><PlanId>{$package['PlanId']}</PlanId><CoverageType>{$package['CoverageType']}</CoverageType><IsOneTimeCharge>{$package['IsOneTimeCharge']}</IsOneTimeCharge></Package>";
@@ -138,7 +146,7 @@ class ChargeOrder {
         $schema = $schema->load('enrollment')->format();
 
         $xml = $this->getXmlString($schema);
-
+        
         try {
             $enrollment = $enroll->enroll( $xml );
             $response = [

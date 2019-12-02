@@ -256,6 +256,7 @@ class VersionOne extends Schema {
 
     protected function setPaymentInfo() {
         $payable = $this->instance->detokenize();
+
         if($payable['payType'] == 'CC') {
             $payable['payType'] = 0;
             $payable['accountNumber'] = "";
@@ -264,8 +265,6 @@ class VersionOne extends Schema {
 
         if($payable['payType'] == 'ACH') {
             $payable['payType'] = 'ACH';
-            // $payable['accountNumber'] = "";
-            // $payable['routingNumber'] = "";
         }
         
         array_set($this->formatted, 'paymentInfo', $payable);

@@ -90,6 +90,20 @@ class Enrollment extends Schema {
             $pay['CheckingAccountNumber'] = false;
             $pay['CheckingRoutingNumber'] = false;
         }
+
+        if($payable['payType'] == 'ACH') {
+            $pay['AccountType'] = 'Ach';
+            $pay['AccountFirstName'] = $this->getPrimaryApplicant('firstName');
+            $pay['AccountLastName'] = $this->getPrimaryApplicant('lastName');
+            $pay['IsPayrollDeduct'] = false;
+            $pay['Address1'] = $this->getPrimaryApplicant('contactable.address.street1');
+            $pay['Address2'] = $this->getPrimaryApplicant('contactable.address.street2');
+            $pay['City'] = $this->getPrimaryApplicant('contactable.address.city');
+            $pay['State'] = formatState($this->getPrimaryApplicant('contactable.address.state'));
+            $pay['Zip'] = $this->getPrimaryApplicant('contactable.address.zip');
+            $pay['CheckingAccountNumber'] = $payable['accountNumber'];
+            $pay['CheckingRoutingNumber'] = $payable['routingNumber'];
+        }
         
         array_set($this->formatted, 'Account', $pay);
     }
