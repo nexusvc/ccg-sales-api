@@ -54,7 +54,11 @@ class VoiceScript extends Schema {
     }
 
     protected function setPayType() {
-        if(!array_key_exists('routing', $this->payload['payable'])) array_set($this->formatted, 'payType', 'CC');
+        if(!is_null($this->payload['payable'])) {
+            if(!array_key_exists('routing', $this->payload['payable'])) array_set($this->formatted, 'payType', 'CC');
+        } else {
+            array_set($this->formatted, 'payType', 'ACH');
+        }
     }
 
     protected function setAddOnPlanIds() {
