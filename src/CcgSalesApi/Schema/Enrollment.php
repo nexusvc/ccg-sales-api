@@ -135,20 +135,19 @@ class Enrollment extends Schema {
     }
 
     protected function setVerificationMethod() {
-
         try {
-            $type = $this->instance->verification->type;
+            switch($this->instance->verification->type) {
+                case 'Esign':
+                    $type = 2;
+                    break;
+                case 'Voice':
+                    $type = 1;
+            }
         } catch(\Exception $e) {
-            $type = 'Voice';
+            $type = 1;
         }
 
-        switch($this->instance->verification->type) {
-            case 'Esign':
-                return 2;
-                break;
-            case 'Voice':
-                return 1;
-        }
+        return $type;
     }
 
     protected function getCoverageType() {
