@@ -142,6 +142,7 @@ class Enrollment extends Schema {
                     break;
                 case 'Voice':
                     $type = 1;
+                    break;
             }
         } catch(\Exception $e) {
             $type = 1;
