@@ -2,7 +2,7 @@
 
 namespace Nexusvc\CcgSalesApi\Order\SoapApi\Types;
 
-class UpdatedEnrollmentSelect extends Auth {
+class UpdateEnrollmentSelect extends Auth {
 
     public $startDate; 
 
