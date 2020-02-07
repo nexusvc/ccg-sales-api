@@ -1,7 +1,8 @@
 <?php
 
 return [
-    'environment' => 'production',
+    'version' => 'v1.0',
+    'environment' => 'development',
     'username' => 'USERNAME',
     'password' => 'SECRET_PASSWORD',
     'npn' => 'NPN_NUMBER',

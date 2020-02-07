@@ -49,6 +49,7 @@ class VersionOne extends Schema {
         $this->setPaymentInfo();
         $this->setPlans();
         $this->setEffectiveDate();
+        $this->setScheduleDate();
 
         $this->formatKeys();
         // Must be after formatKeys
@@ -59,6 +60,13 @@ class VersionOne extends Schema {
 
     protected function formatDateOfBirth() {
         return array_set($this->formatted, 'dateOfBirth', Carbon::parse($this->formatted['dateOfBirth'])->toW3cString());
+    }
+
+    protected function setScheduleDate() {
+        // dd($this->payload, $this->formatted);
+        if(array_key_exists('chargeOn', $this->payload)) {
+            
+        }
     }
 
     protected function setEffectiveDate() {

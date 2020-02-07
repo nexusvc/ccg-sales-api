@@ -9,9 +9,9 @@ class Client extends GuzzleClient
 
     protected $headers = [];
 
-    public function __construct($token = null) {
+    public function __construct($token = null, $httpErrors = true) {
         if(isset($token) && !is_null($token)) $this->setHeaders(['headers' => ['Authorization' => 'Bearer ' . $token]]);
-        parent::__construct(['base_uri' => ccg_url()]);
+        parent::__construct(['base_uri' => ccg_url(), 'http_errors' => $httpErrors]);
     }
 
     protected function setHeaders($headers) {

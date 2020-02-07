@@ -46,7 +46,8 @@ class Esign extends Verification {
         'paymentInfo.ccExpYear',
         'paymentInfo.cvv',
         'paymentInfo.routingNumber',
-        'paymentInfo.accountNumber'
+        'paymentInfo.accountNumber',
+        'scheduleDate'
     ];
 
     protected $required = [
@@ -85,7 +86,6 @@ class Esign extends Verification {
 
     public function usingPhoneNumber($phone = null) {
         if($phone) $this->phone = $phone;
-
         return $this;
     }
 
@@ -113,10 +113,15 @@ class Esign extends Verification {
         if(array_key_exists('state', $verification)) $verification['state'] = formatState($verification['state']);
 
         if($this->phone) $verification['esignRecipient'] = $this->phone;
+
+        try {
+            $response = $this->setResponse($client->request('POST', $this->url, [
+                'form_params' => $verification
+            ]));
+        } catch(\Expiration $e) {
+            return $e->getMessage();
+        }
         
-        $response = $this->setResponse($client->request('POST', $this->url, [
-            'form_params' => $verification
-        ]));
         
         $this->invited = true;
 
