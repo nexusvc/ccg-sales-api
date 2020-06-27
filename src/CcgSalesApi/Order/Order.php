@@ -63,8 +63,8 @@ class Order {
         return $this;
     }
 
-    public function charge() {
-        return (new ChargeOrder($this))->charge();
+    public function charge($debug = false) {
+        return (new ChargeOrder($this))->charge($debug);
     }
 
     public function setTotalAttribute() {

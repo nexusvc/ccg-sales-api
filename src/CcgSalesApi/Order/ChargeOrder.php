@@ -110,7 +110,7 @@ class ChargeOrder {
         } else {
             $xml .= "<ExternalUniqueID>0</ExternalUniqueID>";
         }
-        
+
         $xml .= "</Member><Account>";
         $xml .= "<AccountType>{$data['Account']['AccountType']}</AccountType><AccountFirstName>{$data['Account']['AccountFirstName']}</AccountFirstName><AccountLastName>{$data['Account']['AccountLastName']}</AccountLastName><IsPayrollDeduct>false</IsPayrollDeduct><Address1>{$data['Account']['Address1']}</Address1><Address2>{$data['Account']['Address2']}</Address2><City>{$data['Account']['City']}</City><State>{$data['Account']['State']}</State><Zip>{$data['Account']['Zip']}</Zip>";
 
@@ -125,13 +125,13 @@ class ChargeOrder {
         foreach ($data['Package'] as $key => $package) {
             $xml .= "<Package><PlanId>{$package['PlanId']}</PlanId><CoverageType>{$package['CoverageType']}</CoverageType><IsOneTimeCharge>{$package['IsOneTimeCharge']}</IsOneTimeCharge></Package>";
         }
-        
+
         if(count($data['Dependent'])) {
             foreach ($data['Dependent'] as $key => $dependent) {
                 $xml .= "<Dependent><DependentId>0</DependentId><FirstName>{$dependent['FirstName']}</FirstName><LastName>{$dependent['LastName']}</LastName><DateOfBirth>{$dependent['DateOfBirth']}</DateOfBirth><DependentType>{$dependent['DependentType']}</DependentType><Gender>{$dependent['Gender']}</Gender><IsStudent>false</IsStudent><EffectiveDate>{$data['Member']['EffectiveDate']}</EffectiveDate></Dependent>";
             }
         }
-        
+
         $xml .= "<Charge><BillDate>{$data['Member']['StartDate']}</BillDate><ReceiptDate>{$data['Member']['StartDate']}</ReceiptDate><TRXTYPE>S</TRXTYPE></Charge></Enrollment>";
 
         return $xml;
@@ -146,7 +146,7 @@ class ChargeOrder {
         $schema = $schema->load('enrollment')->format();
 
         $xml = $this->getXmlString($schema);
-        
+
         try {
             $enrollment = $enroll->enroll( $xml );
             $response = [
