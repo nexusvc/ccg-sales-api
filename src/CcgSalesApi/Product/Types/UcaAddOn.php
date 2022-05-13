@@ -2,9 +2,9 @@
 
 namespace Nexusvc\CcgSalesApi\Product\Types;
 
-use Nexusvc\CcgSalesApi\Product\LimitedMedical;
+use Nexusvc\CcgSalesApi\Product\GenericProduct;
 
-class UcaAddOn extends LimitedMedical {
+class UcaAddOn extends GenericProduct {
 
     protected $uri;
 
@@ -22,7 +22,21 @@ class UcaAddOn extends LimitedMedical {
 
     protected $required = [
         'npn',
-        'state'
+        'state',
+        'isUCAAddOn'
     ];
+
+    public function addToOrder() {
+
+        parent::$ccg->order->addProduct($this);
+        
+        if($this->enrollmentPlans) {
+            parent::$ccg->order->addProduct(new \Nexusvc\CcgSalesApi\Product\Types\EnrollmentPlan(parent::$ccg, self::$params, $this->enrollmentPlans[0]));
+        }
+
+        // if(property_exists($this->product, 'agentId')) $order->agentId = $this->agentId; 
+
+        return $this;
+    }
 
 }
