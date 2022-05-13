@@ -35,6 +35,7 @@ return [
         'rate' => 'Quote/GetQuotes',
         'add_on' => 'Benefit/GetAddOnPlans',
         'limited_medical' => 'Quote/GetLMQuotes',
+        'uca_add_on' => 'Quote/GetLMQuotes',
         'short_term_medical' => 'Quote/GetSTMQuotes',
         'product_benefits' => 'Benefit/GetBenefits'
     ],
