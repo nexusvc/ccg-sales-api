@@ -54,6 +54,8 @@ class VersionOne extends Schema {
         $this->formatKeys();
         // Must be after formatKeys
         $this->formatDateOfBirth();
+
+        $this->checkForDuplicateEnrollmentFee();
         
         return (new static($this->formatted))->setFormatted($this->formatted)->toArray();
     }
@@ -259,6 +261,25 @@ class VersionOne extends Schema {
             $tmp['planType'] = $this->setPlanType($product);
 
             $this->formatted['plans']->push($tmp);
+        }
+    }
+
+    protected function checkForDuplicateEnrollmentFee() {
+        $hasOneTimeFee = false;
+        $oneTimeFeeIndex = false;
+        $indexToDelete = false;
+        foreach($this->formatted['plans'] as $index => $plan) {
+            if(array_key_exists('isOneTimeCharge', $plan) && !$hasOneTimeFee) {
+                $hasOneTimeFee = true;
+                $oneTimeFeeIndex = $index;
+            } else if(array_key_exists('isOneTimeCharge', $plan) && $hasOneTimeFee) {
+                $indexToDelete = $index;
+            }
+        }
+
+        if($indexToDelete !== false) {
+            // Delete duplicate EnrollmentFee
+            \array_splice($this->formatted['plans'], $indexToDelete, 1);
         }
     }
 
