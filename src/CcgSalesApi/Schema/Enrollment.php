@@ -52,6 +52,10 @@ class Enrollment extends Schema {
             $product = $this->getPackage($product);
             $array['Package'][] = $product;
         }
+
+        // Remove Duplicate Packages
+        $packages = $array['Package'];
+        $array['Package'] = array_unique($packages, SORT_REGULAR);
         
         foreach($array as $key => $value) {
             $this->$key = $value;

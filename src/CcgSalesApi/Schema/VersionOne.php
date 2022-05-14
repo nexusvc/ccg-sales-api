@@ -55,7 +55,7 @@ class VersionOne extends Schema {
         // Must be after formatKeys
         $this->formatDateOfBirth();
 
-        $this->checkForDuplicateEnrollmentFee();
+        $this->removeDuplicateProducts();
         
         return (new static($this->formatted))->setFormatted($this->formatted)->toArray();
     }
@@ -251,7 +251,7 @@ class VersionOne extends Schema {
             }
 
             if(array_key_exists('retailAmount', $product) && $product['retailAmount']) {
-                $tmp['amount'] = $product['retailAmount'];
+                $tmp['amount'] = (float) $product['retailAmount'];
             }
 
             if(array_key_exists('isOneTimeCharge', $product) && $product['isOneTimeCharge']) {
@@ -264,23 +264,10 @@ class VersionOne extends Schema {
         }
     }
 
-    protected function checkForDuplicateEnrollmentFee() {
-        $hasOneTimeFee = false;
-        $oneTimeFeeIndex = false;
-        $indexToDelete = false;
-        foreach($this->formatted['plans'] as $index => $plan) {
-            if(array_key_exists('isOneTimeCharge', $plan) && !$hasOneTimeFee) {
-                $hasOneTimeFee = true;
-                $oneTimeFeeIndex = $index;
-            } else if(array_key_exists('isOneTimeCharge', $plan) && $hasOneTimeFee) {
-                $indexToDelete = $index;
-            }
-        }
-
-        if($indexToDelete !== false) {
-            // Delete duplicate EnrollmentFee
-            \array_splice($this->formatted['plans'], $indexToDelete, 1);
-        }
+    protected function removeDuplicateProducts() {
+        // Remove Duplicate Plans
+        $plans = $this->formatted['plans'];
+        $this->formatted['plans'] = array_unique($plans, SORT_REGULAR);
     }
 
     protected function setPaymentInfo() {
