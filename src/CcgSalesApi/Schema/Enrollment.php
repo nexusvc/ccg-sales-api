@@ -55,7 +55,8 @@ class Enrollment extends Schema {
 
         // Remove Duplicate Packages
         $packages = $array['Package'];
-        $array['Package'] = array_unique($packages, SORT_REGULAR);
+        $cleanedPackages = array_unique($packages, SORT_REGULAR);
+        $array['Package'] = array_values($cleanedPackages);
         
         foreach($array as $key => $value) {
             $this->$key = $value;

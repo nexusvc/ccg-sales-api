@@ -267,7 +267,8 @@ class VersionOne extends Schema {
     protected function removeDuplicateProducts() {
         // Remove Duplicate Plans
         $plans = $this->formatted['plans'];
-        $this->formatted['plans'] = array_unique($plans, SORT_REGULAR);
+        $cleanedPackages = array_unique($plans, SORT_REGULAR);
+        $this->formatted['plans'] = array_values($cleanedPackages);
     }
 
     protected function setPaymentInfo() {
