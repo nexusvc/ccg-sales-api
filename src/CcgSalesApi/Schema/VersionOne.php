@@ -18,6 +18,7 @@ class VersionOne extends Schema {
         'street1' => 'address1',
         'street2' => 'address2',
         'agentId' => 'agentID',
+        'hasAcaPlan' => 'hasACAPlan',
         'dependents.0.dob' => 'dependents.0.dateOfBirth',
         'dependents.1.dob' => 'dependents.1.dateOfBirth',
         'dependents.2.dob' => 'dependents.2.dateOfBirth',
@@ -50,11 +51,10 @@ class VersionOne extends Schema {
         $this->setPlans();
         $this->setEffectiveDate();
         $this->setScheduleDate();
-
+        $this->setHasAcaPlan();
         $this->formatKeys();
         // Must be after formatKeys
         $this->formatDateOfBirth();
-
         $this->removeDuplicateProducts();
         
         return (new static($this->formatted))->setFormatted($this->formatted)->toArray();
@@ -69,6 +69,10 @@ class VersionOne extends Schema {
         if(array_key_exists('chargeOn', $this->payload)) {
             
         }
+    }
+
+    protected function setHasAcaPlan() {
+        array_set($this->formatted, 'hasAcaPlan', 'false');
     }
 
     protected function setEffectiveDate() {

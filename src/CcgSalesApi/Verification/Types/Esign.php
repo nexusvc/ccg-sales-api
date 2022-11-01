@@ -47,7 +47,10 @@ class Esign extends Verification {
         'paymentInfo.cvv',
         'paymentInfo.routingNumber',
         'paymentInfo.accountNumber',
-        'scheduleDate'
+        'scheduleDate',
+        'hasACAPlan',
+        'acaPlanCarrierName',
+        'subscriberID'
     ];
 
     protected $required = [
@@ -71,7 +74,8 @@ class Esign extends Verification {
         'plans.amount',
         'plans.planType',
         'paymentInfo',
-        'paymentInfo.payType'
+        'paymentInfo.payType',
+        'hasACAPlan'
     ];
 
     public function setToken($token) {
