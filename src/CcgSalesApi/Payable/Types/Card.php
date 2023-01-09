@@ -14,8 +14,6 @@ class Card extends CreditCard {
         'cvc',
         'expiration.month',
         'expiration.year',
-        'billingAddress.street1',
-        'billingAddress.street2',
         'billingAddress.city',
         'billingAddress.state',
         'billingAddress.zip'
