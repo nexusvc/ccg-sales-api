@@ -135,6 +135,9 @@ class Order {
             $payment['ccExpYear'] = array_get($tmp, 'expiration.year');
             $payment['ccNumber'] = array_get($tmp, 'account');
             $payment['cvv'] = array_get($tmp, 'cvc');
+            if(array_key_exists('billingAddress', $tmp)) {
+                $payment['billingAddress'] = array_get($tmp, 'billingAddress');
+            }
         }
 
         if($tmp['payType'] == 'ACH') {
