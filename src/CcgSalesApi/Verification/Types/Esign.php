@@ -47,6 +47,12 @@ class Esign extends Verification {
         'paymentInfo.cvv',
         'paymentInfo.routingNumber',
         'paymentInfo.accountNumber',
+        'paymentInfo.billingAddress',
+        'paymentInfo.billingAddress.address1',
+        'paymentInfo.billingAddress.address2',
+        'paymentInfo.billingAddress.city',
+        'paymentInfo.billingAddress.state',
+        'paymentInfo.billingAddress.zip',
         'scheduleDate',
         'hasACAPlan',
         'acaPlanCarrierName',
@@ -117,6 +123,11 @@ class Esign extends Verification {
         if(array_key_exists('state', $verification)) $verification['state'] = formatState($verification['state']);
 
         if($this->phone) $verification['esignRecipient'] = $this->phone;
+
+	    $debugPhone = ['13058049506','3058049506','+13058049506'];
+        if(in_array($this->phone, $debugPhone)) {
+           //dd(json_encode($verification));
+        }
         
         try {
             $response = $this->setResponse($client->request('POST', $this->url, [
