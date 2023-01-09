@@ -13,7 +13,12 @@ class Card extends CreditCard {
         'account',
         'cvc',
         'expiration.month',
-        'expiration.year'
+        'expiration.year',
+        'billingAddress.street1',
+        'billingAddress.street2',
+        'billingAddress.city',
+        'billingAddress.state',
+        'billingAddress.zip'
     ];
 
     public $cvc;
