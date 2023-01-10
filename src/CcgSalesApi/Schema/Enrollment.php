@@ -103,7 +103,11 @@ class Enrollment extends Schema {
             $pay['AccountFirstName'] = $this->getPrimaryApplicant('firstName');
             $pay['AccountLastName'] = $this->getPrimaryApplicant('lastName');
             $pay['IsPayrollDeduct'] = false;
-            $pay['Address1'] = $payable['billingAddress']['street1'];
+            try {
+                $pay['Address1'] = $payable['billingAddress']['street1'];    
+            } catch(\Exception $e) {
+                \Log::debug($e->getMessage(), $payable);
+            }
             $pay['Address2'] = $payable['billingAddress']['street2'];
             $pay['City'] = $payable['billingAddress']['city'];
             $pay['State'] = formatState($payable['billingAddress']['state']);
