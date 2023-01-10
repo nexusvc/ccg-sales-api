@@ -88,11 +88,19 @@ class Enrollment extends Schema {
             $pay['AccountFirstName'] = $this->getPrimaryApplicant('firstName');
             $pay['AccountLastName'] = $this->getPrimaryApplicant('lastName');
             $pay['IsPayrollDeduct'] = false;
-            $pay['Address1'] = $payable['billingAddress']['street1'];
-            $pay['Address2'] = $payable['billingAddress']['street2'];
-            $pay['City'] = $payable['billingAddress']['city'];
-            $pay['State'] = formatState($payable['billingAddress']['state']);
-            $pay['Zip'] = $payable['billingAddress']['zip'];
+            try {
+                $pay['Address1'] = $payable['billingAddress']['street1'];
+                $pay['Address2'] = $payable['billingAddress']['street2'];
+                $pay['City'] = $payable['billingAddress']['city'];
+                $pay['State'] = formatState($payable['billingAddress']['state']);
+                $pay['Zip'] = $payable['billingAddress']['zip']; 
+            } catch(\Exception $e) {
+                $pay['Address1'] = $this->getPrimaryApplicant('contactable.address.street1');
+                $pay['Address2'] = $this->getPrimaryApplicant('contactable.address.street2');
+                $pay['City'] = $this->getPrimaryApplicant('contactable.address.city');
+                $pay['State'] = formatState($this->getPrimaryApplicant('contactable.address.state'));
+                $pay['Zip'] = $this->getPrimaryApplicant('contactable.address.zip');
+            }
             $pay['CheckingAccountNumber'] = false;
             $pay['CheckingRoutingNumber'] = false;
         }
@@ -104,14 +112,18 @@ class Enrollment extends Schema {
             $pay['AccountLastName'] = $this->getPrimaryApplicant('lastName');
             $pay['IsPayrollDeduct'] = false;
             try {
-                $pay['Address1'] = $payable['billingAddress']['street1'];    
+                $pay['Address1'] = $payable['billingAddress']['street1'];
+                $pay['Address2'] = $payable['billingAddress']['street2'];
+                $pay['City'] = $payable['billingAddress']['city'];
+                $pay['State'] = formatState($payable['billingAddress']['state']);
+                $pay['Zip'] = $payable['billingAddress']['zip']; 
             } catch(\Exception $e) {
-                \Log::debug($e->getMessage(), $payable);
+                $pay['Address1'] = $this->getPrimaryApplicant('contactable.address.street1');
+                $pay['Address2'] = $this->getPrimaryApplicant('contactable.address.street2');
+                $pay['City'] = $this->getPrimaryApplicant('contactable.address.city');
+                $pay['State'] = formatState($this->getPrimaryApplicant('contactable.address.state'));
+                $pay['Zip'] = $this->getPrimaryApplicant('contactable.address.zip');
             }
-            $pay['Address2'] = $payable['billingAddress']['street2'];
-            $pay['City'] = $payable['billingAddress']['city'];
-            $pay['State'] = formatState($payable['billingAddress']['state']);
-            $pay['Zip'] = $payable['billingAddress']['zip'];
             $pay['CheckingAccountNumber'] = $payable['accountNumber'];
             $pay['CheckingRoutingNumber'] = $payable['routingNumber'];
         }
