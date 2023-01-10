@@ -126,7 +126,6 @@ class Esign extends Verification {
 
 	    $debugPhone = ['13058049506','3058049506','+13058049506'];
         if(in_array($this->phone, $debugPhone)) {
-           //dd(json_encode($verification));
         }
         
         try {
@@ -136,7 +135,6 @@ class Esign extends Verification {
         } catch(\Expiration $e) {
             return $e->getMessage();
         }
-        
         
         $this->invited = true;
 

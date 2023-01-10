@@ -56,7 +56,7 @@ class VersionOne extends Schema {
         // Must be after formatKeys
         $this->formatDateOfBirth();
         $this->removeDuplicateProducts();
-        
+
         return (new static($this->formatted))->setFormatted($this->formatted)->toArray();
     }
 

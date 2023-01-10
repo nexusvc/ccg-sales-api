@@ -84,28 +84,30 @@ class Enrollment extends Schema {
             $pay['CreditCardExpirationMonth'] = $payable['ccExpMonth'];
             $pay['CreditCardExpirationYear'] = $payable['ccExpYear'];
             $pay['AccountType'] = 'CreditCard';
+            // Should pull from payment method name
             $pay['AccountFirstName'] = $this->getPrimaryApplicant('firstName');
             $pay['AccountLastName'] = $this->getPrimaryApplicant('lastName');
             $pay['IsPayrollDeduct'] = false;
-            $pay['Address1'] = $this->getPrimaryApplicant('contactable.address.street1');
-            $pay['Address2'] = $this->getPrimaryApplicant('contactable.address.street2');
-            $pay['City'] = $this->getPrimaryApplicant('contactable.address.city');
-            $pay['State'] = formatState($this->getPrimaryApplicant('contactable.address.state'));
-            $pay['Zip'] = $this->getPrimaryApplicant('contactable.address.zip');
+            $pay['Address1'] = $payable['billingAddress']['street1'];
+            $pay['Address2'] = $payable['billingAddress']['street2'];
+            $pay['City'] = $payable['billingAddress']['city'];
+            $pay['State'] = formatState($payable['billingAddress']['state']);
+            $pay['Zip'] = $payable['billingAddress']['zip'];
             $pay['CheckingAccountNumber'] = false;
             $pay['CheckingRoutingNumber'] = false;
         }
 
         if($payable['payType'] == 'ACH') {
             $pay['AccountType'] = 'Ach';
+            // Should pull from payment method name
             $pay['AccountFirstName'] = $this->getPrimaryApplicant('firstName');
             $pay['AccountLastName'] = $this->getPrimaryApplicant('lastName');
             $pay['IsPayrollDeduct'] = false;
-            $pay['Address1'] = $this->getPrimaryApplicant('contactable.address.street1');
-            $pay['Address2'] = $this->getPrimaryApplicant('contactable.address.street2');
-            $pay['City'] = $this->getPrimaryApplicant('contactable.address.city');
-            $pay['State'] = formatState($this->getPrimaryApplicant('contactable.address.state'));
-            $pay['Zip'] = $this->getPrimaryApplicant('contactable.address.zip');
+            $pay['Address1'] = $payable['billingAddress']['street1'];
+            $pay['Address2'] = $payable['billingAddress']['street2'];
+            $pay['City'] = $payable['billingAddress']['city'];
+            $pay['State'] = formatState($payable['billingAddress']['state']);
+            $pay['Zip'] = $payable['billingAddress']['zip'];
             $pay['CheckingAccountNumber'] = $payable['accountNumber'];
             $pay['CheckingRoutingNumber'] = $payable['routingNumber'];
         }
