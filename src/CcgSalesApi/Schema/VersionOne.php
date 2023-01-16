@@ -292,6 +292,11 @@ class VersionOne extends Schema {
             $payable['accountNumber'] = "";
             $payable['routingNumber'] = "";
         }
+
+        // Format State on Billing Address
+        if(array_key_exists('billingAddress', $payable)) {
+            $payable['billingAddress']['state'] = formatState($payable['billingAddress']['state']);
+        }
         
         array_set($this->formatted, 'paymentInfo', $payable);
     }
