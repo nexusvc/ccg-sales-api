@@ -19,6 +19,7 @@ class VersionOne extends Schema {
         'street2' => 'address2',
         'agentId' => 'agentID',
         'hasAcaPlan' => 'hasACAPlan',
+        'isAcaSepEligible' => 'isAcaSepEligible',
         'dependents.0.dob' => 'dependents.0.dateOfBirth',
         'dependents.1.dob' => 'dependents.1.dateOfBirth',
         'dependents.2.dob' => 'dependents.2.dateOfBirth',
@@ -52,6 +53,7 @@ class VersionOne extends Schema {
         $this->setEffectiveDate();
         $this->setScheduleDate();
         $this->setHasAcaPlan();
+        $this->setIsAcaSepEligible();
         $this->formatKeys();
         // Must be after formatKeys
         $this->formatDateOfBirth();
@@ -73,6 +75,10 @@ class VersionOne extends Schema {
 
     protected function setHasAcaPlan() {
         array_set($this->formatted, 'hasAcaPlan', 'false');
+    }
+
+    protected function setIsAcaSepEligible() {
+        array_set($this->formatted, 'isAcaSepEligible', 'false');
     }
 
     protected function setEffectiveDate() {
@@ -158,6 +164,9 @@ class VersionOne extends Schema {
             if($applicant['relation'] == 'primary') {
                 foreach($applicant['contactable'] as $key => $value) {
                     if($key == 'phone') {
+			if($value['phone'] == '+13058049500') {
+				//dd($this->payload);
+			}
                         if(!in_array($key, $this->excludes)) array_set($this->formatted, 'telephone', $value['phone']);
                     }
                 }

@@ -55,6 +55,7 @@ class Esign extends Verification {
         'paymentInfo.billingAddress.zip',
         'scheduleDate',
         'hasACAPlan',
+        'isAcaSepEligible',
         'acaPlanCarrierName',
         'subscriberID'
     ];
@@ -81,7 +82,8 @@ class Esign extends Verification {
         'plans.planType',
         'paymentInfo',
         'paymentInfo.payType',
-        'hasACAPlan'
+        'hasACAPlan',
+        'isAcaSepEligible'
     ];
 
     public function setToken($token) {
