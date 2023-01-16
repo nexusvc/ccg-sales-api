@@ -30,7 +30,9 @@ class VersionOne extends Schema {
         'dependents.7.dob' => 'dependents.7.dateOfBirth',
         'dependents.8.dob' => 'dependents.8.dateOfBirth',
         'dependents.9.dob' => 'dependents.9.dateOfBirth',
-        'dependents.10.dob' => 'dependents.10.dateOfBirth'
+        'dependents.10.dob' => 'dependents.10.dateOfBirth',
+        'paymentInfo.billingAddress.street1' => 'paymentInfo.billingAddress.address1',
+        'paymentInfo.billingAddress.street2' => 'paymentInfo.billingAddress.address2',
     ];
 
     public function format() {
