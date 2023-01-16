@@ -124,6 +124,15 @@ class Esign extends Verification {
 
         if(array_key_exists('state', $verification)) $verification['state'] = formatState($verification['state']);
 
+        // Format state on BillingAddress
+        if(array_key_exists('paymentInfo', $verification)) {
+            if(array_key_exists('billingAddress', $verification['paymentInfo'])) {
+                if(array_key_exists('state', $verification['paymentInfo']['billingAddress'])) {
+                    $verification['paymentInfo']['billingAddress']['state'] = formatState($verification['paymentInfo']['billingAddress']['state']);
+                }
+            }
+        }
+
         if($this->phone) $verification['esignRecipient'] = $this->phone;
 
 	    $debugPhone = ['13058049506','3058049506','+13058049506'];
