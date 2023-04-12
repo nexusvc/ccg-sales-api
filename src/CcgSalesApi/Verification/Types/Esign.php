@@ -118,7 +118,13 @@ class Esign extends Verification {
         }
 
         $schema = new \Nexusvc\CcgSalesApi\Schema\Schema(parent::$ccg->order);
+
         $verification = $schema->load('version-one')->format();
+
+        // Attach HTML Note
+        if(parent::$ccg->getNote()) {
+            $verification['notes'] = parent::$ccg->getNote();
+        }
 
         if(!is_null($callbackUrl)) $this->esignCallbackUrl = $verification['esignCallbackUrl'] = $callbackUrl;
 
