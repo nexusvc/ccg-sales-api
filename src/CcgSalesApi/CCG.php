@@ -14,6 +14,8 @@ class CCG {
 
     protected $crypt    = Crypt\Crypt::class;
 
+    protected $note     = false;
+
     public $auth        = Auth\Authentication::class;
 
     public $client      = Client\Client::class;
@@ -57,6 +59,24 @@ class CCG {
         return $this->client = ( $this->client instanceof Client\Client ) ? 
             $this->client : 
             new Client\Client;
+    }
+
+    public function setNote(array $details) {
+        $note = "";
+        foreach ($details as $key => $value) {
+            
+            if(is_null($value)) {
+                $value = '';
+            }
+
+            $note .= "<strong>{$key}</strong>: {$value} <br>";
+        }
+
+        $this->note = $note;
+    }
+
+    public function getNote() {
+        return $this->note;
     }
 
     public function decrypt($value) {

@@ -35,8 +35,6 @@ class Quote {
 
     protected $required = [];
 
-    protected $note = false;
-
     public function __construct(CCG &$ccg, array $params = []) {
         self::$ccg  = $ccg;
         self::$auth = $ccg->auth;
@@ -55,24 +53,6 @@ class Quote {
         }
         $this->resources = $objects;
         return $this;
-    }
-
-    public function setNote(array $details) {
-        $note = "";
-        foreach ($details as $key => $value) {
-            
-            if(is_null($value)) {
-                $value = '';
-            }
-
-            $note .= "<strong>{$key}</strong>: {$value} <br>";
-        }
-
-        $this->note = $note;
-    }
-
-    public function getNote() {
-        return $this->note;
     }
 
     public function createVerification($verification) {
