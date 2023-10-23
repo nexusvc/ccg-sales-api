@@ -36,7 +36,7 @@ class BundleEnrollmentFee extends EnrollmentPlan {
         // parent::__construct($ccg, $params);
     }
 
-    public function fetch($group_ids, $plan_ids = []) {
+    public function fetch() {
         //
         $token         = self::$auth->accessToken;
         $params        = self::$params;
@@ -45,8 +45,8 @@ class BundleEnrollmentFee extends EnrollmentPlan {
         $client = new Client($token);
 
         // SAMPLE HARD CODE
-        $params['groupId'] = $group_ids[0];
-        $params['planId'] = $plan_ids;
+        // $params['groupId'] = $group_ids[0];
+        // $params['planId'] = $plan_ids;
 
         // dd($this->attributes, $params, $this);
         $this->attributes = array_merge($this->attributes, $params);
