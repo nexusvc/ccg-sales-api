@@ -12,6 +12,7 @@ use Nexusvc\CcgSalesApi\Product\Types\Rate;
 use Nexusvc\CcgSalesApi\Product\Types\ShortTermMedical;
 use Nexusvc\CcgSalesApi\Product\Types\EnrollmentPlan;
 use Nexusvc\CcgSalesApi\Product\Types\ProductBenefits;
+use Nexusvc\CcgSalesApi\Product\Types\BundleEnrollmentFee;
 use Nexusvc\CcgSalesApi\Traits\Jsonable;
 use Nexusvc\CcgSalesApi\Verification\Verification;
 
@@ -198,6 +199,16 @@ class Quote {
         $benefits = new ProductBenefits(self::$ccg, $this->toArray());
         $this->benefits = $benefits->fetch();
         return $this;
+    }
+
+    public function getBundleEnrollmentFee() {
+        // Find Bundle Enrollment Fee
+        $fee = new BundleEnrollmentFee(self::$ccg, $this->toArray());
+        $this->fee = $fee->fetch();
+
+        // Attach as product
+        // $this->fee->addToOrder();
+        return $this->fee;
     }
 
 }

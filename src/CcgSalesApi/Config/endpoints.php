@@ -37,6 +37,7 @@ return [
         'limited_medical' => 'Quote/GetLMQuotes',
         'uca_add_on' => 'Quote/GetLMQuotes',
         'short_term_medical' => 'Quote/GetSTMQuotes',
+        'bundle_enrollment_fee' => 'Quote/GetEnrollmentFeeByPlanBundle',
         'product_benefits' => 'Benefit/GetBenefits'
     ],
 
