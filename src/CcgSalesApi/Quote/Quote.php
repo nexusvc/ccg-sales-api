@@ -201,10 +201,10 @@ class Quote {
         return $this;
     }
 
-    public function getBundleEnrollmentFee() {
+    public function getBundleEnrollmentFee($group_ids, $plan_ids) {
         // Find Bundle Enrollment Fee
         $fee = new BundleEnrollmentFee(self::$ccg, $this->toArray());
-        $this->fee = $fee->fetch();
+        $this->fee = $fee->fetch($group_ids, $plan_ids);
 
         // Attach as product
         // $this->fee->addToOrder();
