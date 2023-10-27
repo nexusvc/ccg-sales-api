@@ -148,7 +148,12 @@ class Quote {
 
     public static function products() {
         self::setProductTypeClass();
-        return (self::$params['type'])->fetch()->resources;
+        try {
+            return (self::$params['type'])->fetch()->resources;    
+        } catch(\Exception $e) {
+            dd( 'caught', (self::$params['type'])->fetch() );  
+        }
+        
     }
 
     public static function verifications($type = null) {

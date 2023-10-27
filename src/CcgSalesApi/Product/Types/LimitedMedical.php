@@ -28,10 +28,10 @@ class LimitedMedical extends GenericProduct {
 
         parent::$ccg->order->addProduct($this);
         
-        // Adds EnrollmentFee
-        if($this->enrollmentPlans) {
-            parent::$ccg->order->addProduct(new \Nexusvc\CcgSalesApi\Product\Types\EnrollmentPlan(parent::$ccg, self::$params, $this->enrollmentPlans[0]));
-        }
+        // // Adds EnrollmentFee
+        // if($this->enrollmentPlans) {
+        //     parent::$ccg->order->addProduct(new \Nexusvc\CcgSalesApi\Product\Types\EnrollmentPlan(parent::$ccg, self::$params, $this->enrollmentPlans[0]));
+        // }
 
         return $this;
     }
