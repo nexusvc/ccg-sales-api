@@ -69,7 +69,7 @@ class BundleEnrollmentFee extends EnrollmentPlan {
 
         // parent::$ccg->order->addProduct(new \Nexusvc\CcgSalesApi\Product\Types\EnrollmentPlan(parent::$ccg, [], $fee));
 
-        return $fee;
+        return $this->setResponse($fee);
     }
 
 }
