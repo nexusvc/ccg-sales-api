@@ -250,6 +250,8 @@ class VersionOne extends Schema {
             return 2;
         }
 
+        if(array_key_exists('isOneTimeCharge', $product) && ($product['retailAmount'] == 5 || $product['retailAmount'] == 49.95)) return 2; // StandAlone
+
         if(array_key_exists('addOnType', $product)) return 1;
     }
 
