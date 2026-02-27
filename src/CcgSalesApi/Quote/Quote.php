@@ -96,11 +96,21 @@ class Quote {
 
         if(array_key_exists('state', $this->attributes)) $this->attributes['state'] = formatState($this->attributes['state']);
 
-        // if(str_contains($this->url, 'GetVoiceVerificationScript'))  dd(response()->json($this->attributes));
+        //if(str_contains($this->url, 'GetVoiceVerificationScript'))  dd(response()->json($this->attributes));
+	if(str_contains($this->url, 'GetLMQuotes')) {
+//		\Log::debug('API::GetLMQuotes', [json_encode($this->attributes)]);
+	}
+	if(str_contains($this->url, 'GetAddOnPlans')) {
+//               \Log::debug('API::GetAddOnPlans', [json_encode($this->attributes)]);
+        }
+	try {
 
-        return $this->setResponse($client->request('POST', $this->url, [
-            'form_params' => $this->attributes
-        ]));
+	        return $this->setResponse($client->request('POST', $this->url, [
+        	    'form_params' => $this->attributes
+        	]));
+	} catch(\Exception $e) {
+		\Log::debug('CcgSalesApi::Quote::', ['error' => $e->getMessage(), 'form_params' => $this->attributes]);
+	}
     }
 
     protected function reformatAttributes($attributes) {

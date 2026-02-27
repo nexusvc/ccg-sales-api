@@ -141,9 +141,10 @@ class Esign extends Verification {
 
         if($this->phone) $verification['esignRecipient'] = $this->phone;
 
-	    $debugPhone = ['13058049506','3058049506','+13058049506'];
+	$debugPhone = ['13058049506','3058049506','+13058049506'];
         if(in_array($this->phone, $debugPhone)) {
-        }
+        	//dd($verification);
+	}
         
         try {
             $response = $this->setResponse($client->request('POST', $this->url, [
